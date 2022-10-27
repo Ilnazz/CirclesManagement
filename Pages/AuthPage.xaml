@@ -5,20 +5,16 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CirclesManagement.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="AuthPage" >
-
+      Title="AuthPage" Style="{StaticResource CommonStyle}">
     <Grid>
         <StackPanel HorizontalAlignment="Center">
-            <TextBlock HorizontalAlignment="Center" FontWeight="Bold">Авторизация</TextBlock>
+            <Label Target="{Binding ElementName=TBUserLogin}" Content="Логин пользователя:"/>
+            <TextBox x:Name="TBUserLogin" MaxLength="50" Margin="5" Text="ivanov_i_i"/>
             
-            <Label Target="{Binding ElementName=TBUserLogin}" Content="Логин пользователя: " Margin="5" />
-            <TextBox x:Name="TBUserLogin" MaxLength="50" Margin="5" />
+            <Label Target="{Binding ElementName=PBUserPassword}" Content="Пароль пользователя:"/>
+            <PasswordBox x:Name="PBUserPassword" MaxLength="50" Margin="5" FontSize="10" Password="ivanov_i_i"/>
             
-            <Label Target="{Binding ElementName=PBUserPassword}" Content="Пароль пользователя: " Margin="5" />
-            <PasswordBox x:Name="PBUserPassword" MaxLength="50" Margin="5" />
-            
-            <Button x:Name="Button_Authorize" Content="Войти" Margin="5" Click="Button_Authorize_Click"/>
+            <Button x:Name="Button_Authorize" Content="Войти" Margin="5,10" Click="Button_Authorize_Click"/>
         </StackPanel>
     </Grid>
 </Page>

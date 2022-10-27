@@ -7,18 +7,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CirclesManagement.ADO
+namespace CirclesManagement.Components
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Circle_Pupil
+    public partial class Lesson_Pupil
     {
-        public int CircleID { get; set; }
+        public int LessonID { get; set; }
         public int PupilID { get; set; }
-        public bool IsAttending { get; set; }
+        public bool WasInClass { get; set; }
     
-        public virtual Circle Circle { get; set; }
+        public virtual Lesson Lesson { get; set; }
         public virtual Pupil Pupil { get; set; }
     }
 }

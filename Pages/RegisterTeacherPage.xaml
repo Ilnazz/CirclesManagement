@@ -4,33 +4,29 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CirclesManagement.Pages"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="RegisterTeacherPage">
-
+      mc:Ignorable="d"
+      Title="RegisterTeacherPage" Style="{StaticResource CommonStyle}">
     <Grid>
         <StackPanel HorizontalAlignment="Center">
-            <TextBlock Text="Регистрация нового учителя в системе" HorizontalAlignment="Center" FontWeight="Bold"/>
+            <Label Target="{Binding ElementName=TBTeacherLastName}" Content="Фамилия:"/>
+            <TextBox x:Name="TBTeacherLastName" MaxLength="50" Margin="5"/>
             
-            <Label Target="{Binding ElementName=TBTeacherLastName}" Content="Фамилия:" Margin="5" />
-            <TextBox x:Name="TBTeacherLastName" MaxLength="50" Margin="5" />
-            
-            <Label Target="{Binding ElementName=TBTeacherFirstName}" Content="Имя:" Margin="5" />
-            <TextBox x:Name="TBTeacherFirstName" MaxLength="50" Margin="5" />
+            <Label Target="{Binding ElementName=TBTeacherFirstName}" Content="Имя:"/>
+            <TextBox x:Name="TBTeacherFirstName" MaxLength="50" Margin="5"/>
 
-            <Label Target="{Binding ElementName=TBTeacherPatronymic}" Content="Отчество:" Margin="5" />
-            <TextBox x:Name="TBTeacherPatronymic" MaxLength="50" Margin="5" />
+            <Label Target="{Binding ElementName=TBTeacherPatronymic}" Content="Отчество:"/>
+            <TextBox x:Name="TBTeacherPatronymic" MaxLength="50" Margin="5"/>
 
-            <Label Target="{Binding ElementName=TBUserLogin}" Content="Логин для входа в систему:" Margin="5" />
-            <TextBox x:Name="TBUserLogin" MaxLength="50" Margin="5" />
+            <Label Target="{Binding ElementName=TBUserLogin}" Content="Логин для входа в систему:"/>
+            <TextBox x:Name="TBUserLogin" MaxLength="50" Margin="5"/>
             
-            <Label Target="{Binding ElementName=PBUserPassword}" Content="Пароль для входа в систему: " Margin="5" />
-            <PasswordBox x:Name="PBUserPassword" MaxLength="50" Margin="5" />
+            <Label Target="{Binding ElementName=PBUserPassword}" Content="Пароль для входа в систему:"/>
+            <PasswordBox x:Name="PBUserPassword" MaxLength="50" Margin="5"/>
             
-            <Label Target="{Binding ElementName=PBUserPasswordConfirmation}" Content="Повторите пароль:" Margin="5" />
-            <PasswordBox x:Name="PBUserPasswordConfirmation" MaxLength="50" Margin="5" />
+            <Label Target="{Binding ElementName=PBUserPasswordConfirmation}" Content="Повторите пароль:"/>
+            <PasswordBox x:Name="PBUserPasswordConfirmation" MaxLength="50" Margin="5"/>
             
-            <Button x:Name="Button_Register" Content="Зарегистрировать" Margin="5" Click="Button_Register_Click"/>
+            <Button x:Name="BRegister" Content="Зарегистрировать" Margin="5,10" Click="BRegister_Click"/>
         </StackPanel>
     </Grid>
 </Page>

@@ -12,7 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using CirclesManagement.ADO;
+
+using CirclesManagement.Components;
 
 namespace CirclesManagement.Pages
 {
@@ -24,6 +25,7 @@ namespace CirclesManagement.Pages
         public AuthPage()
         {
             InitializeComponent();
+            TBUserLogin.Focus();
         }
 
         private void Button_Authorize_Click(object sender, RoutedEventArgs e)
@@ -35,18 +37,22 @@ namespace CirclesManagement.Pages
                 return;
             }
             User user = MainWindow.db.Users.ToList()
-                .FirstOrDefault(u => u.Login == TBUserLogin.Text && u.Password == PBUserPassword.Password);
+                .FirstOrDefault(u => u.Login == TBUserLogin.Text.Trim() && u.Password == PBUserPassword.Password.Trim());
             if (user is null)
             {
                 MessageBox.Show("Проверьте данные. Пользователь не найден.", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            MainWindow.CurrentUser = user;
             MessageBox.Show("Авторизация прошла успешно.", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Information);
+            
+            MainWindow.CurrentUser = user;
+            Navigation.IsUserAuthorized = true;
+            Navigation.History.Clear();
+
             if (user.RoleID == (int)Constants.Role.AssociateDirector)
-                NavigationService.Navigate(new AssociateDirectorMainPage());
+                Navigation.Next(("Главная страница зам. директора по воспитательной работе", new AssociateDirectorMainPage()));
             else
-                NavigationService.Navigate(new TeacherMainPage());
+                Navigation.Next(("Главная странциа учителя", new TeacherMainPage()));
         }
     }
 }

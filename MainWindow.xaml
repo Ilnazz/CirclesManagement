@@ -5,13 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CirclesManagement"
         mc:Ignorable="d"
-        Title="Управление кружками" Height="600" Width="1000" FontSize="14" FontFamily="Times New Roman">
+        Title="Управление кружками" Height="600" Width="1000" Style="{StaticResource CommonStyle}">
     <Grid>
-        <StackPanel x:Name="CurrentUserBar" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
-            <TextBlock Text="Текущий пользователь: " />
-            <TextBlock x:Name="TBCurrentUser" Text="{Binding Path=Name}" FontWeight="Bold"/>
-        </StackPanel>
-        
-        <Frame x:Name="MainFrame" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" Style="{StaticResource BackgroundAdditional}">
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                <!--<Image Source="/Resources/school_logo.png" Width="25" Margin="5" HorizontalAlignment="Left"/>-->
+                <TextBlock Text="Школа 'Олимп'" VerticalAlignment="Center" TextWrapping="Wrap"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Right">
+                <Button x:Name="BLogOut" Content="Выйти" Click="BLogOut_Click" Margin="5"/>
+                <Button x:Name="BGoToPreviousPage" Content="Назад" Click="BGoToPreviousPage_Click" Margin="5"/>
+            </StackPanel>
+        </DockPanel>
+        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Grid.Row="1" Margin="5"/>
     </Grid>
 </Window>

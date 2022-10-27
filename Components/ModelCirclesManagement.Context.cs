@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CirclesManagement.ADO
+namespace CirclesManagement.Components
 {
     using System;
     using System.Data.Entity;

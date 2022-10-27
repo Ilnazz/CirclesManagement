@@ -13,7 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using CirclesManagement.ADO;
+
+using CirclesManagement.Components;
 
 namespace CirclesManagement.Pages
 {
@@ -33,9 +34,9 @@ namespace CirclesManagement.Pages
             return char.ToUpper(raw[0]) + raw.Substring(1);
         }
 
-        private void Button_Register_Click(object sender, RoutedEventArgs e)
+        private void BRegister_Click(object sender, RoutedEventArgs e)
         {
-            Regex regexCyrillic = new Regex(@"^[\p{IsCyrillic}]+$", RegexOptions.Compiled);
+            Regex regexCyrillic = new Regex(@"\s*[\p{IsCyrillic}]+\s*", RegexOptions.Compiled);
             if (TBTeacherLastName.Text == ""
                 || TBTeacherFirstName.Text == ""
                 || TBTeacherPatronymic.Text == ""
@@ -52,7 +53,7 @@ namespace CirclesManagement.Pages
                 MessageBox.Show("ФИО учителя должно использовать только кириллические буквы.", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 return;
             }
-            else if (PBUserPassword.Password != PBUserPasswordConfirmation.Password)
+            else if (PBUserPassword.Password.Trim() != PBUserPasswordConfirmation.Password.Trim())
             {
                 MessageBox.Show("Пароли должны совпадать.", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 return;
@@ -90,7 +91,8 @@ namespace CirclesManagement.Pages
             MainWindow.db.SaveChanges();
 
             MessageBox.Show("Учитель успешно зарегистрирован в системе", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Information);
-            NavigationService.GoBack();
+            
+            Navigation.Back();
         }
     }
 }

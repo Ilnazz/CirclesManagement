@@ -83,65 +83,66 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="ADO\Circle.cs">
+    <Compile Include="Components\Circle.cs">
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
     </Compile>
-    <Compile Include="ADO\Circle_Pupil.cs">
+    <Compile Include="Components\Circle_Pupil.cs">
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
     </Compile>
-    <Compile Include="ADO\Classroom.cs">
+    <Compile Include="Components\Classroom.cs">
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
     </Compile>
-    <Compile Include="ADO\Grade.cs">
+    <Compile Include="Components\Grade.cs">
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
     </Compile>
-    <Compile Include="ADO\Lesson.cs">
+    <Compile Include="Components\Lesson.cs">
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
     </Compile>
-    <Compile Include="ADO\Lesson_Pupil.cs">
+    <Compile Include="Components\Lesson_Pupil.cs">
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
     </Compile>
-    <Compile Include="ADO\ModelCirclesManagement.Context.cs">
+    <Compile Include="Components\ModelCirclesManagement.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelCirclesManagement.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="ADO\ModelCirclesManagement.cs">
+    <Compile Include="Components\ModelCirclesManagement.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
     </Compile>
-    <Compile Include="ADO\ModelCirclesManagement.Designer.cs">
+    <Compile Include="Components\ModelCirclesManagement.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelCirclesManagement.edmx</DependentUpon>
     </Compile>
-    <Compile Include="ADO\Pupil.cs">
+    <Compile Include="Components\Navigation.cs" />
+    <Compile Include="Components\Pupil.cs">
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
     </Compile>
-    <Compile Include="ADO\Role.cs">
+    <Compile Include="Components\Role.cs">
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
     </Compile>
-    <Compile Include="ADO\sysdiagram.cs">
+    <Compile Include="Components\sysdiagram.cs">
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
     </Compile>
-    <Compile Include="ADO\Teacher.cs">
+    <Compile Include="Components\Teacher.cs">
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
     </Compile>
-    <Compile Include="ADO\Timetable.cs">
+    <Compile Include="Components\Timetable.cs">
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
     </Compile>
-    <Compile Include="ADO\User.cs">
+    <Compile Include="Components\User.cs">
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
     </Compile>
-    <Compile Include="ADO\WeekDay.cs">
+    <Compile Include="Components\WeekDay.cs">
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Constants.cs" />
+    <Compile Include="Components\Constants.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -193,11 +194,11 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EntityDeploy Include="ADO\ModelCirclesManagement.edmx">
+    <EntityDeploy Include="Components\ModelCirclesManagement.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ModelCirclesManagement.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="ADO\ModelCirclesManagement.edmx.diagram">
+    <None Include="Components\ModelCirclesManagement.edmx.diagram">
       <DependentUpon>ModelCirclesManagement.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
@@ -213,12 +214,12 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ADO\ModelCirclesManagement.Context.tt">
+    <Content Include="Components\ModelCirclesManagement.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ModelCirclesManagement.Context.cs</LastGenOutput>
       <DependentUpon>ModelCirclesManagement.edmx</DependentUpon>
     </Content>
-    <Content Include="ADO\ModelCirclesManagement.tt">
+    <Content Include="Components\ModelCirclesManagement.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ModelCirclesManagement.edmx</DependentUpon>
       <LastGenOutput>ModelCirclesManagement.cs</LastGenOutput>
@@ -236,5 +237,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

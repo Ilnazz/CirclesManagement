@@ -5,8 +5,8 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CirclesManagement.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="Главное меню зам. директора по воспитательной работе">
+      d:Width="800" d:Height="600"
+      Title="Главное меню зам. директора по воспитательной работе" Style="{StaticResource CommonStyle}">
     <Grid>
         <TabControl>
             <TabItem Header="Главная" IsSelected="True">
@@ -15,10 +15,24 @@
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
                     </StackPanel>
-                    <DataGrid Name="DGCirclesList" Grid.Row="0" Margin="5" AutoGenerateColumns="False">
+                    <DataGrid Name="DGCirclesList" Margin="5" AutoGenerateColumns="False" ItemsSource="{Binding}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Название" Width="1*" Binding="{Binding Title}"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Название" Width="1*" Binding="{Binding IsWorking}"></DataGridTextColumn>
+                            <DataGridCheckBoxColumn Header="Работает ли" Width="1*" Binding="{Binding IsWorking}"></DataGridCheckBoxColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Ученики">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                    </StackPanel>
+                    <DataGrid Name="DGPupilsList" Margin="5" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Фамилия" Width="1*" Binding="{Binding LastName}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Имя" Width="1*" Binding="{Binding FirstName}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Отчество" Width="1*" Binding="{Binding Patronymic}"></DataGridTextColumn>
+                            <DataGridComboBoxColumn x:Name="DGPupilsList_CBGrade" Header="Класс" Width="1*"></DataGridComboBoxColumn>
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>
@@ -26,21 +40,22 @@
             <TabItem Header="Учителя">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <Button x:Name="Button_GoToRegisterTeacherPage" Margin="5" Grid.Row="1" Content="Зарегистрировать нового учителя в системе" />
-                        <Button x:Name="Button_DismissTeacher" Margin="5" Content="Уволить учителя" />
+                        <Button x:Name="BGoToRegisterTeacherPage" Margin="5" Grid.Row="1" Content="Зарегистрировать нового учителя в системе" Click="BGoToRegisterTeacherPage_Click" />
+                        <Button x:Name="BDismissTeacher" Margin="5" Content="Уволить учителя" />
                     </StackPanel>
-                    <DataGrid Name="DGTeacherList" Grid.Row="0" Margin="5" AutoGenerateColumns="False">
+                    <DataGrid Name="DGTeacherList" Margin="5" AutoGenerateColumns="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Фамилия" Width="1*" Binding="{Binding LastName}"></DataGridTextColumn>
                             <DataGridTextColumn Header="Имя" Width="1*" Binding="{Binding FirstName}"></DataGridTextColumn>
                             <DataGridTextColumn Header="Отчество" Width="1*" Binding="{Binding Patronymic}"></DataGridTextColumn>
+                            <DataGridCheckBoxColumn Header="Работает ли" Width="1*" Binding="{Binding IsWorking}"></DataGridCheckBoxColumn>
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>
             </TabItem>
             <TabItem Header="Раписание">
                 <StackPanel>
-                    <DataGrid Name="DGTimetable" Grid.Row="0" Margin="5" AutoGenerateColumns="False">
+                    <DataGrid Name="DGTimetable" Margin="5" AutoGenerateColumns="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Учитель" Width="1*" Binding="{Binding Teacher.LastName}"></DataGridTextColumn>
                             <DataGridTextColumn Header="Кабинет" Width="1*" Binding="{Binding Classroom.Number}"></DataGridTextColumn>

@@ -7,18 +7,24 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CirclesManagement.ADO
+namespace CirclesManagement.Components
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Lesson_Pupil
+    public partial class Classroom
     {
-        public int LessonID { get; set; }
-        public int PupilID { get; set; }
-        public bool WasInClass { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Classroom()
+        {
+            this.Timetables = new HashSet<Timetable>();
+        }
     
-        public virtual Lesson Lesson { get; set; }
-        public virtual Pupil Pupil { get; set; }
+        public int ID { get; set; }
+        public int Number { get; set; }
+        public string Title { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Timetable> Timetables { get; set; }
     }
 }

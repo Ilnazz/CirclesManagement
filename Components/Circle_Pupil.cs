@@ -7,23 +7,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CirclesManagement.ADO
+namespace CirclesManagement.Components
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class WeekDay
+    public partial class Circle_Pupil
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public WeekDay()
-        {
-            this.Timetables = new HashSet<Timetable>();
-        }
+        public int CircleID { get; set; }
+        public int PupilID { get; set; }
+        public bool IsAttending { get; set; }
     
-        public int ID { get; set; }
-        public string Title { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Timetable> Timetables { get; set; }
+        public virtual Circle Circle { get; set; }
+        public virtual Pupil Pupil { get; set; }
     }
 }

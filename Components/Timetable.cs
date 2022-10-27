@@ -7,23 +7,31 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CirclesManagement.ADO
+namespace CirclesManagement.Components
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Role
+    public partial class Timetable
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Role()
+        public Timetable()
         {
-            this.Users = new HashSet<User>();
+            this.Lessons = new HashSet<Lesson>();
         }
     
         public int ID { get; set; }
-        public string Title { get; set; }
+        public int TeacherID { get; set; }
+        public int ClassroomID { get; set; }
+        public int CircleID { get; set; }
+        public int WeekDayID { get; set; }
+        public System.TimeSpan Time { get; set; }
     
+        public virtual Circle Circle { get; set; }
+        public virtual Classroom Classroom { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<Lesson> Lessons { get; set; }
+        public virtual Teacher Teacher { get; set; }
+        public virtual WeekDay WeekDay { get; set; }
     }
 }
