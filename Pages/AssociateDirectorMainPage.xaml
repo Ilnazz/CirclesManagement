@@ -5,66 +5,78 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CirclesManagement.Pages"
       mc:Ignorable="d" 
-      d:Width="800" d:Height="600"
       Title="Главное меню зам. директора по воспитательной работе" Style="{StaticResource CommonStyle}">
     <Grid>
         <TabControl>
             <TabItem Header="Главная" IsSelected="True">
             </TabItem>
             <TabItem Header="Кружки">
-                <StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                    </StackPanel>
-                    <DataGrid Name="DGCirclesList" Margin="5" AutoGenerateColumns="False" ItemsSource="{Binding}">
+                <DockPanel>
+                    <DataGrid Name="DGCircleList" Margin="5" AutoGenerateColumns="False" DockPanel.Dock="Top"
+                              CellEditEnding="DGCircleList_CellEditEnding"
+                              RowEditEnding="DGCircleList_RowEditEnding">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Название" Width="1*" Binding="{Binding Title}"></DataGridTextColumn>
-                            <DataGridCheckBoxColumn Header="Работает ли" Width="1*" Binding="{Binding IsWorking}"></DataGridCheckBoxColumn>
+                            <DataGridTextColumn Header="Название" Binding="{Binding Title}" Width="7*"></DataGridTextColumn>
+                            <DataGridCheckBoxColumn Header="Работает ли" Binding="{Binding IsWorking}" Width="1*"></DataGridCheckBoxColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="BDeleteCircle" Margin="5" Content="Удалить кружок"/>
+                    </StackPanel>
+                </DockPanel>
             </TabItem>
             <TabItem Header="Ученики">
-                <StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                    </StackPanel>
-                    <DataGrid Name="DGPupilsList" Margin="5" AutoGenerateColumns="False">
+                <Grid>
+                    <DataGrid Name="DGPupilList" Margin="5" AutoGenerateColumns="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Фамилия" Width="1*" Binding="{Binding LastName}"></DataGridTextColumn>
                             <DataGridTextColumn Header="Имя" Width="1*" Binding="{Binding FirstName}"></DataGridTextColumn>
                             <DataGridTextColumn Header="Отчество" Width="1*" Binding="{Binding Patronymic}"></DataGridTextColumn>
-                            <DataGridComboBoxColumn x:Name="DGPupilsList_CBGrade" Header="Класс" Width="1*"></DataGridComboBoxColumn>
+                            <DataGridComboBoxColumn x:Name="DGPupilList_CBGrades" TextBinding="{Binding Grade, Mode=OneWay}"
+                                                    SelectedValueBinding="{Binding Grade, Mode=OneWay}" Header="Класс" Width="1*"/>
+                            <!--<DataGridTemplateColumn Header="Класс" Width="1*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ComboBox x:Name="DGPupilList_CBGrades"
+                                                  IsEditable="True" 
+                                                  Text="{Binding Grade}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>-->
                         </DataGrid.Columns>
                     </DataGrid>
-                </StackPanel>
+                </Grid>
             </TabItem>
             <TabItem Header="Учителя">
-                <StackPanel>
-                    <StackPanel Orientation="Horizontal">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" Grid.Row="0">
                         <Button x:Name="BGoToRegisterTeacherPage" Margin="5" Grid.Row="1" Content="Зарегистрировать нового учителя в системе" Click="BGoToRegisterTeacherPage_Click" />
                         <Button x:Name="BDismissTeacher" Margin="5" Content="Уволить учителя" />
                     </StackPanel>
-                    <DataGrid Name="DGTeacherList" Margin="5" AutoGenerateColumns="False">
+                    <DataGrid Name="DGTeacherList" Margin="5" AutoGenerateColumns="False" Grid.Row="1">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Фамилия" Width="1*" Binding="{Binding LastName}"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Имя" Width="1*" Binding="{Binding FirstName}"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Отчество" Width="1*" Binding="{Binding Patronymic}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Фамилия" Width="2*" Binding="{Binding LastName}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Имя" Width="2*" Binding="{Binding FirstName}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Отчество" Width="2*" Binding="{Binding Patronymic}"></DataGridTextColumn>
                             <DataGridCheckBoxColumn Header="Работает ли" Width="1*" Binding="{Binding IsWorking}"></DataGridCheckBoxColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                </StackPanel>
+                </Grid>
             </TabItem>
             <TabItem Header="Раписание">
-                <StackPanel>
-                    <DataGrid Name="DGTimetable" Margin="5" AutoGenerateColumns="False">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Учитель" Width="1*" Binding="{Binding Teacher.LastName}"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Кабинет" Width="1*" Binding="{Binding Classroom.Number}"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Кружок" Width="1*" Binding="{Binding Circle.Title}"></DataGridTextColumn>
-                            <DataGridTextColumn Header="День недели" Width="1*" Binding="{Binding WeekDay.Title}"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Время" Width="1*" Binding="{Binding Time}"></DataGridTextColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </StackPanel>
+                <DataGrid Name="DGTimetable" Margin="5" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridComboBoxColumn x:Name="DGTimetable_CBTeachers" Header="Учитель" Width="1*"/>
+                        <DataGridComboBoxColumn x:Name="DGTimetable_CBClassrooms" Header="Кабинет" Width="1*"/>
+                        <DataGridComboBoxColumn x:Name="DGTimetable_CBCircles"  Header="Кружок" Width="1*"/>
+                        <DataGridComboBoxColumn x:Name="DGTimetable_CBWeekDays" Header="День недели" Width="1*"/>
+                        <DataGridTextColumn Header="Время" Width="1*" Binding="{Binding Time}"></DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
             </TabItem>
         </TabControl>
     </Grid>
