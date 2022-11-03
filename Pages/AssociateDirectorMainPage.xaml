@@ -16,7 +16,9 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <DataGrid Name="DGCircleList" Margin="5" ItemsSource="{Binding Path=EditingCircleList}" AutoGenerateColumns="False" Grid.Row="0" CellEditEnding="DGCircleList_CellEditEnding">
+                    <DataGrid Name="DGCircleList" ItemsSource="{Binding Path=EditingCircleList}"
+                              Margin="5" AutoGenerateColumns="False" Grid.Row="0"
+                              CellEditEnding="DGCircleList_CellEditEnding">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Название" Width="8*"
                                                 Binding="{Binding Path=Title}"

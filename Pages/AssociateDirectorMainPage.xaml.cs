@@ -53,30 +53,29 @@ namespace CirclesManagement.Pages
             DGCircleList.ItemsSource = EditingCircleList;
         }
 
+        private bool AreThereDefaultCircle()
+        {
+            return false;
+        }
+        
         private void DGCircleList_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
             if (e.EditAction == DataGridEditAction.Commit)
             {
-                if (e.EditingElement.GetType() == typeof(TextBox))
+                TextBox editingTB = e.EditingElement as TextBox;
+                editingTB.Text = editingTB.Text.Trim();
+
+                if (EditingCircleList.Count == 0) return;
+
+                string editingCircleTitle = editingTB.Text;
+
+                bool areThereCircleWithTheSameTitle = EditingCircleList
+                    .Any(circle => circle.Title == editingCircleTitle);
+
+                if (areThereCircleWithTheSameTitle)
                 {
-                    TextBox editingTB = e.EditingElement as TextBox;
-                    editingTB.Text = editingTB.Text.Trim();
-
-                    if (EditingCircleList.Count == 0) return;
-
-                    string editingCircleTitle = editingTB.Text;
-
-                    int circleTitleDuplicates = EditingCircleList
-                        .ToList()
-                        .FindAll(circle => circle.Title == editingCircleTitle).Count;
-
-                    StatusBar.Info($"{editingCircleTitle} {circleTitleDuplicates}");
-
-                    if (circleTitleDuplicates > 1) // there are two more circles with the same title
-                    {
-                        e.Cancel = true; // don't allow to have duplicate title
-                        StatusBar.Warning("Кружок с таким названием уже существует!");
-                    }
+                    DGCircleList.CancelEdit();
+                    StatusBar.Warning("Кружок с таким названием уже существует!");
                 }
             }
         }
@@ -123,6 +122,7 @@ namespace CirclesManagement.Pages
                 StatusBar.Info($"Нет изменений для сохранения.");
                 return;
             }
+            //if ()
             var result = MessageBox.Show("Вы уверены, что хотите сохранить изменения?", "Подтверждение",
                 MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
@@ -132,12 +132,11 @@ namespace CirclesManagement.Pages
             }
         }
 
-
-
         private void BGoToRegisterTeacherPage_Click(object sender, RoutedEventArgs e)
         {
             Navigation.Next(("Страница регистрации учителя", new RegisterTeacherPage()));
         }
+
     }
 }
 
