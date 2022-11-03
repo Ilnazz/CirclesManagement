@@ -28,40 +28,39 @@ namespace CirclesManagement.Pages
             InitializeComponent();
         }
 
-        private string NormalizeTeacherData(string raw)
-        {
-            raw = raw.Trim().ToLower();
-            return char.ToUpper(raw[0]) + raw.Substring(1);
-        }
-
         private void BRegister_Click(object sender, RoutedEventArgs e)
         {
-            Regex regexCyrillic = new Regex(@"\s*[\p{IsCyrillic}]+\s*", RegexOptions.Compiled);
-            if (TBTeacherLastName.Text == ""
-                || TBTeacherFirstName.Text == ""
-                || TBTeacherPatronymic.Text == ""
-                || TBUserLogin.Text == ""
-                || PBUserPassword.Password == "")
+            TBTeacherLastName.Text = TBTeacherLastName.Text.Trim();
+            TBTeacherFirstName.Text = TBTeacherFirstName.Text.Trim();
+            TBTeacherPatronymic.Text = TBTeacherPatronymic.Text.Trim();
+            TBUserLogin.Text = TBUserLogin.Text.Trim();
+            PBUserPassword.Password = PBUserPassword.Password.Trim();
+
+            if (string.IsNullOrWhiteSpace(TBTeacherLastName.Text)
+                || string.IsNullOrWhiteSpace(TBTeacherFirstName.Text)
+                || string.IsNullOrWhiteSpace(TBTeacherPatronymic.Text)
+                || string.IsNullOrWhiteSpace(TBUserLogin.Text)
+                || string.IsNullOrWhiteSpace(PBUserPassword.Password))
             {
-                MessageBox.Show("Для регистрации необходимо заполнить все поля данными.", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                StatusBar.Warning("Для регистрации необходимо заполнить все поля.");
                 return;
             }
-            else if (!regexCyrillic.IsMatch(TBTeacherLastName.Text)
-                || !regexCyrillic.IsMatch(TBTeacherFirstName.Text)
-                || !regexCyrillic.IsMatch(TBTeacherPatronymic.Text))
+            else if (!Helpers.ContainsOnlyRussianLetters(TBTeacherLastName.Text)
+                || !Helpers.ContainsOnlyRussianLetters(TBTeacherFirstName.Text)
+                || !Helpers.ContainsOnlyRussianLetters(TBTeacherPatronymic.Text))
             {
-                MessageBox.Show("ФИО учителя должно использовать только кириллические буквы.", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                StatusBar.Warning("ФИО учителя должно состоять только из русских букв.");
                 return;
             }
-            else if (PBUserPassword.Password.Trim() != PBUserPasswordConfirmation.Password.Trim())
+            else if (PBUserPassword.Password != PBUserPasswordConfirmation.Password)
             {
-                MessageBox.Show("Пароли должны совпадать.", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                StatusBar.Warning("Пароли должны совпадать.");
                 return;
             }
 
-            TBTeacherLastName.Text = NormalizeTeacherData(TBTeacherLastName.Text);
-            TBTeacherFirstName.Text = NormalizeTeacherData(TBTeacherFirstName.Text);
-            TBTeacherPatronymic.Text = NormalizeTeacherData(TBTeacherPatronymic.Text);
+            TBTeacherLastName.Text = Helpers.Capitalize(TBTeacherLastName.Text.ToLower());
+            TBTeacherFirstName.Text = Helpers.Capitalize(TBTeacherFirstName.Text.ToLower());
+            TBTeacherPatronymic.Text = Helpers.Capitalize(TBTeacherPatronymic.Text.ToLower());
 
             bool isTeacherExist = MainWindow.db.Teachers.ToList()
                 .Exists(t =>
@@ -71,14 +70,14 @@ namespace CirclesManagement.Pages
 
             if (isTeacherExist)
             {
-                MessageBox.Show("Учитель с такими данными уже зарегистрирован в системе.", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                StatusBar.Error("Учитель с такими данными уже зарегистрирован в системе.");
                 return;
             }
 
             Teacher newTeacher = new Teacher();
-            newTeacher.LastName = TBTeacherLastName.Text.Trim();
-            newTeacher.FirstName = TBTeacherFirstName.Text.Trim();
-            newTeacher.Patronymic = TBTeacherPatronymic.Text.Trim();
+            newTeacher.LastName = TBTeacherLastName.Text;
+            newTeacher.FirstName = TBTeacherFirstName.Text;
+            newTeacher.Patronymic = TBTeacherPatronymic.Text;
 
             User newUser = new User();
             newUser.RoleID = (int)Constants.Role.Teacher;
@@ -90,7 +89,7 @@ namespace CirclesManagement.Pages
             MainWindow.db.Users.Add(newUser);
             MainWindow.db.SaveChanges();
 
-            MessageBox.Show("Учитель успешно зарегистрирован в системе", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Information);
+            StatusBar.Info("Учитель успешно зарегистрирован в системе");
             
             Navigation.Back();
         }

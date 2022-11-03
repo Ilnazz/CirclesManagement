@@ -33,5 +33,16 @@
         <Style TargetType="PasswordBox">
             <Setter Property="Padding" Value="5" />
         </Style>
+
+        <Style x:Key="DGTextColumnStyle" TargetType="TextBlock">
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+        <Style x:Key="DGTextColumnEditingStyle" TargetType="TextBox">
+            <Setter Property="Padding" Value="5" />
+        </Style>
+        
+        <Style x:Key="DGCheckBoxColumnStyle" TargetType="CheckBox">
+            <Setter Property="Padding" Value="5" />
+        </Style>
     </Application.Resources>
 </Application>

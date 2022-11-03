@@ -28,22 +28,22 @@ namespace CirclesManagement.Pages
             TBUserLogin.Focus();
         }
 
-        private void Button_Authorize_Click(object sender, RoutedEventArgs e)
+        private void AuthorizeUser()
         {
-            if (TBUserLogin.Text == ""
-                || PBUserPassword.Password == "")
+            if (string.IsNullOrWhiteSpace(TBUserLogin.Text)
+                || string.IsNullOrWhiteSpace(PBUserPassword.Password))
             {
-                MessageBox.Show("Необходимо заполнить все данные для авторизации.", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Warning);
+                StatusBar.Warning("Необходимо заполнить все поля для авторизации.");
                 return;
             }
             User user = MainWindow.db.Users.ToList()
                 .FirstOrDefault(u => u.Login == TBUserLogin.Text.Trim() && u.Password == PBUserPassword.Password.Trim());
             if (user is null)
             {
-                MessageBox.Show("Проверьте данные. Пользователь не найден.", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Error);
+                StatusBar.Error("Пользователь с такими данными не найден.");
                 return;
             }
-            MessageBox.Show("Авторизация прошла успешно.", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Information);
+            StatusBar.Info("Авторизация прошла успешно.");
             
             MainWindow.CurrentUser = user;
             Navigation.IsUserAuthorized = true;
@@ -53,6 +53,17 @@ namespace CirclesManagement.Pages
                 Navigation.Next(("Главная страница зам. директора по воспитательной работе", new AssociateDirectorMainPage()));
             else
                 Navigation.Next(("Главная странциа учителя", new TeacherMainPage()));
+        }
+
+        private void BAuthorize_Click(object sender, RoutedEventArgs e)
+        {
+            AuthorizeUser();
+        }
+
+        private void Field_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+                AuthorizeUser();
         }
     }
 }

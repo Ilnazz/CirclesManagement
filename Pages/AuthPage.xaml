@@ -9,12 +9,12 @@
     <Grid>
         <StackPanel HorizontalAlignment="Center">
             <Label Target="{Binding ElementName=TBUserLogin}" Content="Логин пользователя:"/>
-            <TextBox x:Name="TBUserLogin" MaxLength="50" Margin="5" Text="ivanov_i_i"/>
+            <TextBox x:Name="TBUserLogin" MaxLength="50" Margin="5" Text="ivanov_i_i" PreviewKeyDown="Field_PreviewKeyDown"/>
             
             <Label Target="{Binding ElementName=PBUserPassword}" Content="Пароль пользователя:"/>
-            <PasswordBox x:Name="PBUserPassword" MaxLength="50" Margin="5" FontSize="10" Password="ivanov_i_i"/>
+            <PasswordBox x:Name="PBUserPassword" MaxLength="50" Margin="5" FontSize="10" Password="ivanov_i_i" PreviewKeyDown="Field_PreviewKeyDown"/>
             
-            <Button x:Name="Button_Authorize" Content="Войти" Margin="5,10" Click="Button_Authorize_Click"/>
+            <Button x:Name="BAuthorize" Content="Войти" Margin="5,10" Click="BAuthorize_Click"/>
         </StackPanel>
     </Grid>
 </Page>

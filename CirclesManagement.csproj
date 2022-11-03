@@ -95,6 +95,7 @@
     <Compile Include="Components\Grade.cs">
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
     </Compile>
+    <Compile Include="Components\Helpers.cs" />
     <Compile Include="Components\Lesson.cs">
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
     </Compile>
@@ -123,6 +124,7 @@
     <Compile Include="Components\Role.cs">
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
     </Compile>
+    <Compile Include="Components\StatusBar.cs" />
     <Compile Include="Components\sysdiagram.cs">
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
     </Compile>

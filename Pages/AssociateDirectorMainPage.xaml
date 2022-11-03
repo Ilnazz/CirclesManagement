@@ -4,26 +4,37 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CirclesManagement.Pages"
-      mc:Ignorable="d" 
+      mc:Ignorable="d" DataContext="{Binding RelativeSource={RelativeSource Self}}"
       Title="Главное меню зам. директора по воспитательной работе" Style="{StaticResource CommonStyle}">
     <Grid>
         <TabControl>
-            <TabItem Header="Главная" IsSelected="True">
-            </TabItem>
+            <!--<TabItem Header="Главная" IsSelected="True">
+            </TabItem>-->
             <TabItem Header="Кружки">
-                <DockPanel>
-                    <DataGrid Name="DGCircleList" Margin="5" AutoGenerateColumns="False" DockPanel.Dock="Top"
-                              CellEditEnding="DGCircleList_CellEditEnding"
-                              RowEditEnding="DGCircleList_RowEditEnding">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <DataGrid Name="DGCircleList" Margin="5" ItemsSource="{Binding Path=EditingCircleList}" AutoGenerateColumns="False" Grid.Row="0" CellEditEnding="DGCircleList_CellEditEnding">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Название" Binding="{Binding Title}" Width="7*"></DataGridTextColumn>
-                            <DataGridCheckBoxColumn Header="Работает ли" Binding="{Binding IsWorking}" Width="1*"></DataGridCheckBoxColumn>
+                            <DataGridTextColumn Header="Название" Width="8*"
+                                                Binding="{Binding Path=Title}"
+                                                ElementStyle="{StaticResource DGTextColumnStyle}"
+                                                EditingElementStyle="{StaticResource DGTextColumnEditingStyle}"></DataGridTextColumn>
+                            <DataGridCheckBoxColumn Header="Работает ли" Width="1*"
+                                                    Binding="{Binding Path=IsWorking}"
+                                                    ElementStyle="{StaticResource DGCheckBoxColumnStyle}"></DataGridCheckBoxColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <StackPanel Orientation="Horizontal">
-                        <Button x:Name="BDeleteCircle" Margin="5" Content="Удалить кружок"/>
-                    </StackPanel>
-                </DockPanel>
+                    <DockPanel Grid.Row="1">
+                        <Button x:Name="BCircleListSaveChangesInDB" Margin="5" Content="Сохранить изменения" DockPanel.Dock="Left" Click="BCircleListSaveChangesInDB_Click"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Right">
+                            <Button x:Name="BCircleListAddCircle" Margin="5" Content="Добавить кружок" Click="BCircleListAddCircle_Click"/>
+                            <Button x:Name="BCircleListDeleteCircle" Margin="5" Content="Удалить кружок" Click="BCircleListDeleteCircle_Click"/>
+                        </StackPanel>
+                    </DockPanel>
+                </Grid>
             </TabItem>
             <TabItem Header="Ученики">
                 <Grid>

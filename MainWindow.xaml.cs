@@ -27,16 +27,14 @@ namespace CirclesManagement
         public static CirclesManagementEntities db = new CirclesManagementEntities();
         public static User CurrentUser;
 
-        public enum Role
-        {
-            AssociateDirector = 1, Teacher = 2
-        }
-
         public MainWindow()
         {
             InitializeComponent();
 
             Navigation.AppWindow = this;
+
+            StatusBar.TBHeader = TBStatusBarHeader;
+            StatusBar.TBText = TBStatusBarText;
 
             Navigation.Next(("Страница авторизации", new AuthPage()));
 
@@ -50,14 +48,16 @@ namespace CirclesManagement
 
         private void BLogOut_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("Вы уверены, что хотите выйти из системы?", "Подтверждение",
+            var result = MessageBox.Show("Вы уверены, что хотите выйти из системы?", "Подтверждение",
                 MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
-            if (result == MessageBoxResult.No || result == MessageBoxResult.Cancel)
-                return;
-            CurrentUser = null;
-            Navigation.IsUserAuthorized = false;
-            Navigation.History.Clear();
-            Navigation.Next(("Страница авторизации", new AuthPage()));
+            if (result == MessageBoxResult.Yes)
+            {
+                CurrentUser = null;
+                Navigation.IsUserAuthorized = false;
+                Navigation.History.Clear();
+                Navigation.Next(("Страница авторизации", new AuthPage()));
+                StatusBar.Info("Вы успешно вышли из системы.");
+            }
         }
     }
 }

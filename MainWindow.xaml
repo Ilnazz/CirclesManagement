@@ -10,6 +10,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" Style="{StaticResource BackgroundAdditional}">
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
@@ -22,5 +23,10 @@
             </StackPanel>
         </DockPanel>
         <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Grid.Row="1" Margin="5"/>
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <TextBlock Name="TBStatusBarHeader"/>
+            <TextBlock Text=":"/>
+            <TextBlock Name="TBStatusBarText"/>
+        </StackPanel>
     </Grid>
 </Window>
