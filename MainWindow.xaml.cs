@@ -52,6 +52,7 @@ namespace CirclesManagement
                 MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
+                // Show message about save local changes in db
                 CurrentUser = null;
                 Navigation.IsUserAuthorized = false;
                 Navigation.History.Clear();
