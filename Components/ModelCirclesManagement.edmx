@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище CirclesManagementModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Хранилище CirclesManagementModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Circle">
           <Key>
             <PropertyRef Name="ID" />
@@ -12,6 +12,7 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Title" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="IsWorking" Type="bit" Nullable="false" />
+          <Property Name="MaxNumberOfPupils" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Circle_Pupil">
           <Key>
@@ -327,8 +328,7 @@
             <End Role="User" EntitySet="User" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CirclesManagementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -341,6 +341,7 @@
           <Property Name="IsWorking" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Circle_Pupil" Relationship="Self.FK_Circle_Pupil_CIrcle" FromRole="Circle" ToRole="Circle_Pupil" />
           <NavigationProperty Name="Timetables" Relationship="Self.FK_Timetable_CIrcle" FromRole="Circle" ToRole="Timetable" />
+          <Property Name="MaxNumberOfPupils" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Circle_Pupil">
           <Key>
@@ -687,6 +688,7 @@
           <EntitySetMapping Name="Circles">
             <EntityTypeMapping TypeName="CirclesManagementModel.Circle">
               <MappingFragment StoreEntitySet="Circle">
+                <ScalarProperty Name="MaxNumberOfPupils" ColumnName="MaxNumberOfPupils" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="IsWorking" ColumnName="IsWorking" />

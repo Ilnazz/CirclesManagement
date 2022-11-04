@@ -4,41 +4,17 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CirclesManagement.Pages"
-      mc:Ignorable="d" DataContext="{Binding RelativeSource={RelativeSource Self}}"
+      mc:Ignorable="d"
       Title="Главное меню зам. директора по воспитательной работе" Style="{StaticResource CommonStyle}">
     <Grid>
         <TabControl>
             <!--<TabItem Header="Главная" IsSelected="True">
+                <Frame Source="RegisterTeacherPage.xaml"/>
             </TabItem>-->
             <TabItem Header="Кружки">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <DataGrid Name="DGCircleList" ItemsSource="{Binding Path=EditingCircleList}"
-                              Margin="5" AutoGenerateColumns="False" Grid.Row="0"
-                              CellEditEnding="DGCircleList_CellEditEnding" BeginningEdit="DGCircleList_BeginningEdit">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Название" Width="8*"
-                                                Binding="{Binding Path=Title}"
-                                                ElementStyle="{StaticResource DGTextColumnStyle}"
-                                                EditingElementStyle="{StaticResource DGTextColumnEditingStyle}"></DataGridTextColumn>
-                            <DataGridCheckBoxColumn Header="Работает ли" Width="1*"
-                                                    Binding="{Binding Path=IsWorking}"
-                                                    ElementStyle="{StaticResource DGCheckBoxColumnStyle}"></DataGridCheckBoxColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                    <DockPanel Grid.Row="1">
-                        <Button x:Name="BCircleListSaveChangesInDB" Margin="5" Content="Сохранить изменения" DockPanel.Dock="Left" Click="BCircleListSaveChangesInDB_Click"/>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Right">
-                            <Button x:Name="BCircleListAddCircle" Margin="5" Content="Добавить кружок" Click="BCircleListAddCircle_Click"/>
-                            <Button x:Name="BCircleListDeleteCircle" Margin="5" Content="Удалить кружок" Click="BCircleListDeleteCircle_Click"/>
-                        </StackPanel>
-                    </DockPanel>
-                </Grid>
+                <Frame Source="CircleListPage.xaml"/>
             </TabItem>
-            <TabItem Header="Ученики">
+            <!--<TabItem Header="Ученики">
                 <Grid>
                     <DataGrid Name="DGPupilList" Margin="5" AutoGenerateColumns="False">
                         <DataGrid.Columns>
@@ -47,7 +23,7 @@
                             <DataGridTextColumn Header="Отчество" Width="1*" Binding="{Binding Patronymic}"></DataGridTextColumn>
                             <DataGridComboBoxColumn x:Name="DGPupilList_CBGrades" TextBinding="{Binding Grade, Mode=OneWay}"
                                                     SelectedValueBinding="{Binding Grade, Mode=OneWay}" Header="Класс" Width="1*"/>
-                            <!--<DataGridTemplateColumn Header="Класс" Width="1*">
+                            <DataGridTemplateColumn Header="Класс" Width="1*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <ComboBox x:Name="DGPupilList_CBGrades"
@@ -55,7 +31,7 @@
                                                   Text="{Binding Grade}"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>-->
+                            </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
@@ -67,8 +43,8 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <StackPanel Orientation="Horizontal" Grid.Row="0">
-                        <Button x:Name="BGoToRegisterTeacherPage" Margin="5" Grid.Row="1" Content="Зарегистрировать нового учителя в системе" Click="BGoToRegisterTeacherPage_Click" />
-                        <Button x:Name="BDismissTeacher" Margin="5" Content="Уволить учителя" />
+                        <Button x:Name="BtnGoToRegisterTeacherPage" Margin="5" Grid.Row="1" Content="Зарегистрировать нового учителя в системе" Click="BtnGoToRegisterTeacherPage_Click" />
+                        <Button x:Name="BtnDismissTeacher" Margin="5" Content="Уволить учителя" />
                     </StackPanel>
                     <DataGrid Name="DGTeacherList" Margin="5" AutoGenerateColumns="False" Grid.Row="1">
                         <DataGrid.Columns>
@@ -90,7 +66,7 @@
                         <DataGridTextColumn Header="Время" Width="1*" Binding="{Binding Time}"></DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
-            </TabItem>
+            </TabItem>-->
         </TabControl>
     </Grid>
 </Page>

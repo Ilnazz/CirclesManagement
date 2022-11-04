@@ -24,6 +24,7 @@ namespace CirclesManagement.Components
         public int ID { get; set; }
         public string Title { get; set; }
         public bool IsWorking { get; set; }
+        public int MaxNumberOfPupils { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Circle_Pupil> Circle_Pupil { get; set; }
