@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using CirclesManagement.Classes;
 using CirclesManagement.Components;
 
 namespace CirclesManagement.Pages
@@ -42,19 +43,19 @@ namespace CirclesManagement.Pages
                 || string.IsNullOrWhiteSpace(TBUserLogin.Text)
                 || string.IsNullOrWhiteSpace(PBUserPassword.Password))
             {
-                StatusBar.Warning("Для регистрации необходимо заполнить все поля.");
+                MainWindow.StatusBar.Warning("Для регистрации необходимо заполнить все поля.");
                 return;
             }
             else if (!Helpers.ContainsOnlyRussianLetters(TBTeacherLastName.Text)
                 || !Helpers.ContainsOnlyRussianLetters(TBTeacherFirstName.Text)
                 || !Helpers.ContainsOnlyRussianLetters(TBTeacherPatronymic.Text))
             {
-                StatusBar.Warning("ФИО учителя должно состоять только из русских букв.");
+                MainWindow.StatusBar.Warning("ФИО учителя должно состоять только из русских букв.");
                 return;
             }
             else if (PBUserPassword.Password != PBUserPasswordConfirmation.Password)
             {
-                StatusBar.Warning("Пароли должны совпадать.");
+                MainWindow.StatusBar.Warning("Пароли должны совпадать.");
                 return;
             }
 
@@ -70,7 +71,7 @@ namespace CirclesManagement.Pages
 
             if (isTeacherExist)
             {
-                StatusBar.Error("Учитель с такими данными уже зарегистрирован в системе.");
+                MainWindow.StatusBar.Error("Учитель с такими данными уже зарегистрирован в системе.");
                 return;
             }
 
@@ -89,7 +90,7 @@ namespace CirclesManagement.Pages
             MainWindow.db.Users.Add(newUser);
             MainWindow.db.SaveChanges();
 
-            StatusBar.Info("Учитель успешно зарегистрирован в системе");
+            MainWindow.StatusBar.Info("Учитель успешно зарегистрирован в системе");
             
             Navigation.Back();
         }

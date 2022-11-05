@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CirclesManagement.Pages"
+      xmlns:components="clr-namespace:CirclesManagement.Components"
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="1000"
       Title="Список редактирования кружков"
@@ -24,9 +25,9 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Border Grid.Row="0" Grid.Column="0" Margin="5" BorderThickness="0.5">
-            <TextBox x:Name="TBSearch" Text="{Binding Path=SearchText, UpdateSourceTrigger=PropertyChanged}" Padding="5"/>
-        </Border>
+        <components:SearchBoxComponent x:Name="SearchBox"
+                                       SearchPlaceHolder="Введите что-нибудь..."
+                                       Grid.Row="0" Grid.Column="0"/>
         <DataGrid Name="DGCircleList"
                   Margin="5"
                   Grid.Row="1" Grid.ColumnSpan="3"

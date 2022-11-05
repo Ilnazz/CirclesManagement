@@ -1,5 +1,4 @@
-﻿using CirclesManagement.Components;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -17,6 +16,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using CirclesManagement.Classes;
+using CirclesManagement.Components;
+
 namespace CirclesManagement.Pages
 {
     /// <summary>
@@ -31,30 +33,21 @@ namespace CirclesManagement.Pages
         }
         public static readonly DependencyProperty CircleListProperty =
             DependencyProperty.Register("CircleList", typeof(ObservableCollection<Circle>), typeof(CircleListPage), new PropertyMetadata(null));
-
-        #region Search box
-        private const string SearchPlaceHolder = "Введите для поиска...";
-
-        public string SearchText
+        
+        public CircleListPage()
         {
-            get { return (string)GetValue(SearchTextProperty); }
-            set { SetValue(SearchTextProperty, value); }
+            InitializeComponent();
+
+            MainWindow.db.Circles.Load();
+            CircleList = MainWindow.db.Circles.Local;
+            
+            cvCircleList = CollectionViewSource.GetDefaultView(DGCircleList.ItemsSource);
+
+            SearchBox.OnTextChanged += (s, e) => cvCircleList.Refresh();
         }
-        public static readonly DependencyProperty SearchTextProperty =
-            DependencyProperty.Register("SearchText", typeof(string), typeof(CircleListPage), new PropertyMetadata(SearchPlaceHolder));
-
-        private void TBSearch_GotFocus(object sender, RoutedEventArgs e)
-            => SearchText = SearchText == SearchPlaceHolder ? "" : SearchText;
-
-        private void TBSearch_LostFocus(object sender, RoutedEventArgs e)
-            => SearchText = string.IsNullOrWhiteSpace(SearchText) ? SearchPlaceHolder : SearchText;
-
-        private void TBSearch_TextChanged(object sender, TextChangedEventArgs e)
-            => cvCircleList.Refresh();
-        #endregion
 
         #region Filtering realization
-        ICollectionView cvCircleList;
+        private ICollectionView cvCircleList;
 
         private bool showWorkingCircles = true;
         
@@ -72,9 +65,9 @@ namespace CirclesManagement.Pages
                     e.Accepted = false;
                 if (e.Accepted)
                 {
-                    if (SearchText == SearchPlaceHolder)
+                    if (SearchBox.IsEmpty())
                         return;
-                    if (circle.Title.ToLower().Contains(SearchText.Trim().ToLower()))
+                    if (circle.Title.ToLower().Contains(SearchBox.SearchText.Trim().ToLower()))
                         e.Accepted = true;
                     else
                         e.Accepted = false;
@@ -82,20 +75,6 @@ namespace CirclesManagement.Pages
             }
         }
         #endregion
-
-        public CircleListPage()
-        {
-            InitializeComponent();
-
-            MainWindow.db.Circles.Load();
-            CircleList = MainWindow.db.Circles.Local;
-            
-            cvCircleList = CollectionViewSource.GetDefaultView(DGCircleList.ItemsSource);
-
-            TBSearch.GotFocus += TBSearch_GotFocus;
-            TBSearch.LostFocus += TBSearch_LostFocus;
-            TBSearch.TextChanged += TBSearch_TextChanged;
-        }
 
         #region DataGrid editing event handlers
         private string savedEditingCircleTitle; // circle title at beginning of editing
@@ -132,13 +111,13 @@ namespace CirclesManagement.Pages
             if (string.IsNullOrEmpty(newCircleTitle))
             {
                 DGCircleList.CancelEdit();
-                StatusBar.Error("Название кружка не может быть пустым.");
+                MainWindow.StatusBar.Error("Название кружка не может быть пустым.");
                 return;
             }
             else if (!Helpers.ContainsOnlyRussianLetters(newCircleTitle))
             {
                 DGCircleList.CancelEdit();
-                StatusBar.Error("Название кружка должно содержать только русские буквы.");
+                MainWindow.StatusBar.Error("Название кружка должно содержать только русские буквы.");
                 return;
             }
 
@@ -152,7 +131,7 @@ namespace CirclesManagement.Pages
             if (circleTitleDuplicates >= 1)
             {
                 DGCircleList.CancelEdit();
-                StatusBar.Error("Кружок с таким названием уже существует.");
+                MainWindow.StatusBar.Error("Кружок с таким названием уже существует.");
             }
         }
 
@@ -161,7 +140,7 @@ namespace CirclesManagement.Pages
             if (!int.TryParse(s, out var newMaxNumberOfPupils) || newMaxNumberOfPupils <= 0)
             {
                 DGCircleList.CancelEdit();
-                StatusBar.Error("Макс. число учеников должно быть целым числом, большим нуля.");
+                MainWindow.StatusBar.Error("Макс. число учеников должно быть целым числом, большим нуля.");
                 return;
             }
         }
@@ -191,7 +170,7 @@ namespace CirclesManagement.Pages
         {
             if (AreThereDefaultCircleInList())
             {
-                StatusBar.Error("Для добавления ещё одного нового кружка, отредактируйте предыдущий.");
+                MainWindow.StatusBar.Error("Для добавления ещё одного нового кружка, отредактируйте предыдущий.");
                 return;
             }
 
@@ -211,7 +190,7 @@ namespace CirclesManagement.Pages
             List<Circle> selectedCircles = DGCircleList.SelectedItems.Cast<Circle>().ToList();
             if (selectedCircles.Count < 0)
             {
-                StatusBar.Info("Выберите хотя бы один кружок для удаления.");
+                MainWindow.StatusBar.Info("Выберите хотя бы один кружок для удаления.");
                 return;
             }
             var result = Helpers.AskQuestion(
@@ -221,12 +200,12 @@ namespace CirclesManagement.Pages
             if (result == false)
                 return;
             selectedCircles.ForEach(c => {
-                if (IsDefaultCircle(c))
-                    CircleList.Remove(c); // if it is default circle it's not allowed to mark it as deleted
+                if (IsDefaultCircle(c)) // if it is default circle it's not allowed to mark it as deleted
+                    CircleList.Remove(c);
                 else
                     c.IsWorking = false;
             });
-            StatusBar.Info($"круж{(selectedCircles.Count > 1 ? "ки" : "ок")} успешно удалены.");
+            MainWindow.StatusBar.Info($"Круж{(selectedCircles.Count > 1 ? "ки" : "ок")} успешно удал{(selectedCircles.Count > 1 ? "ены" : "ён")}.");
             cvCircleList.Refresh();
         }
 
@@ -234,19 +213,19 @@ namespace CirclesManagement.Pages
         {
             if (MainWindow.db.ChangeTracker.HasChanges() == false)
             {
-                StatusBar.Info("Нет изменений для сохранения.");
+                MainWindow.StatusBar.Info("Нет изменений для сохранения.");
                 return;
             }
             else if (AreThereDefaultCircleInList())
             {
-                StatusBar.Error("Задайте наименование нового кружка перед сохранением изменений.");
+                MainWindow.StatusBar.Error("Задайте наименование нового кружка перед сохранением изменений.");
                 return;
             }
             var result = Helpers.AskQuestion("Вы уверены, что хотите сохранить изменения?");
             if (result == true)
             {
                 MainWindow.db.SaveChanges();
-                StatusBar.Info("Изменения успешно сохранены.");
+                MainWindow.StatusBar.Info("Изменения успешно сохранены.");
             }
         }
         #endregion
@@ -268,7 +247,7 @@ namespace CirclesManagement.Pages
         {
             ToggleButtonsVisibilities();
             showWorkingCircles = !showWorkingCircles;
-            SearchText = SearchPlaceHolder;
+            SearchBox.Clear();
             cvCircleList.Refresh();
         }
 
@@ -277,7 +256,7 @@ namespace CirclesManagement.Pages
             List<Circle> selectedCircles = DGCircleList.SelectedItems.Cast<Circle>().ToList();
             if (selectedCircles.Count < 0)
             {
-                StatusBar.Info("Выберите хотя бы один кружок для восстановления.");
+                MainWindow.StatusBar.Info("Выберите хотя бы один кружок для восстановления.");
                 return;
             }
             var result = Helpers.AskQuestion(
@@ -287,7 +266,7 @@ namespace CirclesManagement.Pages
             if (result == false)
                 return;
             selectedCircles.ForEach(c => c.IsWorking = true);
-            StatusBar.Info($"круж{(selectedCircles.Count > 1 ? "ки" : "ок")} успешно восстановлены.");
+            MainWindow.StatusBar.Info($"круж{(selectedCircles.Count > 1 ? "ки" : "ок")} успешно восстановлены.");
             cvCircleList.Refresh();
         }
         #endregion

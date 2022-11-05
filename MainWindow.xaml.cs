@@ -14,8 +14,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using CirclesManagement.Pages;
+using CirclesManagement.Classes;
 using CirclesManagement.Components;
+using CirclesManagement.Pages;
 
 namespace CirclesManagement
 {
@@ -25,34 +26,32 @@ namespace CirclesManagement
     public partial class MainWindow : Window
     {
         public static CirclesManagementEntities db = new CirclesManagementEntities();
+        public static StatusBarComponent StatusBar;
         public static User CurrentUser;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            Navigation.AppWindow = this;
+            StatusBar = StatusBarComponentInstance;
 
-            StatusBar.TBHeader = TBStatusBarHeader;
-            StatusBar.TBText = TBStatusBarText;
+            Navigation.AppWindow = this;
 
             Navigation.Next(("Страница авторизации", new AuthPage()));
 
             //TODO: On first running of this application it is neccessary to provide form to register associate director
         }
 
-        private void BGoToPreviousPage_Click(object sender, RoutedEventArgs e)
+        private void BtnGoToPreviousPage_Click(object sender, RoutedEventArgs e)
         {
             Navigation.Back();
         }
 
-        private void BLogOut_Click(object sender, RoutedEventArgs e)
+        private void BtnLogOut_Click(object sender, RoutedEventArgs e)
         {
-            var result = MessageBox.Show("Вы уверены, что хотите выйти из системы?", "Подтверждение",
-                MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
-            if (result == MessageBoxResult.Yes)
+            var result = Helpers.AskQuestion("Вы уверены, что хотите выйти из системы?");
+            if (result == true)
             {
-                // Show message about save local changes in db
                 CurrentUser = null;
                 Navigation.IsUserAuthorized = false;
                 Navigation.History.Clear();

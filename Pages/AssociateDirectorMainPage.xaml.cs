@@ -20,7 +20,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using CirclesManagement.Components;
+using CirclesManagement.Classes;
 
 namespace CirclesManagement.Pages
 {

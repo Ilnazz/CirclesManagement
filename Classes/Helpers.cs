@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace CirclesManagement.Components
+namespace CirclesManagement.Classes
 {
     public static class Helpers
     {

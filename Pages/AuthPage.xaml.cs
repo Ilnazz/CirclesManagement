@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using CirclesManagement.Classes;
 using CirclesManagement.Components;
 
 namespace CirclesManagement.Pages
@@ -25,7 +26,6 @@ namespace CirclesManagement.Pages
         public AuthPage()
         {
             InitializeComponent();
-            TBUserLogin.Focus();
         }
 
         private void AuthorizeUser()
@@ -33,17 +33,17 @@ namespace CirclesManagement.Pages
             if (string.IsNullOrWhiteSpace(TBUserLogin.Text)
                 || string.IsNullOrWhiteSpace(PBUserPassword.Password))
             {
-                StatusBar.Warning("Необходимо заполнить все поля для авторизации.");
+                MainWindow.StatusBar.Warning("Необходимо заполнить все поля для авторизации.");
                 return;
             }
             User user = MainWindow.db.Users.ToList()
                 .FirstOrDefault(u => u.Login == TBUserLogin.Text.Trim() && u.Password == PBUserPassword.Password.Trim());
             if (user is null)
             {
-                StatusBar.Error("Пользователь с такими данными не найден.");
+                MainWindow.StatusBar.Error("Пользователь с такими данными не найден.");
                 return;
             }
-            StatusBar.Info("Авторизация прошла успешно.");
+            MainWindow.StatusBar.Info("Авторизация прошла успешно.");
             
             MainWindow.CurrentUser = user;
             Navigation.IsUserAuthorized = true;

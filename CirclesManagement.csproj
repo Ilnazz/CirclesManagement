@@ -59,6 +59,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
@@ -79,6 +80,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Components\SearchBoxComponent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\StatusBarComponent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -95,7 +104,7 @@
     <Compile Include="Components\Grade.cs">
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
     </Compile>
-    <Compile Include="Components\Helpers.cs" />
+    <Compile Include="Classes\Helpers.cs" />
     <Compile Include="Components\Lesson.cs">
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
     </Compile>
@@ -117,14 +126,19 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelCirclesManagement.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Components\Navigation.cs" />
+    <Compile Include="Classes\Navigation.cs" />
     <Compile Include="Components\Pupil.cs">
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="Components\Role.cs">
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
     </Compile>
-    <Compile Include="Components\StatusBar.cs" />
+    <Compile Include="Components\SearchBoxComponent.xaml.cs">
+      <DependentUpon>SearchBoxComponent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\StatusBarComponent.xaml.cs">
+      <DependentUpon>StatusBarComponent.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Components\sysdiagram.cs">
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
     </Compile>
@@ -144,7 +158,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Components\Constants.cs" />
+    <Compile Include="Classes\Constants.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -246,6 +260,8 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

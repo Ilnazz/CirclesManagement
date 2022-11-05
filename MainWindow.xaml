@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CirclesManagement"
+        xmlns:components="clr-namespace:CirclesManagement.Components"
         mc:Ignorable="d"
         Title="Управление кружками" Height="600" Width="1000" Style="{StaticResource CommonStyle}">
     <Grid>
@@ -18,15 +19,11 @@
                 <TextBlock Text="Школа 'Олимп'" VerticalAlignment="Center" TextWrapping="Wrap"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Right">
-                <Button x:Name="BLogOut" Content="Выйти" Click="BLogOut_Click" Margin="5"/>
-                <Button x:Name="BGoToPreviousPage" Content="Назад" Click="BGoToPreviousPage_Click" Margin="5"/>
+                <Button x:Name="BtnLogOut" Content="Выйти" Click="BtnLogOut_Click" Margin="5"/>
+                <Button x:Name="BtnGoToPreviousPage" Content="Назад" Click="BtnGoToPreviousPage_Click" Margin="5"/>
             </StackPanel>
         </DockPanel>
         <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Grid.Row="1" Margin="5"/>
-        <StackPanel Grid.Row="2" Orientation="Horizontal">
-            <TextBlock Name="TBStatusBarHeader"/>
-            <TextBlock Text=":"/>
-            <TextBlock Name="TBStatusBarText"/>
-        </StackPanel>
+        <components:StatusBarComponent x:Name="StatusBarComponentInstance" Grid.Row="2"/>
     </Grid>
 </Window>
