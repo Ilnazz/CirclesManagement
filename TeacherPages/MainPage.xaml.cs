@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace CirclesManagement.Pages
+namespace CirclesManagement.TeacherPages
 {
     /// <summary>
     /// Логика взаимодействия для TeacherMainPage.xaml
     /// </summary>
-    public partial class TeacherMainPage : Page
+    public partial class MainPage : Page
     {
-        public TeacherMainPage()
+        public MainPage()
         {
             InitializeComponent();
         }

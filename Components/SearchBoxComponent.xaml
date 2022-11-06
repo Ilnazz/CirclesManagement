@@ -4,9 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CirclesManagement.Components"
-             mc:Ignorable="d" DataContext="{Binding RelativeSource={RelativeSource Self}}">
-    <Border Margin="5" BorderThickness="0.5">
+             mc:Ignorable="d" DataContext="{Binding RelativeSource={RelativeSource Self}}" Loaded="OnLoaded">
+    <Border BorderThickness="0.5">
         <TextBox x:Name="TBSearch" Text="{Binding Path=SearchText, UpdateSourceTrigger=PropertyChanged}" Padding="5"
-                 GotFocus="TBSearch_GotFocus" LostFocus="TBSearch_LostFocus" Loaded="TBSearch_Loaded"/>
+                 GotFocus="TBSearch_GotFocus" LostFocus="TBSearch_LostFocus"/>
     </Border>
 </UserControl>

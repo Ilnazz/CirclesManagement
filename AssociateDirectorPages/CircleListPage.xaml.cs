@@ -19,7 +19,7 @@ using System.Windows.Shapes;
 using CirclesManagement.Classes;
 using CirclesManagement.Components;
 
-namespace CirclesManagement.Pages
+namespace CirclesManagement.AssociateDirectorPages
 {
     /// <summary>
     /// Логика взаимодействия для CircleListPage.xaml
@@ -43,7 +43,7 @@ namespace CirclesManagement.Pages
             
             cvCircleList = CollectionViewSource.GetDefaultView(DGCircleList.ItemsSource);
 
-            SearchBox.OnTextChanged += (s, e) => cvCircleList.Refresh();
+            SearchBox.OnTextChanged += cvCircleList.Refresh;
         }
 
         #region Filtering realization

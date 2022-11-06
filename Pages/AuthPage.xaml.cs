@@ -50,9 +50,9 @@ namespace CirclesManagement.Pages
             Navigation.History.Clear();
 
             if (user.RoleID == (int)Constants.Role.AssociateDirector)
-                Navigation.Next(("Главная страница зам. директора по воспитательной работе", new AssociateDirectorMainPage()));
+                Navigation.Next(("Главная страница зам. директора по воспитательной работе", new AssociateDirectorPages.MainPage()));
             else
-                Navigation.Next(("Главная странциа учителя", new TeacherMainPage()));
+                Navigation.Next(("Главная странциа учителя", new TeacherPages.MainPage()));
         }
 
         private void BAuthorize_Click(object sender, RoutedEventArgs e)

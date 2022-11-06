@@ -1,9 +1,9 @@
-﻿<Page x:Class="CirclesManagement.Pages.AssociateDirectorMainPage"
+﻿<Page x:Class="CirclesManagement.AssociateDirectorPages.MainPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:CirclesManagement.Pages"
+      xmlns:local="clr-namespace:CirclesManagement.AssociateDirectorPages"
       mc:Ignorable="d"
       Title="Главное меню зам. директора по воспитательной работе" Style="{StaticResource CommonStyle}">
     <Grid>
@@ -13,6 +13,9 @@
             </TabItem>-->
             <TabItem Header="Кружки">
                 <Frame Source="CircleListPage.xaml"/>
+            </TabItem>
+            <TabItem Header="Кабинеты">
+                <Frame Source="ClassroomListPage.xaml"/>
             </TabItem>
             <!--<TabItem Header="Ученики">
                 <Grid>

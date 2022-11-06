@@ -17,7 +17,7 @@ using System.Windows.Shapes;
 using CirclesManagement.Classes;
 using CirclesManagement.Components;
 
-namespace CirclesManagement.Pages
+namespace CirclesManagement.AssociateDirectorPages
 {
     /// <summary>
     /// Логика взаимодействия для RegisterTeacherPage.xaml

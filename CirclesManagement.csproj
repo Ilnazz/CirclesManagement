@@ -80,6 +80,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="AssociateDirectorPages\ClassroomListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Components\SearchBoxComponent.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -92,6 +96,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="AssociateDirectorPages\ClassroomListPage.xaml.cs">
+      <DependentUpon>ClassroomListPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Components\Circle.cs">
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
     </Compile>
@@ -163,7 +170,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Pages\AssociateDirectorMainPage.xaml">
+    <Page Include="AssociateDirectorPages\MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -171,34 +178,34 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\CircleListPage.xaml">
+    <Page Include="AssociateDirectorPages\CircleListPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\RegisterTeacherPage.xaml">
+    <Page Include="AssociateDirectorPages\RegisterTeacherPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\TeacherMainPage.xaml">
+    <Page Include="TeacherPages\MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Pages\AssociateDirectorMainPage.xaml.cs">
-      <DependentUpon>AssociateDirectorMainPage.xaml</DependentUpon>
+    <Compile Include="AssociateDirectorPages\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\AuthPage.xaml.cs">
       <DependentUpon>AuthPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\CircleListPage.xaml.cs">
+    <Compile Include="AssociateDirectorPages\CircleListPage.xaml.cs">
       <DependentUpon>CircleListPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\RegisterTeacherPage.xaml.cs">
+    <Compile Include="AssociateDirectorPages\RegisterTeacherPage.xaml.cs">
       <DependentUpon>RegisterTeacherPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\TeacherMainPage.xaml.cs">
-      <DependentUpon>TeacherMainPage.xaml</DependentUpon>
+    <Compile Include="TeacherPages\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

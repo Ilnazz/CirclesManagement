@@ -22,14 +22,14 @@ using System.Windows.Shapes;
 
 using CirclesManagement.Classes;
 
-namespace CirclesManagement.Pages
+namespace CirclesManagement.AssociateDirectorPages
 {
     /// <summary>
     /// Логика взаимодействия для AssociateDirectorMainPage.xaml
     /// </summary>
-    public partial class AssociateDirectorMainPage : Page
+    public partial class MainPage : Page
     {
-        public AssociateDirectorMainPage()
+        public MainPage()
         {
             InitializeComponent();
         }
@@ -40,7 +40,6 @@ namespace CirclesManagement.Pages
         }
     }
 }
-//CircleList.ListChanged += CircleList_ListChanged;
 
 //var q = from p in MainWindow.db.Pupils
 //        join g in MainWindow.db.Grades on p.GradeID equals g.ID
