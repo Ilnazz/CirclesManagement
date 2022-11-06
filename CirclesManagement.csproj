@@ -84,6 +84,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Components\RichDataGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Components\SearchBoxComponent.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -136,6 +140,9 @@
     <Compile Include="Classes\Navigation.cs" />
     <Compile Include="Components\Pupil.cs">
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Components\RichDataGrid.xaml.cs">
+      <DependentUpon>RichDataGrid.xaml</DependentUpon>
     </Compile>
     <Compile Include="Components\Role.cs">
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>

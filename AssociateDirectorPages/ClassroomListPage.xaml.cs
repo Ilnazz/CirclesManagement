@@ -21,7 +21,7 @@ namespace CirclesManagement.AssociateDirectorPages
     /// <summary>
     /// Логика взаимодействия для ClassroomListPage.xaml
     /// </summary>
-    public partial class ClassroomListPage : UserControl
+    public partial class ClassroomListPage : Page
     {
         public ObservableCollection<Classroom> ClassroomList
         {
@@ -30,7 +30,6 @@ namespace CirclesManagement.AssociateDirectorPages
         }
         public static readonly DependencyProperty ClassroomListProperty =
             DependencyProperty.Register("ClassroomList", typeof(ObservableCollection<Classroom>), typeof(ClassroomListPage), new PropertyMetadata(null));
-
 
         public ClassroomListPage()
         {

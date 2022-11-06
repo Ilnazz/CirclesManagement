@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="CirclesManagement.AssociateDirectorPages.ClassroomListPage"
+﻿<Page x:Class="CirclesManagement.AssociateDirectorPages.ClassroomListPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:CirclesManagement.AssociateDirectorPages"
              xmlns:components="clr-namespace:CirclesManagement.Components"
              mc:Ignorable="d" DataContext="{Binding RelativeSource={RelativeSource Self}}"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="600" d:DesignWidth="1000" Style="{StaticResource CommonStyle}">
     <Grid>
         <components:RichDataGrid x:Name="RDGClassroomList" ItemsSource="{Binding Path=ClassroomList}">
             <components:RichDataGrid.Columns>
@@ -21,4 +21,4 @@
             </components:RichDataGrid.Columns>
         </components:RichDataGrid>
     </Grid>
-</UserControl>
+</Page>

@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="CirclesManagement.Components.RichDataGrid"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CirclesManagement.Components"
+             mc:Ignorable="d" DataContext="{Binding RelativeSource={RelativeSource Self}}"
+             d:DesignHeight="450" d:DesignWidth="800" Style="{StaticResource CommonStyle}"
+             Loaded="RichDataGrid_Loaded">
+    <UserControl.Resources>
+        <local:ItemsTypeConverter x:Key="ItemsTypeConverter"/>
+        <CollectionViewSource x:Key="DataGridCVS" Source="{Binding Path=ItemsSource}"/>
+    </UserControl.Resources>
+    <DataGrid Name="DataGrid" ItemsSource="{Binding Source={StaticResource DataGridCVS}}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  EnableColumnVirtualization="True"
+                  EnableRowVirtualization="True">
+    </DataGrid>
+</UserControl>
