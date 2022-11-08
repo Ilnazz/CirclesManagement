@@ -14,14 +14,17 @@ namespace CirclesManagement.Classes
 {
     public static class Helpers
     {
-        private static readonly Regex regexRussianLetters = new Regex(@"[а-я]+", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex _regexRussianLetters = new Regex(@"^[а-яА-Я]+$", RegexOptions.Compiled);
+        public static bool ContainsOnlyRussianLetters(string s)
+        {
+            return _regexRussianLetters.IsMatch(Regex.Replace(s, @"\s", ""));
+        }
 
-        private static readonly string questionMessageBoxCaption = "Подтверждение";
-
+        private static readonly string _questionMessageBoxCaption = "Подтверждение";
         public static bool AskQuestion(string message)
         {
             var result = MessageBox.Show(message,
-                    questionMessageBoxCaption,
+                    _questionMessageBoxCaption,
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Question);
             return result == MessageBoxResult.Yes;
@@ -39,25 +42,9 @@ namespace CirclesManagement.Classes
         {
             if (string.IsNullOrWhiteSpace(s))
                 return s;
+            else if (s.Length == 1)
+                return s;
             return char.ToUpper(s[0]) + s.Substring(1);
-        }
-
-        public static bool ContainsOnlyRussianLetters(string s)
-        {
-            if (string.IsNullOrWhiteSpace(s))
-                return false;
-            return regexRussianLetters.IsMatch(Regex.Replace(s, @"\s", ""));
-        }
-
-        public class DataGridExtension<T>
-        {
-            public DataGridExtension(DataGrid dg, ObservableCollection<T> Items)
-            {
-                var cvs = new CollectionViewSource();
-                cvs.Source = Items;
-                dg.ItemsSource = cvs as IEnumerable;
-
-            }
         }
     }
 }

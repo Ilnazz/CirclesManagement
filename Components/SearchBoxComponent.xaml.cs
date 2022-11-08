@@ -38,15 +38,18 @@ namespace CirclesManagement.Components
         public static readonly DependencyProperty SearchTextProperty =
             DependencyProperty.Register("SearchText", typeof(string), typeof(SearchBoxComponent), new PropertyMetadata(""));
 
-        public event Action OnTextChanged = delegate { };
+        public event Action TextChanged
+        {
+            add { TBSearch.TextChanged += (s, e) => value?.Invoke(); }
+            remove { TBSearch.TextChanged -= (s, e) => value?.Invoke(); }
+        }
 
         public SearchBoxComponent()
         {
             InitializeComponent();
-            TBSearch.TextChanged += (s, e) => OnTextChanged();
         }
 
-        public void Clear() => SearchText = "";
+        public void Clear() => SearchText = SearchPlaceHolder;
         public bool IsEmpty() => SearchText == SearchPlaceHolder;
 
         private void OnLoaded(object sender, RoutedEventArgs e)

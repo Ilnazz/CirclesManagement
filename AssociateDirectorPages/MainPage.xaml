@@ -12,10 +12,10 @@
                 <Frame Source="RegisterTeacherPage.xaml"/>
             </TabItem>-->
             <TabItem Header="Кружки">
-                <Frame Source="CircleListPage.xaml"/>
+                <Frame Source="CirclesPage.xaml"/>
             </TabItem>
             <TabItem Header="Кабинеты">
-                <Frame Source="ClassroomListPage.xaml"/>
+                <Frame Source="ClassroomsPage.xaml"/>
             </TabItem>
             <!--<TabItem Header="Ученики">
                 <Grid>

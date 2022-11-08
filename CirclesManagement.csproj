@@ -80,6 +80,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="AssociateDirectorPages\ClassroomsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Components\SearchBoxComponent.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -96,6 +100,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="AssociateDirectorPages\ClassroomsPage.xaml.cs">
+      <DependentUpon>ClassroomsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Components\Circle.cs">
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
     </Compile>
@@ -178,7 +185,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AssociateDirectorPages\CircleListPage.xaml">
+    <Page Include="AssociateDirectorPages\CirclesPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -198,8 +205,8 @@
     <Compile Include="Pages\AuthPage.xaml.cs">
       <DependentUpon>AuthPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AssociateDirectorPages\CircleListPage.xaml.cs">
-      <DependentUpon>CircleListPage.xaml</DependentUpon>
+    <Compile Include="AssociateDirectorPages\CirclesPage.xaml.cs">
+      <DependentUpon>CirclesPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="AssociateDirectorPages\RegisterTeacherPage.xaml.cs">
       <DependentUpon>RegisterTeacherPage.xaml</DependentUpon>
