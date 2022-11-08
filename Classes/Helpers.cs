@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace CirclesManagement.Classes
 {
@@ -45,6 +47,17 @@ namespace CirclesManagement.Classes
             if (string.IsNullOrWhiteSpace(s))
                 return false;
             return regexRussianLetters.IsMatch(Regex.Replace(s, @"\s", ""));
+        }
+
+        public class DataGridExtension<T>
+        {
+            public DataGridExtension(DataGrid dg, ObservableCollection<T> Items)
+            {
+                var cvs = new CollectionViewSource();
+                cvs.Source = Items;
+                dg.ItemsSource = cvs as IEnumerable;
+
+            }
         }
     }
 }

@@ -80,15 +80,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="AssociateDirectorPages\ClassroomListPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Components\RichDataGrid.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Components\SearchBoxComponent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\SpecialDataGrid.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -100,9 +96,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="AssociateDirectorPages\ClassroomListPage.xaml.cs">
-      <DependentUpon>ClassroomListPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Components\Circle.cs">
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
     </Compile>
@@ -141,14 +134,14 @@
     <Compile Include="Components\Pupil.cs">
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
     </Compile>
-    <Compile Include="Components\RichDataGrid.xaml.cs">
-      <DependentUpon>RichDataGrid.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Components\Role.cs">
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="Components\SearchBoxComponent.xaml.cs">
       <DependentUpon>SearchBoxComponent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\SpecialDataGrid.xaml.cs">
+      <DependentUpon>SpecialDataGrid.xaml</DependentUpon>
     </Compile>
     <Compile Include="Components\StatusBarComponent.xaml.cs">
       <DependentUpon>StatusBarComponent.xaml</DependentUpon>

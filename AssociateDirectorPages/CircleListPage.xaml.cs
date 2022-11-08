@@ -83,6 +83,7 @@ namespace CirclesManagement.AssociateDirectorPages
         {
             if (e.EditingEventArgs.Source.GetType() == typeof(TextBlock))
                 savedEditingCircleTitle = (e.EditingEventArgs.Source as TextBlock).Text;
+            MessageBox.Show(savedEditingCircleTitle);
         }
 
         private void DGCircleList_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
