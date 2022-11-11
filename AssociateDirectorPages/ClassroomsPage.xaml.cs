@@ -67,7 +67,10 @@ namespace CirclesManagement.AssociateDirectorPages
         private string oldEditingValue; // classroom number/title at beginning of editing
 
         private void ClassroomList_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
-            => oldEditingValue = (e.EditingEventArgs.Source as TextBlock).Text;
+        {
+            if (e.EditingEventArgs.Source.GetType() == typeof(TextBlock))
+                oldEditingValue = (e.EditingEventArgs.Source as TextBlock).Text;
+        }
 
         private void ClassroomList_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
@@ -75,19 +78,22 @@ namespace CirclesManagement.AssociateDirectorPages
             {
                 var column = e.Column as DataGridBoundColumn;
                 var property = (column.Binding as Binding).Path.Path;
+                var newValue = (e.EditingElement as TextBox).Text.Trim();
 
-                var editingCellTB = e.EditingElement as TextBox;
-                editingCellTB.Text = editingCellTB.Text.Trim();
+                if (oldEditingValue == newValue)
+                    return;
 
                 switch (property)
                 {
                     case "Number":
-                        var accept = HandleNumberEditing(oldEditingValue, editingCellTB.Text);
+                        var accept = HandleNumberEditing(oldEditingValue, newValue);
                         if (accept == false)
                             e.Cancel = true;
                         break;
                     case "Title":
-                        HandleTitleEditing(oldEditingValue, editingCellTB.Text);
+                        accept = HandleTitleEditing(oldEditingValue, newValue);
+                        if (accept == false)
+                            e.Cancel = true;
                         break;
                 }
             }
@@ -95,10 +101,6 @@ namespace CirclesManagement.AssociateDirectorPages
 
         private bool HandleNumberEditing(string oldNumberStr, string newNumberStr)
         {
-            // return, if there are no changes in the number
-            if (oldNumberStr == newNumberStr)
-                return true;
-
             if (!int.TryParse(newNumberStr, out var newNumber) || newNumber < 0)
             {
                 ClassroomList.CancelEdit();
@@ -110,8 +112,8 @@ namespace CirclesManagement.AssociateDirectorPages
             if (Classrooms.Count <= 1)
                 return true;
 
-            var areThereNumberDuplicates = Classrooms.Any(classroom => classroom.Number == newNumber);
-            if (areThereNumberDuplicates)
+            var areThereNumberDuplicate = Classrooms.Any(classroom => classroom.Number == newNumber);
+            if (areThereNumberDuplicate)
             {
                 ClassroomList.CancelEdit();
                 MainWindow.StatusBar.Error("Кабинет с таким номером уже существует.");
@@ -123,10 +125,6 @@ namespace CirclesManagement.AssociateDirectorPages
 
         private bool HandleTitleEditing(string oldTitle, string newTitle)
         {
-            // return, if there are no changes in the title
-            if (oldTitle == newTitle)
-                return true;
-
             if (string.IsNullOrEmpty(newTitle))
             {
                 ClassroomList.CancelEdit();
@@ -144,8 +142,8 @@ namespace CirclesManagement.AssociateDirectorPages
             if (Classrooms.Count <= 1)
                 return true;
 
-            var areThereTitleDuplicates = Classrooms.Any(classroom => classroom.Title == newTitle);
-            if (areThereTitleDuplicates)
+            var areThereTitleDuplicate = Classrooms.Any(classroom => classroom.Title == newTitle);
+            if (areThereTitleDuplicate)
             {
                 ClassroomList.CancelEdit();
                 MainWindow.StatusBar.Error("Кабинет с таким названием уже существует.");

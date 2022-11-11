@@ -25,21 +25,34 @@ namespace CirclesManagement
     /// </summary>
     public partial class MainWindow : Window
     {
-        public static CirclesManagementEntities db = new CirclesManagementEntities();
-        public static StatusBarComponent StatusBar;
+        public static CirclesManagementEntities db { get; private set; }
+        public static ApplicationSetting ApplicationSetting { get; private set; }
+        public static StatusBarComponent StatusBar { get; private set; }
         public static User CurrentUser;
 
         public MainWindow()
         {
             InitializeComponent();
 
+            db = new CirclesManagementEntities();
+
+            if (db.ApplicationSettings.Count() == 0) // application starts for the first time
+            {
+                ApplicationSetting = new ApplicationSetting();
+                ApplicationSetting.GradeNumerationTypeID = (int)Constants.GradeNumerationType.NumberAndLetter;
+            }
+            else
+                ApplicationSetting = db.ApplicationSettings.Single();
+            db.SaveChanges();
+
             StatusBar = StatusBarComponentInstance;
 
             Navigation.AppWindow = this;
 
-            Navigation.Next(("Страница авторизации", new AuthPage()));
-
-            //TODO: On first running of this application it is neccessary to provide form to register associate director
+            if (db.Users.Count() == 0)
+                Navigation.Next(("Страница регистрации пользователя", new RegistrationPage(Constants.Role.AssociateDirector)));
+            else
+                Navigation.Next(("Страница авторизации", new AuthPage()));
         }
 
         private void BtnGoToPreviousPage_Click(object sender, RoutedEventArgs e)

@@ -8,14 +8,20 @@
       Title="Главное меню зам. директора по воспитательной работе" Style="{StaticResource CommonStyle}">
     <Grid>
         <TabControl>
-            <!--<TabItem Header="Главная" IsSelected="True">
-                <Frame Source="RegisterTeacherPage.xaml"/>
-            </TabItem>-->
+            <TabItem Header="Настройки">
+                <Frame Source="../Pages/ApplicationSettingsPage.xaml"/>
+            </TabItem>
             <TabItem Header="Кружки">
                 <Frame Source="CirclesPage.xaml"/>
             </TabItem>
             <TabItem Header="Кабинеты">
                 <Frame Source="ClassroomsPage.xaml"/>
+            </TabItem>
+            <TabItem Header="Классы">
+                <Frame Source="GradesPage.xaml"/>
+            </TabItem>
+            <TabItem Header="Учителя">
+                <Frame Source="TeachersPage.xaml"/>
             </TabItem>
             <!--<TabItem Header="Ученики">
                 <Grid>

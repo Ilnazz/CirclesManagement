@@ -12,19 +12,11 @@ namespace CirclesManagement.Components
     using System;
     using System.Collections.Generic;
     
-    public partial class Grade
+    public partial class ApplicationSetting
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Grade()
-        {
-            this.Pupils = new HashSet<Pupil>();
-        }
-    
         public int ID { get; set; }
-        public int Number { get; set; }
-        public string Letter { get; set; }
+        public int GradeNumerationTypeID { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Pupil> Pupils { get; set; }
+        public virtual GradeNumerationType GradeNumerationType { get; set; }
     }
 }

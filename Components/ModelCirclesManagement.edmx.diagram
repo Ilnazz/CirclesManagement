@@ -5,31 +5,34 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="9ac4cfd0eb1c42e9aaa0a1c4c080e89d" Name="Diagram1" ZoomLevel="82">
-        <EntityTypeShape EntityType="CirclesManagementModel.Circle" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="CirclesManagementModel.Circle_Pupil" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="CirclesManagementModel.Classroom" Width="1.5" PointX="3.75" PointY="8.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="CirclesManagementModel.Grade" Width="1.5" PointX="1.5" PointY="9.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="CirclesManagementModel.Lesson" Width="1.5" PointX="8.25" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="CirclesManagementModel.Lesson_Pupil" Width="1.5" PointX="10.5" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="CirclesManagementModel.Pupil" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CirclesManagementModel.Role" Width="1.5" PointX="3.75" PointY="17.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="CirclesManagementModel.sysdiagram" Width="1.5" PointX="8.75" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CirclesManagementModel.Teacher" Width="1.5" PointX="3.75" PointY="11.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="CirclesManagementModel.Timetable" Width="1.5" PointX="6" PointY="4.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="CirclesManagementModel.User" Width="1.5" PointX="6" PointY="11" IsExpanded="true" />
-        <EntityTypeShape EntityType="CirclesManagementModel.WeekDay" Width="1.5" PointX="3.75" PointY="14.25" IsExpanded="true" />
-        <AssociationConnector Association="CirclesManagementModel.FK_Circle_Pupil_CIrcle" ManuallyRouted="false" />
-        <AssociationConnector Association="CirclesManagementModel.FK_Timetable_CIrcle" ManuallyRouted="false" />
-        <AssociationConnector Association="CirclesManagementModel.FK_Circle_Pupil_Pupil" ManuallyRouted="false" />
-        <AssociationConnector Association="CirclesManagementModel.FK_Timetable_Classroom" ManuallyRouted="false" />
-        <AssociationConnector Association="CirclesManagementModel.FK_Pupil_Grade" ManuallyRouted="false" />
-        <AssociationConnector Association="CirclesManagementModel.FK_Lesson_Pupil_Lesson" ManuallyRouted="false" />
-        <AssociationConnector Association="CirclesManagementModel.FK_Lesson_Timetable" ManuallyRouted="false" />
-        <AssociationConnector Association="CirclesManagementModel.FK_Lesson_Pupil_Pupil" ManuallyRouted="false" />
-        <AssociationConnector Association="CirclesManagementModel.FK_User_Role" ManuallyRouted="false" />
-        <AssociationConnector Association="CirclesManagementModel.FK_Timetable_Teacher" ManuallyRouted="false" />
-        <AssociationConnector Association="CirclesManagementModel.FK_User_Teacher" ManuallyRouted="false" />
-        <AssociationConnector Association="CirclesManagementModel.FK_Timetable_WeekDay" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="CirclesManagementModel.ApplicationSetting" Width="1.5" PointX="11" PointY="8.875" />
+        <EntityTypeShape EntityType="CirclesManagementModel.Circle" Width="1.5" PointX="0.75" PointY="5" />
+        <EntityTypeShape EntityType="CirclesManagementModel.Circle_Pupil" Width="1.5" PointX="3" PointY="5" />
+        <EntityTypeShape EntityType="CirclesManagementModel.Classroom" Width="1.5" PointX="3.75" PointY="12.25" />
+        <EntityTypeShape EntityType="CirclesManagementModel.Grade" Width="1.5" PointX="1.5" PointY="9.625" />
+        <EntityTypeShape EntityType="CirclesManagementModel.GradeNumerationType" Width="1.5" PointX="8.75" PointY="8.875" />
+        <EntityTypeShape EntityType="CirclesManagementModel.Lesson" Width="1.5" PointX="8.25" PointY="5" />
+        <EntityTypeShape EntityType="CirclesManagementModel.Lesson_Pupil" Width="1.5" PointX="10.5" PointY="5" />
+        <EntityTypeShape EntityType="CirclesManagementModel.Pupil" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="CirclesManagementModel.Role" Width="1.5" PointX="3.75" PointY="2.5" />
+        <EntityTypeShape EntityType="CirclesManagementModel.sysdiagram" Width="1.5" PointX="8.75" PointY="11.75" />
+        <EntityTypeShape EntityType="CirclesManagementModel.Teacher" Width="1.5" PointX="3.75" PointY="9.125" />
+        <EntityTypeShape EntityType="CirclesManagementModel.Timetable" Width="1.5" PointX="6" PointY="4.5" />
+        <EntityTypeShape EntityType="CirclesManagementModel.User" Width="1.5" PointX="6" PointY="9" />
+        <EntityTypeShape EntityType="CirclesManagementModel.WeekDay" Width="1.5" PointX="3.75" PointY="14.75" />
+        <AssociationConnector Association="CirclesManagementModel.FK_ApplicationSettings_GradeNumerationType" />
+        <AssociationConnector Association="CirclesManagementModel.FK_Circle_Pupil_CIrcle" />
+        <AssociationConnector Association="CirclesManagementModel.FK_Timetable_CIrcle" />
+        <AssociationConnector Association="CirclesManagementModel.FK_Circle_Pupil_Pupil" />
+        <AssociationConnector Association="CirclesManagementModel.FK_Timetable_Classroom" />
+        <AssociationConnector Association="CirclesManagementModel.FK_Pupil_Grade" />
+        <AssociationConnector Association="CirclesManagementModel.FK_Lesson_Pupil_Lesson" />
+        <AssociationConnector Association="CirclesManagementModel.FK_Lesson_Timetable" />
+        <AssociationConnector Association="CirclesManagementModel.FK_Lesson_Pupil_Pupil" />
+        <AssociationConnector Association="CirclesManagementModel.FK_User_Role" />
+        <AssociationConnector Association="CirclesManagementModel.FK_Timetable_Teacher" />
+        <AssociationConnector Association="CirclesManagementModel.FK_User_Teacher" />
+        <AssociationConnector Association="CirclesManagementModel.FK_Timetable_WeekDay" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

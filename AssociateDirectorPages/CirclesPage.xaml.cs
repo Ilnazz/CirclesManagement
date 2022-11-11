@@ -81,7 +81,6 @@ namespace CirclesManagement.AssociateDirectorPages
         {
             if (e.EditingEventArgs.Source.GetType() == typeof(TextBlock))
                 oldEditingValue = (e.EditingEventArgs.Source as TextBlock).Text;
-
         }
 
         private void CircleList_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
@@ -90,19 +89,20 @@ namespace CirclesManagement.AssociateDirectorPages
             {
                 var column = e.Column as DataGridBoundColumn;
                 var property = (column.Binding as Binding).Path.Path;
+                var newValue = (e.EditingElement as TextBox).Text.Trim();
 
-                var editingCellTB = e.EditingElement as TextBox;
-                editingCellTB.Text = editingCellTB.Text.Trim();
+                if (oldEditingValue == newValue)
+                    return;
 
                 switch (property)
                 {
                     case "Title":
-                        var accept = HandleTitleEditing(oldEditingValue, editingCellTB.Text);
+                        var accept = HandleTitleEditing(oldEditingValue, newValue);
                         if (accept == false)
                             e.Cancel = true;
                         break;
                     case "MaxNumberOfPupils":
-                        accept = HandleMaxNumberOfPupilsEditing(oldEditingValue, editingCellTB.Text);
+                        accept = HandleMaxNumberOfPupilsEditing(oldEditingValue, newValue);
                         if (accept == false)
                             e.Cancel = true;
                         break;
@@ -112,10 +112,6 @@ namespace CirclesManagement.AssociateDirectorPages
 
         private bool HandleTitleEditing(string oldTitle, string newTitle)
         {
-            // return, if there are no changes in the title
-            if (oldTitle == newTitle)
-                return true;
-
             if (string.IsNullOrEmpty(newTitle))
             {
                 CircleList.CancelEdit();
@@ -133,8 +129,8 @@ namespace CirclesManagement.AssociateDirectorPages
             if (Circles.Count <= 1)
                 return true;
 
-            var areThereTitleDuplicates = Circles.Any(circle => circle.Title == newTitle);
-            if (areThereTitleDuplicates)
+            var areThereTitleDuplicate = Circles.Any(circle => circle.Title == newTitle);
+            if (areThereTitleDuplicate)
             {
                 CircleList.CancelEdit();
                 MainWindow.StatusBar.Error("Кружок с таким названием уже существует.");

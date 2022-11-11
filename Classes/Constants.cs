@@ -6,11 +6,16 @@ using System.Threading.Tasks;
 
 namespace CirclesManagement.Classes
 {
-    internal class Constants
+    public class Constants
     {
         public enum Role
         {
             AssociateDirector = 1, Teacher = 2
+        }
+
+        public enum GradeNumerationType
+        {
+            Number = 1, NumberAndLetter = 2
         }
     }
 }
