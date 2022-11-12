@@ -96,6 +96,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="AssociateDirectorPages\TimetablesPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Components\SearchBoxComponent.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -107,6 +111,10 @@
     <Page Include="Components\StatusBarComponent.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\TimeControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -123,6 +131,9 @@
     </Compile>
     <Compile Include="AssociateDirectorPages\ClassroomsPage.xaml.cs">
       <DependentUpon>ClassroomsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AssociateDirectorPages\TimetablesPage.xaml.cs">
+      <DependentUpon>TimetablesPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Components\Pupil.Extension.cs" />
     <Compile Include="Components\Teacher.Extension.cs" />
@@ -181,6 +192,9 @@
     </Compile>
     <Compile Include="Components\Teacher.cs">
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Components\TimeControl.xaml.cs">
+      <DependentUpon>TimeControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Components\Timetable.cs">
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>

@@ -95,6 +95,12 @@ namespace CirclesManagement.AssociateDirectorPages
         {
             if (e.EditAction == DataGridEditAction.Commit)
             {
+                var column = e.Column as DataGridBoundColumn;
+                var property = (column.Binding as Binding).Path.Path;
+
+                if (property == "Grade")
+                    return;
+
                 var newValue = (e.EditingElement as TextBox).Text.Trim();
 
                 if (oldEditingValue == newValue)

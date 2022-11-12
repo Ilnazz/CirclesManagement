@@ -23,59 +23,9 @@
             <TabItem Header="Ученики">
                 <Frame Source="PupilsPage.xaml"/>
             </TabItem>
-            <!--<TabItem Header="Ученики">
-                <Grid>
-                    <DataGrid Name="DGPupilList" Margin="5" AutoGenerateColumns="False">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Фамилия" Width="1*" Binding="{Binding LastName}"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Имя" Width="1*" Binding="{Binding FirstName}"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Отчество" Width="1*" Binding="{Binding Patronymic}"></DataGridTextColumn>
-                            <DataGridComboBoxColumn x:Name="DGPupilList_CBGrades" TextBinding="{Binding Grade, Mode=OneWay}"
-                                                    SelectedValueBinding="{Binding Grade, Mode=OneWay}" Header="Класс" Width="1*"/>
-                            <DataGridTemplateColumn Header="Класс" Width="1*">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <ComboBox x:Name="DGPupilList_CBGrades"
-                                                  IsEditable="True" 
-                                                  Text="{Binding Grade}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </Grid>
+            <TabItem Header="Расписание">
+                <Frame Source="TimetablesPage.xaml"/>
             </TabItem>
-            <TabItem Header="Учителя">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <StackPanel Orientation="Horizontal" Grid.Row="0">
-                        <Button x:Name="BtnGoToRegisterTeacherPage" Margin="5" Grid.Row="1" Content="Зарегистрировать нового учителя в системе" Click="BtnGoToRegisterTeacherPage_Click" />
-                        <Button x:Name="BtnDismissTeacher" Margin="5" Content="Уволить учителя" />
-                    </StackPanel>
-                    <DataGrid Name="DGTeacherList" Margin="5" AutoGenerateColumns="False" Grid.Row="1">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Фамилия" Width="2*" Binding="{Binding LastName}"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Имя" Width="2*" Binding="{Binding FirstName}"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Отчество" Width="2*" Binding="{Binding Patronymic}"></DataGridTextColumn>
-                            <DataGridCheckBoxColumn Header="Работает ли" Width="1*" Binding="{Binding IsWorking}"></DataGridCheckBoxColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </Grid>
-            </TabItem>
-            <TabItem Header="Раписание">
-                <DataGrid Name="DGTimetable" Margin="5" AutoGenerateColumns="False">
-                    <DataGrid.Columns>
-                        <DataGridComboBoxColumn x:Name="DGTimetable_CBTeachers" Header="Учитель" Width="1*"/>
-                        <DataGridComboBoxColumn x:Name="DGTimetable_CBClassrooms" Header="Кабинет" Width="1*"/>
-                        <DataGridComboBoxColumn x:Name="DGTimetable_CBCircles"  Header="Кружок" Width="1*"/>
-                        <DataGridComboBoxColumn x:Name="DGTimetable_CBWeekDays" Header="День недели" Width="1*"/>
-                        <DataGridTextColumn Header="Время" Width="1*" Binding="{Binding Time}"></DataGridTextColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </TabItem>-->
         </TabControl>
     </Grid>
 </Page>
