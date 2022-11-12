@@ -21,8 +21,8 @@ namespace CirclesManagement.Components
         }
     
         public int ID { get; set; }
-        public int Number { get; set; }
-        public string Letter { get; set; }
+        public bool IsActive { get; set; }
+        public string Title { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Pupil> Pupils { get; set; }

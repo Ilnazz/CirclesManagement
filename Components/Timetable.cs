@@ -26,6 +26,7 @@ namespace CirclesManagement.Components
         public int CircleID { get; set; }
         public int WeekDayID { get; set; }
         public System.TimeSpan Time { get; set; }
+        public bool IsActive { get; set; }
     
         public virtual Circle Circle { get; set; }
         public virtual Classroom Classroom { get; set; }

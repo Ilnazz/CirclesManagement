@@ -25,12 +25,10 @@ namespace CirclesManagement.Components
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<ApplicationSetting> ApplicationSettings { get; set; }
         public virtual DbSet<Circle> Circles { get; set; }
         public virtual DbSet<Circle_Pupil> Circle_Pupil { get; set; }
         public virtual DbSet<Classroom> Classrooms { get; set; }
         public virtual DbSet<Grade> Grades { get; set; }
-        public virtual DbSet<GradeNumerationType> GradeNumerationTypes { get; set; }
         public virtual DbSet<Lesson> Lessons { get; set; }
         public virtual DbSet<Lesson_Pupil> Lesson_Pupil { get; set; }
         public virtual DbSet<Pupil> Pupils { get; set; }

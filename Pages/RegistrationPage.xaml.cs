@@ -117,7 +117,6 @@ namespace CirclesManagement.Pages
 
             if (_newUserRole == Constants.Role.Teacher)
             {
-                // think about ID's !
                 newUser.Teacher = CreateNewTeacher(TBLastName.Text, TBFirstName.Text, TBPatronymic.Text);
             }
 

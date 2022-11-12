@@ -26,7 +26,6 @@ namespace CirclesManagement
     public partial class MainWindow : Window
     {
         public static CirclesManagementEntities db { get; private set; }
-        public static ApplicationSetting ApplicationSetting { get; private set; }
         public static StatusBarComponent StatusBar { get; private set; }
         public static User CurrentUser;
 
@@ -35,15 +34,6 @@ namespace CirclesManagement
             InitializeComponent();
 
             db = new CirclesManagementEntities();
-
-            if (db.ApplicationSettings.Count() == 0) // application starts for the first time
-            {
-                ApplicationSetting = new ApplicationSetting();
-                ApplicationSetting.GradeNumerationTypeID = (int)Constants.GradeNumerationType.NumberAndLetter;
-            }
-            else
-                ApplicationSetting = db.ApplicationSettings.Single();
-            db.SaveChanges();
 
             StatusBar = StatusBarComponentInstance;
 

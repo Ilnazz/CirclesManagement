@@ -12,10 +12,5 @@ namespace CirclesManagement.Classes
         {
             AssociateDirector = 1, Teacher = 2
         }
-
-        public enum GradeNumerationType
-        {
-            Number = 1, NumberAndLetter = 2
-        }
     }
 }

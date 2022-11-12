@@ -26,6 +26,7 @@ namespace CirclesManagement.Components
         public string FirstName { get; set; }
         public string Patronymic { get; set; }
         public int GradeID { get; set; }
+        public bool IsStudying { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Circle_Pupil> Circle_Pupil { get; set; }

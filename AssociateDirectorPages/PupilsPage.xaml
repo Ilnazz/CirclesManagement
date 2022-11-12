@@ -46,18 +46,42 @@
                                     Binding="{Binding Path=Patronymic}"
                                     ElementStyle="{StaticResource DGTextColumnStyle}"
                                     EditingElementStyle="{StaticResource DGTextColumnEditingStyle}"/>
+                <DataGridComboBoxColumn Header="Класс" Width="*"
+                                    ItemsSource="{Binding Grades}"
+                                    DisplayMemberPath="Title"
+                                    SelectedValuePath="ID"/>
             </DataGrid.Columns>
         </components:SpecialDataGrid>
         <DockPanel Grid.Row="2" Grid.ColumnSpan="2">
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                <Button x:Name="BtnAddPupil"
+                        Margin="5"
+                        Content="Добавить ученика"
+                        Click="BtnAddPupil_Click"/>
                 <Button x:Name="BtnExcludePupil"
                         Margin="5"
                         Content="Исключить ученика"
                         Click="BtnExcludePupil_Click"/>
+                <Button x:Name="BtnRestoreExcludedPupil"
+                        Margin="5"
+                        Visibility="Collapsed"
+                        Content="Восстановить исключенного ученика"
+                        Click="BtnRestoreExcludedPupil_Click"/>
                 <Button x:Name="BtnSaveChangesInDB"
                         Margin="5"
                         Content="Сохранить изменения"
                         Click="BtnSaveChangesInDB_Click"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Right">
+                <Button x:Name="BtnShowExcludedPupils"
+                        Margin="5"
+                        Content="Показать исключенных учеников"
+                        Click="ToggleShowStudyingOrExcludedPupils"/>
+                <Button x:Name="BtnShowStudyingPupils"
+                        Margin="5"
+                        Visibility="Collapsed"
+                        Content="Вернуться к учащимся учениками"
+                        Click="ToggleShowStudyingOrExcludedPupils"/>
             </StackPanel>
         </DockPanel>
     </Grid>

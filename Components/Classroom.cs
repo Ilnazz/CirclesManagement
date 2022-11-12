@@ -23,6 +23,7 @@ namespace CirclesManagement.Components
         public int ID { get; set; }
         public int Number { get; set; }
         public string Title { get; set; }
+        public bool IsActive { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Timetable> Timetables { get; set; }

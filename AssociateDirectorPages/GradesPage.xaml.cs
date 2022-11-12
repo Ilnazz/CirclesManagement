@@ -35,23 +35,12 @@ namespace CirclesManagement.AssociateDirectorPages
         public static readonly DependencyProperty GradesProperty =
             DependencyProperty.Register("Grades", typeof(ObservableCollection<Grade>), typeof(GradesPage), new PropertyMetadata(null));
 
-        private Constants.GradeNumerationType _numerationType;
-
         public GradesPage()
         {
             MainWindow.db.Pupils.Load();
 
             InitializeComponent();
             
-            Loaded += (s, e) =>
-            {
-                _numerationType = (Constants.GradeNumerationType)MainWindow.ApplicationSetting.GradeNumerationTypeID;
-                if (_numerationType == Constants.GradeNumerationType.Number)
-                    GradeList.Columns[1].Visibility = Visibility.Collapsed;
-                else
-                    GradeList.Columns[1].Visibility = Visibility.Visible;
-            };
-
             MainWindow.db.Grades.Load();
             Grades = MainWindow.db.Grades.Local;
 
@@ -63,13 +52,18 @@ namespace CirclesManagement.AssociateDirectorPages
         #region Searching
         private ICollectionView cvGrades;
 
+        private bool _showDeleteGrades;
+
         private void cvsGrades_Filter(object sender, FilterEventArgs e)
         {
             var grade = e.Item as Grade;
 
             if (SearchBox.IsEmpty())
+            {
                 e.Accepted = true;
-            else if (($"{grade.Number}{grade.Letter}").ToLower().Contains(SearchBox.SearchText.Trim().ToLower()))
+                return;
+            }
+            else if (grade.Title.Contains(SearchBox.SearchText.Trim().ToLower()))
                 e.Accepted = true;
             else
                 e.Accepted = false;
@@ -89,65 +83,25 @@ namespace CirclesManagement.AssociateDirectorPages
         {
             if (e.EditAction == DataGridEditAction.Commit)
             {
-                var column = e.Column as DataGridBoundColumn;
-                var property = (column.Binding as Binding).Path.Path;
-                var newValue = (e.EditingElement as TextBox).Text.Trim();
+                var editingTB = e.EditingElement as TextBox;
+                editingTB.Text = editingTB.Text.Trim().ToUpper();
+                var newValue = editingTB.Text;
 
                 if (oldEditingValue == newValue)
                     return;
 
-                switch (property)
-                {
-                    case "Number":
-                        var accept = HandleNumberEditing(oldEditingValue, newValue);
-                        if (accept == false)
-                            e.Cancel = true;
-                        break;
-                    case "Letter":
-                        var number = (e.Row.Item as Grade).Number;
-                        accept = HandleLetterEditing(oldEditingValue, newValue.ToUpper(), number);
-                        if (accept == false)
-                            e.Cancel = true;
-                        break;
-                }
+                var accept = HandleTitleEditing(newValue);
+                if (accept == false)
+                    e.Cancel = true;
             }
         }
 
-        private bool HandleNumberEditing(string oldNumberStr, string newNumberStr)
+        private bool HandleTitleEditing(string newTitle)
         {
-            if (!int.TryParse(newNumberStr, out var newNumber) || newNumber <= 0)
+            if (Helpers.IsCorrectGradeTitle(newTitle) == false)
             {
                 GradeList.CancelEdit();
-                MainWindow.StatusBar.Error("Номер класса должен быть целым числом, большим нуля.");
-                return false;
-            }
-
-            // since there are no or only one grade in the list, it's not neccessary to check for duplicate
-            if (Grades.Count <= 1)
-                return true;
-
-            if (_numerationType == Constants.GradeNumerationType.Number)
-            {
-                var areThereGradeNumberDuplicate = Grades.Any(grade => grade.Number == newNumber);
-                if (areThereGradeNumberDuplicate)
-                {
-                    GradeList.CancelEdit();
-                    MainWindow.StatusBar.Error("Такой номер класса уже существует.");
-                    return false;
-                }
-                return true;
-            }
-
-            return true;
-        }
-
-        private bool HandleLetterEditing(string oldLetter, string newLetter, int number)
-        {
-            if (string.IsNullOrEmpty(newLetter) || newLetter.Length != 1
-                || Helpers.ContainsOnlyRussianLetters(newLetter) == false)
-            {
-                GradeList.CancelEdit();
-                MainWindow.StatusBar.Error("Буква класса должна быть задана одной русской буквой.");
+                MainWindow.StatusBar.Error("Название класса должно быть задано одной/двумя цифрами и одной русской буквой.");
                 return false;
             }
 
@@ -155,12 +109,12 @@ namespace CirclesManagement.AssociateDirectorPages
             if (Grades.Count <= 1)
                 return true;
 
-            var areThereGradeDuplicate = Grades.Any(grade => grade.Number == number && grade.Letter == newLetter);
+            var isItTitleDuplicate = Grades.Any(grade => grade.Title == newTitle);
 
-            if (areThereGradeDuplicate)
+            if (isItTitleDuplicate)
             {
                 GradeList.CancelEdit();
-                MainWindow.StatusBar.Error("Класс с таким номером и буквой уже существует.");
+                MainWindow.StatusBar.Error("Класс с таким названием уже существует.");
                 return false;
             }
 
@@ -170,12 +124,10 @@ namespace CirclesManagement.AssociateDirectorPages
 
         #region Default grade
         // default grade's properties values used when user adds new grade to list
-        private const int defaultNumber = 0;
-        private const string defaultLetter = "";
+        private const string defaultTitle = "";
 
         private bool IsDefaultGrade(Grade grade)
-            => grade.Number == defaultNumber
-                || grade.Letter == defaultLetter;
+            => grade.Title == defaultTitle;
 
         private bool AreThereDefaultGrade()
             => Grades.Any(grade => IsDefaultGrade(grade));
@@ -191,8 +143,7 @@ namespace CirclesManagement.AssociateDirectorPages
             }
 
             Grade newGrade = new Grade();
-            newGrade.Number = defaultNumber;
-            newGrade.Letter = defaultLetter;
+            newGrade.Title = defaultTitle;
             Grades.Add(newGrade);
 
             GradeList.SelectedIndex = GradeList.Items.Count - 1;
@@ -218,14 +169,14 @@ namespace CirclesManagement.AssociateDirectorPages
 
             selectedGrades.ForEach(grade => {
 
-                var areTherePupilsWithThisGrade = MainWindow.db.Pupils
-                    .Any(pupil => pupil.Grade.Number == grade.Number && pupil.Grade.Letter == grade.Letter);
+                var isTherePupilWithThisGrade = MainWindow.db.Pupils
+                    .Any(pupil => pupil.Grade.Title == grade.Title);
 
-                if (areTherePupilsWithThisGrade)
-                    MessageBox.Show($"Класс №{grade.Number} {grade.Letter} нельзя удалить, так как он указан у одного или более учников.", "Ошибка",
+                if (isTherePupilWithThisGrade)
+                    MessageBox.Show($"Класс {grade.Title} нельзя удалить, так как он указан у одного или более учеников.", "Ошибка",
                         MessageBoxButton.OK, MessageBoxImage.Error);
                 else
-                    Grades.Remove(grade);
+                    grade.IsActive = false;
             });
             cvGrades.Refresh();
             MainWindow.StatusBar.Info($"Класс{(selectedGrades.Count > 1 ? "ы" : "")} успешно удал{(selectedGrades.Count > 1 ? "ены" : "ён")}.");
@@ -240,9 +191,7 @@ namespace CirclesManagement.AssociateDirectorPages
             }
             else if (AreThereDefaultGrade())
             {
-                MainWindow.StatusBar.Error($"Укажите номер " +
-                    $"{(_numerationType == Constants.GradeNumerationType.Number ? "и букву" : "")} " +
-                    $"нового класса перед сохранением изменений.");
+                MainWindow.StatusBar.Error($"Укажите название нового класса перед сохранением изменений.");
                 return;
             }
 
@@ -255,18 +204,45 @@ namespace CirclesManagement.AssociateDirectorPages
         }
         #endregion
 
-        public class GradeEqualityComparer : IEqualityComparer<Grade>
+        #region Wroking and deleted grades show buttons click handlers
+        private void ToggleButtonsVisibilities()
         {
-            public bool Equals(Grade x, Grade y)
-            {
-                return x.Number == y.Number && x.Letter == y.Letter;
-            }
+            BtnShowDeletedGrades.Visibility
+                = BtnAddGrade.Visibility
+                    = BtnDeleteGrade.Visibility
+                        = BtnDeleteGrade.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
 
-            public int GetHashCode(Grade obj)
-            {
-                return obj == null ? 0 : obj.GetHashCode();
-            }
+            BtnShowWorkingGrades.Visibility
+                = BtnRestoreDeletedGrade.Visibility
+                    = BtnRestoreDeletedGrade.Visibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
         }
-        private static readonly GradeEqualityComparer _gradeEqualityComparer = new GradeEqualityComparer();
+
+        private void ToggleShowActiveOrDeletedGrades(object sender, RoutedEventArgs e)
+        {
+            ToggleButtonsVisibilities();
+            _showDeleteGrades = _showDeleteGrades == false ? true : false;
+            SearchBox.Clear();
+            cvGrades.Refresh();
+        }
+
+        private void BtnRestoreDeletedGrade_Click(object sender, RoutedEventArgs e)
+        {
+            List<Grade> selectedGrades = GradeList.SelectedItems.Cast<Grade>().ToList();
+            if (selectedGrades.Count < 0)
+            {
+                MainWindow.StatusBar.Info("Выберите хотя бы один класс для восстановления.");
+                return;
+            }
+            var result = Helpers.AskQuestion(
+                    $"Вы уверены, что хотите восстановить " +
+                    $"выбранн{(selectedGrades.Count > 1 ? "ые" : "ый")} " +
+                    $"класс{(selectedGrades.Count > 1 ? "ы" : "")}?");
+            if (result == false)
+                return;
+            selectedGrades.ForEach(grade => grade.IsActive = true);
+            cvGrades.Refresh();
+            MainWindow.StatusBar.Info($"Класс{(selectedGrades.Count > 1 ? "ы" : "")} успешно восстановлен{(selectedGrades.Count > 1 ? "ы" : "")}.");
+        }
+        #endregion
     }
 }

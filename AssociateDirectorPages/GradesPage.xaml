@@ -35,28 +35,42 @@
                   BeginningEdit="GradeList_BeginningEdit">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Номер" Width="*"
-                                    Binding="{Binding Path=Number}"
-                                    ElementStyle="{StaticResource DGTextColumnStyle}"
-                                    EditingElementStyle="{StaticResource DGTextColumnEditingStyle}"/>
-                <DataGridTextColumn Header="Буква" Width="*"
-                                    Binding="{Binding Path=Letter}"
+                                    Binding="{Binding Path=Title}"
                                     ElementStyle="{StaticResource DGTextColumnStyle}"
                                     EditingElementStyle="{StaticResource DGTextColumnEditingStyle}"/>
             </DataGrid.Columns>
         </components:SpecialDataGrid>
-        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.ColumnSpan="2">
-            <Button x:Name="BtnAddGrade"
-                    Margin="5"
-                    Content="Добавить класс"
-                    Click="BtnAddGrade_Click"/>
-            <Button x:Name="BtnDeleteGrade"
-                    Margin="5"
-                    Content="Удалить класс"
-                    Click="BtnDeleteGrade_Click"/>
-            <Button x:Name="BtnSaveChangesInDB"
-                    Margin="5"
-                    Content="Сохранить изменения"
-                    Click="BtnSaveChangesInDB_Click"/>
-        </StackPanel>
+        <DockPanel Grid.Row="2" Grid.ColumnSpan="2">
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                <Button x:Name="BtnAddGrade"
+                        Margin="5"
+                        Content="Добавить класс"
+                        Click="BtnAddGrade_Click"/>
+                <Button x:Name="BtnDeleteGrade"
+                        Margin="5"
+                        Content="Удалить класс"
+                        Click="BtnDeleteGrade_Click"/>
+                <Button x:Name="BtnRestoreDeletedGrade"
+                        Margin="5"
+                        Visibility="Collapsed"
+                        Content="Восстановить удалённый класс"
+                        Click="BtnRestoreDeletedGrade_Click"/>
+                <Button x:Name="BtnSaveChangesInDB"
+                        Margin="5"
+                        Content="Сохранить изменения"
+                        Click="BtnSaveChangesInDB_Click"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Right">
+                <Button x:Name="BtnShowDeletedGrades"
+                        Margin="5"
+                        Content="Показать удалённые классы"
+                        Click="ToggleShowActiveOrDeletedGrades"/>
+                <Button x:Name="BtnShowWorkingGrades"
+                        Margin="5"
+                        Visibility="Collapsed"
+                        Content="Вернуться к действующим классам"
+                        Click="ToggleShowActiveOrDeletedGrades"/>
+            </StackPanel>
+        </DockPanel>
     </Grid>
 </Page>

@@ -124,10 +124,8 @@
     <Compile Include="AssociateDirectorPages\ClassroomsPage.xaml.cs">
       <DependentUpon>ClassroomsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Components\Pupil.Extension.cs" />
     <Compile Include="Components\Teacher.Extension.cs" />
-    <Compile Include="Components\ApplicationSetting.cs">
-      <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
-    </Compile>
     <Compile Include="Components\Circle.cs">
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
     </Compile>
@@ -141,9 +139,6 @@
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="Classes\Helpers.cs" />
-    <Compile Include="Components\GradeNumerationType.cs">
-      <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
-    </Compile>
     <Compile Include="Components\Lesson.cs">
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
     </Compile>
@@ -209,10 +204,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\ApplicationSettingsPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Pages\AuthPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -233,9 +224,6 @@
   <ItemGroup>
     <Compile Include="AssociateDirectorPages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\ApplicationSettingsPage.xaml.cs">
-      <DependentUpon>ApplicationSettingsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\AuthPage.xaml.cs">
       <DependentUpon>AuthPage.xaml</DependentUpon>

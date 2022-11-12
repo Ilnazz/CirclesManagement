@@ -5,13 +5,6 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="Хранилище CirclesManagementModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="ApplicationSettings">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
-          <Property Name="GradeNumerationTypeID" Type="int" Nullable="false" />
-        </EntityType>
         <EntityType Name="Circle">
           <Key>
             <PropertyRef Name="ID" />
@@ -37,21 +30,15 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Number" Type="int" Nullable="false" />
           <Property Name="Title" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Grade">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Number" Type="int" Nullable="false" />
-          <Property Name="Letter" Type="nvarchar" MaxLength="1" />
-        </EntityType>
-        <EntityType Name="GradeNumerationType">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
-          <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="3" Nullable="false" />
         </EntityType>
         <EntityType Name="Lesson">
           <Key>
@@ -79,6 +66,7 @@
           <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Patronymic" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="GradeID" Type="int" Nullable="false" />
+          <Property Name="IsStudying" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -117,6 +105,7 @@
           <Property Name="CircleID" Type="int" Nullable="false" />
           <Property Name="WeekDayID" Type="int" Nullable="false" />
           <Property Name="Time" Type="time" Precision="7" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -136,18 +125,6 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Title" Type="nvarchar" MaxLength="11" Nullable="false" />
         </EntityType>
-        <Association Name="FK_ApplicationSettings_GradeNumerationType">
-          <End Role="GradeNumerationType" Type="Self.GradeNumerationType" Multiplicity="1" />
-          <End Role="ApplicationSettings" Type="Self.ApplicationSettings" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="GradeNumerationType">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ApplicationSettings">
-              <PropertyRef Name="GradeNumerationTypeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Circle_Pupil_CIrcle">
           <End Role="Circle" Type="Self.Circle" Multiplicity="1" />
           <End Role="Circle_Pupil" Type="Self.Circle_Pupil" Multiplicity="*" />
@@ -293,12 +270,10 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="Хранилище CirclesManagementModelContainer">
-          <EntitySet Name="ApplicationSettings" EntityType="Self.ApplicationSettings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Circle" EntityType="Self.Circle" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Circle_Pupil" EntityType="Self.Circle_Pupil" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Classroom" EntityType="Self.Classroom" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Grade" EntityType="Self.Grade" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="GradeNumerationType" EntityType="Self.GradeNumerationType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Lesson" EntityType="Self.Lesson" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Lesson_Pupil" EntityType="Self.Lesson_Pupil" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Pupil" EntityType="Self.Pupil" Schema="dbo" store:Type="Tables" />
@@ -308,10 +283,6 @@
           <EntitySet Name="Timetable" EntityType="Self.Timetable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WeekDay" EntityType="Self.WeekDay" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_ApplicationSettings_GradeNumerationType" Association="Self.FK_ApplicationSettings_GradeNumerationType">
-            <End Role="GradeNumerationType" EntitySet="GradeNumerationType" />
-            <End Role="ApplicationSettings" EntitySet="ApplicationSettings" />
-          </AssociationSet>
           <AssociationSet Name="FK_Circle_Pupil_CIrcle" Association="Self.FK_Circle_Pupil_CIrcle">
             <End Role="Circle" EntitySet="Circle" />
             <End Role="Circle_Pupil" EntitySet="Circle_Pupil" />
@@ -366,12 +337,10 @@
     <edmx:ConceptualModels>
       <Schema Namespace="CirclesManagementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="CirclesManagementEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="ApplicationSettings" EntityType="CirclesManagementModel.ApplicationSetting" />
           <EntitySet Name="Circles" EntityType="CirclesManagementModel.Circle" />
           <EntitySet Name="Circle_Pupil" EntityType="CirclesManagementModel.Circle_Pupil" />
           <EntitySet Name="Classrooms" EntityType="CirclesManagementModel.Classroom" />
           <EntitySet Name="Grades" EntityType="CirclesManagementModel.Grade" />
-          <EntitySet Name="GradeNumerationTypes" EntityType="CirclesManagementModel.GradeNumerationType" />
           <EntitySet Name="Lessons" EntityType="CirclesManagementModel.Lesson" />
           <EntitySet Name="Lesson_Pupil" EntityType="CirclesManagementModel.Lesson_Pupil" />
           <EntitySet Name="Pupils" EntityType="CirclesManagementModel.Pupil" />
@@ -381,10 +350,6 @@
           <EntitySet Name="Timetables" EntityType="CirclesManagementModel.Timetable" />
           <EntitySet Name="Users" EntityType="CirclesManagementModel.User" />
           <EntitySet Name="WeekDays" EntityType="CirclesManagementModel.WeekDay" />
-          <AssociationSet Name="FK_ApplicationSettings_GradeNumerationType" Association="CirclesManagementModel.FK_ApplicationSettings_GradeNumerationType">
-            <End Role="GradeNumerationType" EntitySet="GradeNumerationTypes" />
-            <End Role="ApplicationSetting" EntitySet="ApplicationSettings" />
-          </AssociationSet>
           <AssociationSet Name="FK_Circle_Pupil_CIrcle" Association="CirclesManagementModel.FK_Circle_Pupil_CIrcle">
             <End Role="Circle" EntitySet="Circles" />
             <End Role="Circle_Pupil" EntitySet="Circle_Pupil" />
@@ -434,14 +399,6 @@
             <End Role="Timetable" EntitySet="Timetables" />
           </AssociationSet>
         </EntityContainer>
-        <EntityType Name="ApplicationSetting">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="GradeNumerationTypeID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="GradeNumerationType" Relationship="CirclesManagementModel.FK_ApplicationSettings_GradeNumerationType" FromRole="ApplicationSetting" ToRole="GradeNumerationType" />
-        </EntityType>
         <EntityType Name="Circle">
           <Key>
             <PropertyRef Name="ID" />
@@ -471,6 +428,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Number" Type="Int32" Nullable="false" />
           <Property Name="Title" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Timetables" Relationship="CirclesManagementModel.FK_Timetable_Classroom" FromRole="Classroom" ToRole="Timetable" />
         </EntityType>
         <EntityType Name="Grade">
@@ -478,17 +436,9 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Number" Type="Int32" Nullable="false" />
-          <Property Name="Letter" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Pupils" Relationship="CirclesManagementModel.FK_Pupil_Grade" FromRole="Grade" ToRole="Pupil" />
-        </EntityType>
-        <EntityType Name="GradeNumerationType">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="ApplicationSettings" Relationship="CirclesManagementModel.FK_ApplicationSettings_GradeNumerationType" FromRole="GradeNumerationType" ToRole="ApplicationSetting" />
         </EntityType>
         <EntityType Name="Lesson">
           <Key>
@@ -520,6 +470,7 @@
           <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Patronymic" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="GradeID" Type="Int32" Nullable="false" />
+          <Property Name="IsStudying" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Circle_Pupil" Relationship="CirclesManagementModel.FK_Circle_Pupil_Pupil" FromRole="Pupil" ToRole="Circle_Pupil" />
           <NavigationProperty Name="Grade" Relationship="CirclesManagementModel.FK_Pupil_Grade" FromRole="Pupil" ToRole="Grade" />
           <NavigationProperty Name="Lesson_Pupil" Relationship="CirclesManagementModel.FK_Lesson_Pupil_Pupil" FromRole="Pupil" ToRole="Lesson_Pupil" />
@@ -564,6 +515,7 @@
           <Property Name="CircleID" Type="Int32" Nullable="false" />
           <Property Name="WeekDayID" Type="Int32" Nullable="false" />
           <Property Name="Time" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Circle" Relationship="CirclesManagementModel.FK_Timetable_CIrcle" FromRole="Timetable" ToRole="Circle" />
           <NavigationProperty Name="Classroom" Relationship="CirclesManagementModel.FK_Timetable_Classroom" FromRole="Timetable" ToRole="Classroom" />
           <NavigationProperty Name="Lessons" Relationship="CirclesManagementModel.FK_Lesson_Timetable" FromRole="Timetable" ToRole="Lesson" />
@@ -591,18 +543,6 @@
           <Property Name="Title" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Timetables" Relationship="CirclesManagementModel.FK_Timetable_WeekDay" FromRole="WeekDay" ToRole="Timetable" />
         </EntityType>
-        <Association Name="FK_ApplicationSettings_GradeNumerationType">
-          <End Type="CirclesManagementModel.GradeNumerationType" Role="GradeNumerationType" Multiplicity="1" />
-          <End Type="CirclesManagementModel.ApplicationSetting" Role="ApplicationSetting" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="GradeNumerationType">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ApplicationSetting">
-              <PropertyRef Name="GradeNumerationTypeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Circle_Pupil_CIrcle">
           <End Type="CirclesManagementModel.Circle" Role="Circle" Multiplicity="1" />
           <End Type="CirclesManagementModel.Circle_Pupil" Role="Circle_Pupil" Multiplicity="*" />
@@ -747,20 +687,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="Хранилище CirclesManagementModelContainer" CdmEntityContainer="CirclesManagementEntities">
-          <EntitySetMapping Name="ApplicationSettings">
-            <EntityTypeMapping TypeName="CirclesManagementModel.ApplicationSetting">
-              <MappingFragment StoreEntitySet="ApplicationSettings">
-                <ScalarProperty Name="GradeNumerationTypeID" ColumnName="GradeNumerationTypeID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Circles">
             <EntityTypeMapping TypeName="CirclesManagementModel.Circle">
               <MappingFragment StoreEntitySet="Circle">
@@ -783,6 +715,7 @@
           <EntitySetMapping Name="Classrooms">
             <EntityTypeMapping TypeName="CirclesManagementModel.Classroom">
               <MappingFragment StoreEntitySet="Classroom">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Number" ColumnName="Number" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
@@ -792,16 +725,8 @@
           <EntitySetMapping Name="Grades">
             <EntityTypeMapping TypeName="CirclesManagementModel.Grade">
               <MappingFragment StoreEntitySet="Grade">
-                <ScalarProperty Name="Letter" ColumnName="Letter" />
-                <ScalarProperty Name="Number" ColumnName="Number" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="GradeNumerationTypes">
-            <EntityTypeMapping TypeName="CirclesManagementModel.GradeNumerationType">
-              <MappingFragment StoreEntitySet="GradeNumerationType">
                 <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -827,6 +752,7 @@
           <EntitySetMapping Name="Pupils">
             <EntityTypeMapping TypeName="CirclesManagementModel.Pupil">
               <MappingFragment StoreEntitySet="Pupil">
+                <ScalarProperty Name="IsStudying" ColumnName="IsStudying" />
                 <ScalarProperty Name="GradeID" ColumnName="GradeID" />
                 <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
@@ -868,6 +794,7 @@
           <EntitySetMapping Name="Timetables">
             <EntityTypeMapping TypeName="CirclesManagementModel.Timetable">
               <MappingFragment StoreEntitySet="Timetable">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="Time" ColumnName="Time" />
                 <ScalarProperty Name="WeekDayID" ColumnName="WeekDayID" />
                 <ScalarProperty Name="CircleID" ColumnName="CircleID" />

@@ -16,9 +16,11 @@ namespace CirclesManagement.Classes
     {
         private static readonly Regex _regexRussianLetters = new Regex(@"^[а-яА-Я]+$", RegexOptions.Compiled);
         public static bool ContainsOnlyRussianLetters(string s)
-        {
-            return _regexRussianLetters.IsMatch(Regex.Replace(s, @"\s", ""));
-        }
+            => _regexRussianLetters.IsMatch(Regex.Replace(s, @"\s", ""));
+
+        private static readonly Regex _regexGradeTitle = new Regex(@"^\d{1,2}[а-яА-Я]?$");
+        public static bool IsCorrectGradeTitle(string s)
+            => _regexGradeTitle.IsMatch(Regex.Replace(s, @"\s", ""));
 
         private static readonly string _questionMessageBoxCaption = "Подтверждение";
         public static bool AskQuestion(string message)

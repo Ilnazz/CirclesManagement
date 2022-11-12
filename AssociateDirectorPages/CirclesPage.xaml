@@ -42,6 +42,20 @@
                                     Binding="{Binding Path=MaxNumberOfPupils}"
                                     ElementStyle="{StaticResource DGTextColumnStyle}"
                                     EditingElementStyle="{StaticResource DGTextColumnEditingStyle}"/>
+                <DataGridTemplateColumn Header="Редактирование">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Редактировать" Tag="Edit" Margin="5"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Удаление">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Удалить" Tag="Delete" Margin="5"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </components:SpecialDataGrid>
         <DockPanel Grid.Row="2" Grid.ColumnSpan="2">
