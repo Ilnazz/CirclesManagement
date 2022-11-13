@@ -115,13 +115,13 @@ namespace CirclesManagement.AssociateDirectorPages
             if (string.IsNullOrEmpty(newTitle))
             {
                 CircleList.CancelEdit();
-                MainWindow.StatusBar.Error("Название кружка не может быть пустым.");
+                Helpers.Error("Название кружка не может быть пустым.");
                 return false;
             }
             else if (Helpers.ContainsOnlyRussianLetters(newTitle) == false)
             {
                 CircleList.CancelEdit();
-                MainWindow.StatusBar.Error("Название кружка должно содержать только русские буквы.");
+                Helpers.Error("Название кружка должно содержать только русские буквы.");
                 return false;
             }
 
@@ -133,7 +133,7 @@ namespace CirclesManagement.AssociateDirectorPages
             if (areThereTitleDuplicate)
             {
                 CircleList.CancelEdit();
-                MainWindow.StatusBar.Error("Кружок с таким названием уже существует.");
+                Helpers.Error("Кружок с таким названием уже существует.");
                 return false;
             }
 
@@ -145,7 +145,7 @@ namespace CirclesManagement.AssociateDirectorPages
             if (!int.TryParse(newNumberStr, out var newNumber) || newNumber <= 0)
             {
                 CircleList.CancelEdit();
-                MainWindow.StatusBar.Error("Макс. число учеников должно быть целым числом, большим нуля.");
+                Helpers.Error("Макс. число учеников должно быть целым числом, большим нуля.");
                 return false;
             }
 
@@ -174,7 +174,7 @@ namespace CirclesManagement.AssociateDirectorPages
         {
             if (AreThereDefaultCircle())
             {
-                MainWindow.StatusBar.Error("Для добавления ещё одного нового кружка, отредактируйте предыдущий.");
+                Helpers.Error("Для добавления ещё одного нового кружка, отредактируйте предыдущий.");
                 return;
             }
 
@@ -194,11 +194,11 @@ namespace CirclesManagement.AssociateDirectorPages
             List<Circle> selectedCircles = CircleList.SelectedItems.Cast<Circle>().ToList();
             if (selectedCircles.Count < 0)
             {
-                MainWindow.StatusBar.Info("Выберите хотя бы один кружок для удаления.");
+                Helpers.Error("Выберите хотя бы один кружок для удаления.");
                 return;
             }
 
-            var result = Helpers.AskQuestion(
+            var result = Helpers.Ask(
                 $"Вы уверены, что хотите удалить " +
                 $"выбранн{(selectedCircles.Count > 1 ? "ые" : "ый")} " +
                 $"круж{(selectedCircles.Count > 1 ? "ки" : "ок")}?");
@@ -228,27 +228,27 @@ namespace CirclesManagement.AssociateDirectorPages
                 }
             });
             cvCircles.Refresh();
-            MainWindow.StatusBar.Info($"Круж{(selectedCircles.Count > 1 ? "ки" : "ок")} успешно удал{(selectedCircles.Count > 1 ? "ены" : "ён")}.");
+            Helpers.Inform($"Круж{(selectedCircles.Count > 1 ? "ки" : "ок")} успешно удал{(selectedCircles.Count > 1 ? "ены" : "ён")}.");
         }
 
         private void BtnSaveChangesInDB_Click(object sender, RoutedEventArgs e)
         {
             if (MainWindow.db.ChangeTracker.HasChanges() == false)
             {
-                MainWindow.StatusBar.Info("Нет изменений для сохранения.");
+                Helpers.Inform("Нет изменений для сохранения.");
                 return;
             }
             else if (AreThereDefaultCircle())
             {
-                MainWindow.StatusBar.Error("Укажите наименование и макс. число учеников для нового кружка перед сохранением изменений.");
+                Helpers.Error("Укажите наименование и макс. число учеников для нового кружка перед сохранением изменений.");
                 return;
             }
 
-            var result = Helpers.AskQuestion("Вы уверены, что хотите сохранить изменения?");
+            var result = Helpers.Ask("Вы уверены, что хотите сохранить изменения?");
             if (result == true)
             {
                 MainWindow.db.SaveChanges();
-                MainWindow.StatusBar.Info("Изменения успешно сохранены.");
+                Helpers.Inform("Изменения успешно сохранены.");
             }
         }
         #endregion
@@ -258,12 +258,10 @@ namespace CirclesManagement.AssociateDirectorPages
         {
             BtnShowDeletedCircles.Visibility
                 = BtnAddCircle.Visibility
-                    = BtnDeleteCircle.Visibility
-                        = BtnDeleteCircle.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+                    = BtnAddCircle.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
 
             BtnShowWorkingCircles.Visibility
-                = BtnRestoreDeletedCircle.Visibility
-                    = BtnRestoreDeletedCircle.Visibility == Visibility.Collapsed? Visibility.Visible : Visibility.Collapsed;
+                = BtnShowWorkingCircles.Visibility == Visibility.Collapsed? Visibility.Visible : Visibility.Collapsed;
         }
 
         private void ToggleShowWorkingOrDeletedCircles(object sender, RoutedEventArgs e)
@@ -279,10 +277,10 @@ namespace CirclesManagement.AssociateDirectorPages
             List<Circle> selectedCircles = CircleList.SelectedItems.Cast<Circle>().ToList();
             if (selectedCircles.Count < 0)
             {
-                MainWindow.StatusBar.Info("Выберите хотя бы один кружок для восстановления.");
+                Helpers.Inform("Выберите хотя бы один кружок для восстановления.");
                 return;
             }
-            var result = Helpers.AskQuestion(
+            var result = Helpers.Ask(
                     $"Вы уверены, что хотите восстановить " +
                     $"выбранн{(selectedCircles.Count > 1 ? "ые" : "ый")} " +
                     $"круж{(selectedCircles.Count > 1 ? "ки" : "ок")}?");
@@ -290,7 +288,7 @@ namespace CirclesManagement.AssociateDirectorPages
                 return;
             selectedCircles.ForEach(c => c.IsWorking = true);
             cvCircles.Refresh();
-            MainWindow.StatusBar.Info($"круж{(selectedCircles.Count > 1 ? "ки" : "ок")} успешно восстановлены.");
+            Helpers.Inform($"круж{(selectedCircles.Count > 1 ? "ки" : "ок")} успешно восстановлены.");
         }
         #endregion
     }

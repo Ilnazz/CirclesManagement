@@ -33,6 +33,22 @@ namespace CirclesManagement.Components
             TBHours.Focus();
         }
 
+        public TimeSpan Value
+        {
+            get { return (TimeSpan)GetValue(ValueProperty); }
+            set { SetValue(ValueProperty, value); }
+        }
+        public static readonly DependencyProperty ValueProperty =
+            DependencyProperty.Register("Value", typeof(TimeSpan), typeof(TimeControl), new PropertyMetadata(DateTime.Now.TimeOfDay, OnValueChanged));
+
+        private static void OnValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        {
+            TimeControl control = obj as TimeControl;
+            control.Hours = ((TimeSpan)e.NewValue).Hours;
+            control.Minutes = ((TimeSpan)e.NewValue).Minutes;
+            control.Seconds = ((TimeSpan)e.NewValue).Seconds;
+        }
+
         public int Hours
         {
             get { return (int)GetValue(HoursProperty); }
@@ -93,7 +109,6 @@ namespace CirclesManagement.Components
                 e.Handled = true;
                 return;
             }
-            
         }
 
         private void OnGotFocus(object sender, RoutedEventArgs e)
@@ -106,7 +121,7 @@ namespace CirclesManagement.Components
         private void OnLostFocus(object sender, RoutedEventArgs e)
         {
             var TB = sender as TextBox;
-            if (TB.Text == "0" || TB.Text == "00")
+            if (string.IsNullOrWhiteSpace(TB.Text) || TB.Text == "0" || TB.Text == "00")
             {
                 TB.Text = "0";
                 return;

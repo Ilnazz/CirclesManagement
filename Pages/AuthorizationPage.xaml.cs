@@ -21,9 +21,9 @@ namespace CirclesManagement.Pages
     /// <summary>
     /// Логика взаимодействия для AuthPage.xaml
     /// </summary>
-    public partial class AuthPage : Page
+    public partial class AuthorizationPage : Page
     {
-        public AuthPage()
+        public AuthorizationPage()
         {
             InitializeComponent();
         }
@@ -33,32 +33,25 @@ namespace CirclesManagement.Pages
             if (string.IsNullOrWhiteSpace(TBUserLogin.Text)
                 || string.IsNullOrWhiteSpace(PBUserPassword.Password))
             {
-                MainWindow.StatusBar.Warning("Необходимо заполнить все поля для авторизации.");
+                Helpers.Error("Необходимо заполнить все поля для авторизации.");
                 return;
             }
             User user = MainWindow.db.Users.ToList()
                 .FirstOrDefault(u => u.Login == TBUserLogin.Text.Trim() && u.Password == PBUserPassword.Password.Trim());
             if (user is null)
             {
-                MainWindow.StatusBar.Error("Пользователь с такими данными не найден.");
+                Helpers.Error("Пользователь с такими данными не найден.");
                 return;
             }
-            MainWindow.StatusBar.Info("Авторизация прошла успешно.");
+            Helpers.Inform("Авторизация прошла успешно.");
             
             MainWindow.CurrentUser = user;
             Navigation.IsUserAuthorized = true;
-            Navigation.History.Clear();
-
-            if (user.RoleID == (int)Constants.Role.AssociateDirector)
-                Navigation.Next(("Главная страница зам. директора по воспитательной работе", new AssociateDirectorPages.MainPage()));
-            else
-                Navigation.Next(("Главная странциа учителя", new TeacherPages.MainPage()));
+            Navigation.Next(new UserPage());
         }
 
         private void BAuthorize_Click(object sender, RoutedEventArgs e)
-        {
-            AuthorizeUser();
-        }
+            => AuthorizeUser();
 
         private void Field_PreviewKeyDown(object sender, KeyEventArgs e)
         {

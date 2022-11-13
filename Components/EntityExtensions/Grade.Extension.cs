@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace CirclesManagement.Components
 {
-    public partial class Pupil
+    public partial class Grade : IComparable<Grade>
     {
-        public string FullName
+        public int CompareTo(Grade other)
         {
-            get { return $"{LastName} {FirstName[0]}. {Patronymic[0]}."; }
+            return Title.CompareTo(other.Title);
         }
     }
 }

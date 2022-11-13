@@ -23,7 +23,7 @@ namespace CirclesManagement.Classes
             => _regexGradeTitle.IsMatch(Regex.Replace(s, @"\s", ""));
 
         private static readonly string _questionMessageBoxCaption = "Подтверждение";
-        public static bool AskQuestion(string message)
+        public static bool Ask(string message)
         {
             var result = MessageBox.Show(message,
                     _questionMessageBoxCaption,
@@ -32,23 +32,37 @@ namespace CirclesManagement.Classes
             return result == MessageBoxResult.Yes;
         }
 
-        private static readonly string _questionWarningMessageBoxCaption = "Предупреждение";
-        public static bool AskQuestionWarning(string message)
+        private static readonly string _warningMessageBoxCaption = "Предупреждение";
+        public static bool Warn(string message)
         {
             var result = MessageBox.Show(message,
-                    _questionWarningMessageBoxCaption,
+                    _warningMessageBoxCaption,
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Warning);
             return result == MessageBoxResult.Yes;
         }
 
-        //public static bool AskQuestionAndDoActionIfYes(string message, Action action)
-        //{
-        //    var result = AskQuestion(message);
-        //    if (result == true)
-        //        action();
-        //    return result;
-        //}
+        public static void AskAndDoActionIfYes(string message, Action action)
+        {
+            if (Ask(message) == true)
+                action.Invoke();
+        }
+
+        public static void WarnAndDoActionIfYes(string message, Action action)
+        {
+            if (Warn(message) == true)
+                action.Invoke();
+        }
+
+        private static readonly string _informationMessageBoxCaption = "Уведомление";
+        public static void Inform(string message)
+            => MessageBox.Show(message, _informationMessageBoxCaption,
+                MessageBoxButton.OK, MessageBoxImage.Information);
+
+        private static readonly string _errorMessageBoxCaption = "Ошибка";
+        public static void Error(string message)
+            => MessageBox.Show(message, _errorMessageBoxCaption,
+                MessageBoxButton.OK, MessageBoxImage.Error);
 
         public static string Capitalize(string s)
         {

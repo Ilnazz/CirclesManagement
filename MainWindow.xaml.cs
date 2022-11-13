@@ -26,7 +26,6 @@ namespace CirclesManagement
     public partial class MainWindow : Window
     {
         public static CirclesManagementEntities db { get; private set; }
-        public static StatusBarComponent StatusBar { get; private set; }
         public static User CurrentUser;
 
         public MainWindow()
@@ -35,32 +34,24 @@ namespace CirclesManagement
 
             db = new CirclesManagementEntities();
 
-            StatusBar = StatusBarComponentInstance;
-
-            Navigation.AppWindow = this;
+            Navigation.NavigationFrame = MainFrame;
+            Navigation.BtnLogOut = BtnLogOut;
 
             if (db.Users.Count() == 0)
-                Navigation.Next(("Страница регистрации пользователя", new RegistrationPage(Constants.Role.AssociateDirector)));
+                Navigation.Next(new RegistrationPage(Constants.Role.AssociateDirector));
             else
-                Navigation.Next(("Страница авторизации", new AuthPage()));
-        }
-
-        private void BtnGoToPreviousPage_Click(object sender, RoutedEventArgs e)
-        {
-            Navigation.Back();
+                Navigation.Next(new AuthorizationPage());
         }
 
         private void BtnLogOut_Click(object sender, RoutedEventArgs e)
         {
-            var result = Helpers.AskQuestion("Вы уверены, что хотите выйти из системы?");
-            if (result == true)
+            Helpers.AskAndDoActionIfYes("Вы уверены, что хотите выйти из системы?", () =>
             {
                 CurrentUser = null;
                 Navigation.IsUserAuthorized = false;
-                Navigation.History.Clear();
-                Navigation.Next(("Страница авторизации", new AuthPage()));
-                StatusBar.Info("Вы успешно вышли из системы.");
-            }
+                Navigation.Back();
+                Helpers.Inform("Вы успешно вышли из системы.");
+            });
         }
     }
 }

@@ -72,19 +72,19 @@ namespace CirclesManagement.Pages
                 || string.IsNullOrWhiteSpace(TBUserLogin.Text)
                 || string.IsNullOrWhiteSpace(PBUserPassword.Password))
             {
-                MainWindow.StatusBar.Warning("Для регистрации необходимо заполнить все поля.");
+                Helpers.Error("Для регистрации необходимо заполнить все поля.");
                 return false;
             }
             else if (!Helpers.ContainsOnlyRussianLetters(TBLastName.Text)
                 || !Helpers.ContainsOnlyRussianLetters(TBFirstName.Text)
                 || !Helpers.ContainsOnlyRussianLetters(TBPatronymic.Text))
             {
-                MainWindow.StatusBar.Warning("ФИО должно состоять только из русских букв.");
+                Helpers.Error("ФИО должно состоять только из русских букв.");
                 return false;
             }
             else if (PBUserPassword.Password != PBUserPasswordConfirmation.Password)
             {
-                MainWindow.StatusBar.Warning("Пароли должны совпадать.");
+                Helpers.Error("Пароли должны совпадать.");
                 return false;
             }
             return true;
@@ -108,7 +108,7 @@ namespace CirclesManagement.Pages
             if (_newUserRole == Constants.Role.Teacher
                 && IsTeacherExist(TBLastName.Text, TBFirstName.Text, TBPatronymic.Text))
             {
-                MainWindow.StatusBar.Error("Учитель с такими данными уже зарегистрирован в системе.");
+                Helpers.Error("Учитель с такими данными уже зарегистрирован в системе.");
                 return;
             }
 
@@ -116,18 +116,12 @@ namespace CirclesManagement.Pages
                 TBUserLogin.Text, PBUserPassword.Password, _newUserRole);
 
             if (_newUserRole == Constants.Role.Teacher)
-            {
                 newUser.Teacher = CreateNewTeacher(TBLastName.Text, TBFirstName.Text, TBPatronymic.Text);
-            }
-
+            
             MainWindow.db.SaveChanges();
 
-            MainWindow.StatusBar.Info("Учитель успешно зарегистрирован в системе");
-
-            if (_newUserRole == Constants.Role.Teacher)
-                Navigation.Next(("Учитель", new TeacherPages.MainPage()));
-            else
-                Navigation.Next(("Зам. директора по воспитательной работе", new AssociateDirectorPages.MainPage()));
+            Helpers.Inform("Учитель успешно зарегистрирован в системе");
+            Navigation.Back();
         }
     }
 }

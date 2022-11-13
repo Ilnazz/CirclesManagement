@@ -5,4 +5,20 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CirclesManagement.Components"
              mc:Ignorable="d" Style="{StaticResource CommonStyle}">
+    <DataGrid.Columns>
+        <DataGridTemplateColumn Header="Редактирование" CanUserResize="False">
+            <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                    <Button Content="Редактировать" Tag="Edit" Margin="5"/>
+                </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+        <DataGridTemplateColumn Header="Удаление" CanUserResize="False">
+            <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                    <Button Content="Удалить" Tag="Delete" Margin="5"/>
+                </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+    </DataGrid.Columns>
 </DataGrid>

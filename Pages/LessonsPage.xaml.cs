@@ -1,14 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Configuration;
-using System.Data;
-using System.Data.Common;
-using System.Data.Entity;
-using System.Diagnostics;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -21,17 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using CirclesManagement.Classes;
-using CirclesManagement.Components;
-
 namespace CirclesManagement.AssociateDirectorPages
 {
     /// <summary>
-    /// Логика взаимодействия для AssociateDirectorMainPage.xaml
+    /// Логика взаимодействия для LessonsPage.xaml
     /// </summary>
-    public partial class MainPage : Page
+    public partial class LessonsPage : Page
     {
-        public MainPage()
+        public LessonsPage()
         {
             InitializeComponent();
         }

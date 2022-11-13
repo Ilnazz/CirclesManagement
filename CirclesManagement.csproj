@@ -49,6 +49,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
@@ -80,23 +83,27 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="AssociateDirectorPages\PupilsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="AssociateDirectorPages\TeachersPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="AssociateDirectorPages\GradesPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="AssociateDirectorPages\ClassroomsPage.xaml">
+    <Page Include="Pages\LessonsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AssociateDirectorPages\TimetablesPage.xaml">
+    <Page Include="Pages\PupilsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\TeachersPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\GradesPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\ClassroomsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\TimetablesPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -120,23 +127,29 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="AssociateDirectorPages\PupilsPage.xaml.cs">
+    <Compile Include="Pages\LessonsPage.xaml.cs">
+      <DependentUpon>LessonsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\PupilsPage.xaml.cs">
       <DependentUpon>PupilsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AssociateDirectorPages\TeachersPage.xaml.cs">
+    <Compile Include="Pages\TeachersPage.xaml.cs">
       <DependentUpon>TeachersPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AssociateDirectorPages\GradesPage.xaml.cs">
+    <Compile Include="Pages\GradesPage.xaml.cs">
       <DependentUpon>GradesPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AssociateDirectorPages\ClassroomsPage.xaml.cs">
+    <Compile Include="Pages\ClassroomsPage.xaml.cs">
       <DependentUpon>ClassroomsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AssociateDirectorPages\TimetablesPage.xaml.cs">
+    <Compile Include="Pages\TimetablesPage.xaml.cs">
       <DependentUpon>TimetablesPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Components\Pupil.Extension.cs" />
-    <Compile Include="Components\Teacher.Extension.cs" />
+    <Compile Include="Components\EntityExtensions\Circle.Extension.cs" />
+    <Compile Include="Components\EntityExtensions\Classroom.Extension.cs" />
+    <Compile Include="Components\EntityExtensions\Grade.Extension.cs" />
+    <Compile Include="Components\EntityExtensions\Pupil.Extension.cs" />
+    <Compile Include="Components\EntityExtensions\Teacher.Extension.cs" />
     <Compile Include="Components\Circle.cs">
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
     </Compile>
@@ -146,6 +159,7 @@
     <Compile Include="Components\Classroom.cs">
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
     </Compile>
+    <Compile Include="Components\EntityExtensions\WeekDay.Extension.cs" />
     <Compile Include="Components\Grade.cs">
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
     </Compile>
@@ -199,6 +213,7 @@
     <Compile Include="Components\Timetable.cs">
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
     </Compile>
+    <Compile Include="Components\EntityExtensions\Timetable.Extension.cs" />
     <Compile Include="Components\User.cs">
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
     </Compile>
@@ -214,15 +229,11 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="AssociateDirectorPages\MainPage.xaml">
+    <Page Include="Pages\AuthorizationPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\AuthPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="AssociateDirectorPages\CirclesPage.xaml">
+    <Page Include="Pages\CirclesPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -230,26 +241,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TeacherPages\MainPage.xaml">
+    <Page Include="Pages\UserPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssociateDirectorPages\MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
+    <Compile Include="Pages\AuthorizationPage.xaml.cs">
+      <DependentUpon>AuthorizationPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\AuthPage.xaml.cs">
-      <DependentUpon>AuthPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="AssociateDirectorPages\CirclesPage.xaml.cs">
+    <Compile Include="Pages\CirclesPage.xaml.cs">
       <DependentUpon>CirclesPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\RegistrationPage.xaml.cs">
       <DependentUpon>RegistrationPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TeacherPages\MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
+    <Compile Include="Pages\UserPage.xaml.cs">
+      <DependentUpon>UserPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -298,6 +306,8 @@
       <DependentUpon>ModelCirclesManagement.edmx</DependentUpon>
       <LastGenOutput>ModelCirclesManagement.cs</LastGenOutput>
     </Content>
+    <None Include="Resources\logo.png" />
+    <None Include="Resources\icon.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
@@ -311,8 +321,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

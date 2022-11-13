@@ -21,6 +21,14 @@ namespace CirclesManagement.Components
     /// </summary>
     public partial class SpecialDataGrid : DataGrid
     {
+        public ObservableCollection<DataGridColumn> CustomColumns
+        {
+            get { return (ObservableCollection<DataGridColumn>)GetValue(CustomColumnsProperty); }
+            set { SetValue(CustomColumnsProperty, value); }
+        }
+        public static readonly DependencyProperty CustomColumnsProperty =
+            DependencyProperty.Register("CustomColumns", typeof(ObservableCollection<DataGridColumn>), typeof(SpecialDataGrid), new PropertyMetadata(new ObservableCollection<DataGridColumn>()));
+
         public SpecialDataGrid()
         {
             InitializeComponent();
@@ -28,8 +36,20 @@ namespace CirclesManagement.Components
             AutoGenerateColumns = false;
             CanUserAddRows = false;
             CanUserDeleteRows = false;
+            CanUserReorderColumns = false;
             EnableColumnVirtualization = true;
             EnableRowVirtualization = true;
+
+            // bringing user added columns to left
+            CustomColumns.CollectionChanged += (s, e) =>
+            {
+                if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+                {
+                    List<DataGridColumn> newColumns = new List<DataGridColumn>();
+                    foreach (DataGridColumn newColumn in e.NewItems)
+                        Columns.Insert(0, newColumn);
+                }
+            };
         }
     }
 }
