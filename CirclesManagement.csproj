@@ -83,30 +83,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Pages\LessonsPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\PupilsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\TeachersPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\GradesPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\ClassroomsPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\TimetablesPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Components\SearchBoxComponent.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -127,24 +103,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Pages\LessonsPage.xaml.cs">
-      <DependentUpon>LessonsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\PupilsPage.xaml.cs">
-      <DependentUpon>PupilsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\TeachersPage.xaml.cs">
-      <DependentUpon>TeachersPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\GradesPage.xaml.cs">
-      <DependentUpon>GradesPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\ClassroomsPage.xaml.cs">
-      <DependentUpon>ClassroomsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\TimetablesPage.xaml.cs">
-      <DependentUpon>TimetablesPage.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Pages\EntitiesPage.cs" />
     <Compile Include="Components\EntityExtensions\Circle.Extension.cs" />
     <Compile Include="Components\EntityExtensions\Classroom.Extension.cs" />
     <Compile Include="Components\EntityExtensions\Grade.Extension.cs" />

@@ -19,60 +19,47 @@ using System.Windows.Shapes;
 using CirclesManagement.Classes;
 using CirclesManagement.Components;
 
-namespace CirclesManagement.AssociateDirectorPages
+namespace CirclesManagement.Pages
 {
     /// <summary>
     /// Логика взаимодействия для CirclesPage.xaml
     /// </summary>
-    public partial class CirclesPage : Page
+    public partial class CirclesPage : EntitiesPage
     {
-        public ObservableCollection<Circle> Circles
-        {
-            get { return (ObservableCollection<Circle>)GetValue(CirclesProperty); }
-            set { SetValue(CirclesProperty, value); }
-        }
-        public static readonly DependencyProperty CirclesProperty =
-            DependencyProperty.Register("Circles", typeof(ObservableCollection<Circle>), typeof(CirclesPage), new PropertyMetadata(null));
+        private ObservableCollection<Circle> _circles;
 
         public CirclesPage()
         {
             InitializeComponent();
 
             MainWindow.db.Circles.Load();
-            Circles = MainWindow.db.Circles.Local;
+            _circles = MainWindow.db.Circles.Local;
+            CircleList.ItemsSource = _circles.Cast<object>() as ObservableCollection<object>;
 
-            cvCircles = CollectionViewSource.GetDefaultView(CircleList.ItemsSource);
+            UserPage.SearchBox.TextChanged += CircleList.Refresh;
 
-            SearchBox.TextChanged += cvCircles.Refresh;
-        }
-
-        #region Searching and filtering
-        private ICollectionView cvCircles;
-
-        private bool showDeletedCircles = false;
-
-        private void cvsCircles_Filter(object sender, FilterEventArgs e)
-        {
-            var circle = e.Item as Circle;
-
-            if (showDeletedCircles == true && circle.IsWorking == false)
-                e.Accepted = true;
-            else if (showDeletedCircles == false && circle.IsWorking == true)
-                e.Accepted = true;
-            else
-                e.Accepted = false;
-            if (e.Accepted)
+            CircleList.Filter += (obj) =>
             {
-                if (SearchBox.IsEmpty())
-                    return;
-                if (circle.Title.ToLower().Contains(SearchBox.SearchText.Trim().ToLower())
-                    || circle.MaxNumberOfPupils.ToString().ToLower().Contains(SearchBox.SearchText.Trim().ToLower()))
-                    e.Accepted = true;
-                else
-                    e.Accepted = false;
-            }
+                var circle = obj as Circle;
+
+                var accept = false;
+                if (ShowDeletedEntities == true && circle.IsWorking == false
+                    || ShowDeletedEntities == false && circle.IsWorking == true)
+                    accept = true;
+                
+                if (accept == true)
+                {
+                    if (UserPage.SearchBox.IsEmpty()
+                        || Helpers.IsMatchSearchText(circle.Title)
+                        || Helpers.IsMatchSearchText(circle.MaxNumberOfPupils.ToString()))
+                        accept = true;
+                    else
+                        accept = false;
+                }
+
+                return accept;
+            };
         }
-        #endregion
 
         #region Editing handling
         private string oldEditingValue = ""; // circle title at beginning of editing
@@ -126,10 +113,10 @@ namespace CirclesManagement.AssociateDirectorPages
             }
 
             // since there are no or only one circle in the list, it's not neccessary to check for title duplicate
-            if (Circles.Count <= 1)
+            if (_circles.Count <= 1)
                 return true;
 
-            var areThereTitleDuplicate = Circles.Any(circle => circle.Title == newTitle);
+            var areThereTitleDuplicate = _circles.Any(circle => circle.Title == newTitle);
             if (areThereTitleDuplicate)
             {
                 CircleList.CancelEdit();
@@ -166,11 +153,11 @@ namespace CirclesManagement.AssociateDirectorPages
         }
 
         private bool AreThereDefaultCircle()
-            => Circles.Any(circle => IsDefaultCircle(circle));
+            => _circles.Any(circle => IsDefaultCircle(circle));
         #endregion
 
         #region Working circles buttons click handlers
-        private void BtnAddCircle_Click(object sender, RoutedEventArgs e)
+        public override void AddEntity()
         {
             if (AreThereDefaultCircle())
             {
@@ -182,7 +169,7 @@ namespace CirclesManagement.AssociateDirectorPages
             newCircle.Title = defaultTitle;
             newCircle.IsWorking = defaultIsWorking;
             newCircle.MaxNumberOfPupils = defaultMaxNumberOfPupils;
-            Circles.Add(newCircle);
+            _circles.Add(newCircle);
 
             CircleList.SelectedIndex = CircleList.Items.Count - 1;
 
@@ -207,7 +194,7 @@ namespace CirclesManagement.AssociateDirectorPages
 
             selectedCircles.ForEach(circle => {
                 if (IsDefaultCircle(circle)) // if it is default circle it's not allowed to mark it as deleted, simple delete it
-                    Circles.Remove(circle);
+                    _circles.Remove(circle);
                 else
                 {
                     var isPresentInTimetable = circle.Timetables.Count != 0;
@@ -250,45 +237,6 @@ namespace CirclesManagement.AssociateDirectorPages
                 MainWindow.db.SaveChanges();
                 Helpers.Inform("Изменения успешно сохранены.");
             }
-        }
-        #endregion
-
-        #region Wroking and deleted circles show buttons click handlers
-        private void ToggleButtonsVisibilities()
-        {
-            BtnShowDeletedCircles.Visibility
-                = BtnAddCircle.Visibility
-                    = BtnAddCircle.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
-
-            BtnShowWorkingCircles.Visibility
-                = BtnShowWorkingCircles.Visibility == Visibility.Collapsed? Visibility.Visible : Visibility.Collapsed;
-        }
-
-        private void ToggleShowWorkingOrDeletedCircles(object sender, RoutedEventArgs e)
-        {
-            ToggleButtonsVisibilities();
-            showDeletedCircles = showDeletedCircles == false ? true : false;
-            SearchBox.Clear();
-            cvCircles.Refresh();
-        }
-
-        private void BtnRestoreDeletedCircle_Click(object sender, RoutedEventArgs e)
-        {
-            List<Circle> selectedCircles = CircleList.SelectedItems.Cast<Circle>().ToList();
-            if (selectedCircles.Count < 0)
-            {
-                Helpers.Inform("Выберите хотя бы один кружок для восстановления.");
-                return;
-            }
-            var result = Helpers.Ask(
-                    $"Вы уверены, что хотите восстановить " +
-                    $"выбранн{(selectedCircles.Count > 1 ? "ые" : "ый")} " +
-                    $"круж{(selectedCircles.Count > 1 ? "ки" : "ок")}?");
-            if (result == false)
-                return;
-            selectedCircles.ForEach(c => c.IsWorking = true);
-            cvCircles.Refresh();
-            Helpers.Inform($"круж{(selectedCircles.Count > 1 ? "ки" : "ок")} успешно восстановлены.");
         }
         #endregion
     }

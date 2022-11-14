@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CirclesManagement.Pages;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -72,5 +73,8 @@ namespace CirclesManagement.Classes
                 return s;
             return char.ToUpper(s[0]) + s.Substring(1);
         }
+
+        public static bool IsMatchSearchText(string text)
+            => text.ToLower().Contains(UserPage.SearchBox.SearchText.Trim().ToLower());
     }
 }

@@ -6,50 +6,48 @@
       xmlns:local="clr-namespace:CirclesManagement.Pages"
       xmlns:components="clr-namespace:CirclesManagement.Components"
       mc:Ignorable="d" Style="{StaticResource CommonStyle}"
-      d:DesignHeight="450" d:DesignWidth="800"
+      DataContext="{Binding RelativeSource={RelativeSource Self}}"
+      d:DesignHeight="600" d:DesignWidth="1000"
       Title="Страница пользователя">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+
         <DockPanel Grid.Row="0" Grid.Column="1">
-            <components:SearchBoxComponent x:Name="SearchBox" Margin="5" SearchPlaceHolder="Поиск..." DockPanel.Dock="Left"/>
-            <Button x:Name="BtnSaveChangesInDB" Margin="5" Content="Сохранить изменения" Click="BtnSaveChangesInDB_Click" DockPanel.Dock="Right" HorizontalAlignment="Right"/>
+            <components:SearchBoxComponent x:Name="SearchBoxInstance" Margin="5" SearchPlaceHolder="Поиск..." Width="225" DockPanel.Dock="Left"/>
+            <Button x:Name="BtnSaveChanges" Margin="5" Content="Сохранить изменения" Click="BtnSaveChanges_Click" DockPanel.Dock="Right" HorizontalAlignment="Right"/>
         </DockPanel>
-        <ListBox Grid.Row="1" Grid.Column="0">
-            <TextBlock Text="Кружки"/>
-            <TextBlock Text="Кабинеты"/>
-            <TextBlock Text="Классы"/>
-            <TextBlock Text="Учителя"/>
-            <TextBlock Text="Ученики"/>
-            <TextBlock Text="Расписание"/>
-            <TextBlock Text="Уроки"/>
-        </ListBox>
-        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Grid.Row="1" Grid.Column="1"/>
-        <!--<TabControl>
-            <TabItem Header="Кружки">
-                <Frame Source="CirclesPage.xaml"/>
-            </TabItem>
-            <TabItem Header="Кабинеты">
-                <Frame Source="ClassroomsPage.xaml"/>
-            </TabItem>
-            <TabItem Header="Классы">
-                <Frame Source="GradesPage.xaml"/>
-            </TabItem>
-            <TabItem Header="Учителя">
-                <Frame Source="TeachersPage.xaml"/>
-            </TabItem>
-            <TabItem Header="Ученики">
-                <Frame Source="PupilsPage.xaml"/>
-            </TabItem>
-            <TabItem Header="Расписание">
-                <Frame Source="TimetablesPage.xaml"/>
-            </TabItem>
-        </TabControl>-->
+        
+        <Grid Grid.RowSpan="3" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Страницы" Margin="0,5,0,5"/>
+            <TreeView x:Name="NavigationTree" Grid.Row="1">
+                <TreeView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding {}}"/>
+                    </DataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
+        </Grid>
+        
+        <Frame x:Name="FrameForPage" NavigationUIVisibility="Hidden" Grid.Row="1" Grid.Column="1" Margin="5,5,0,0"/>
+        
+        <DockPanel Grid.Row="2" Grid.Column="1">
+            <Button x:Name="BtnAddEntity" Margin="5" Content="Добавить" Click="BtnAddEntity_Click" DockPanel.Dock="Left"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Right">
+                <Button x:Name="BtnShowDeletedEntities" Margin="5" Content="Показать удалённые" Click="ToggleWorkingAndDeletedEntities"/>
+                <Button x:Name="BtnShowWorkingEntities" Margin="5" Visibility="Collapsed" Content="Вернуться к действующим кружкам" Click="ToggleWorkingAndDeletedEntities"/>
+            </StackPanel>
+        </DockPanel>
     </Grid>
 </Page>

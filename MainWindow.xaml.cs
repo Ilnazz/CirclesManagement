@@ -27,6 +27,7 @@ namespace CirclesManagement
     {
         public static CirclesManagementEntities db { get; private set; }
         public static User CurrentUser;
+        public static Frame NavigationFrame;
 
         public MainWindow()
         {
@@ -34,22 +35,20 @@ namespace CirclesManagement
 
             db = new CirclesManagementEntities();
 
-            Navigation.NavigationFrame = MainFrame;
-            Navigation.BtnLogOut = BtnLogOut;
+            NavigationFrame = FrameInstance;
 
             if (db.Users.Count() == 0)
-                Navigation.Next(new RegistrationPage(Constants.Role.AssociateDirector));
+                NavigationFrame.Navigate(new RegistrationPage(Constants.Role.AssociateDirector));
             else
-                Navigation.Next(new AuthorizationPage());
+                NavigationFrame.Navigate(new AuthorizationPage());
         }
 
-        private void BtnLogOut_Click(object sender, RoutedEventArgs e)
+        private void BtnUserLogOut_Click(object sender, RoutedEventArgs e)
         {
             Helpers.AskAndDoActionIfYes("Вы уверены, что хотите выйти из системы?", () =>
             {
                 CurrentUser = null;
-                Navigation.IsUserAuthorized = false;
-                Navigation.Back();
+                NavigationFrame.Navigate(new AuthorizationPage());
                 Helpers.Inform("Вы успешно вышли из системы.");
             });
         }

@@ -5,19 +5,19 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="9ac4cfd0eb1c42e9aaa0a1c4c080e89d" Name="Diagram1" ZoomLevel="105">
-        <EntityTypeShape EntityType="CirclesManagementModel.Circle" Width="1.5" PointX="3.75" PointY="11.625" />
-        <EntityTypeShape EntityType="CirclesManagementModel.Circle_Pupil" Width="1.5" PointX="10.5" PointY="8.25" />
-        <EntityTypeShape EntityType="CirclesManagementModel.Classroom" Width="1.5" PointX="3.75" PointY="8.875" />
-        <EntityTypeShape EntityType="CirclesManagementModel.Grade" Width="1.5" PointX="6" PointY="1.625" />
+        <EntityTypeShape EntityType="CirclesManagementModel.Circle" Width="1.5" PointX="0.75" PointY="5" />
+        <EntityTypeShape EntityType="CirclesManagementModel.Circle_Pupil" Width="1.5" PointX="3" PointY="5.125" />
+        <EntityTypeShape EntityType="CirclesManagementModel.Classroom" Width="1.5" PointX="3.75" PointY="14.75" />
+        <EntityTypeShape EntityType="CirclesManagementModel.Grade" Width="1.5" PointX="1.5" PointY="8" />
         <EntityTypeShape EntityType="CirclesManagementModel.Lesson" Width="1.5" PointX="8.25" PointY="5.125" />
         <EntityTypeShape EntityType="CirclesManagementModel.Lesson_Pupil" Width="1.5" PointX="10.5" PointY="5.125" />
-        <EntityTypeShape EntityType="CirclesManagementModel.Pupil" Width="1.5" PointX="8.25" PointY="0.75" />
-        <EntityTypeShape EntityType="CirclesManagementModel.Role" Width="1.5" PointX="0.75" PointY="2.375" />
-        <EntityTypeShape EntityType="CirclesManagementModel.sysdiagram" Width="1.5" PointX="0.75" PointY="8.375" />
-        <EntityTypeShape EntityType="CirclesManagementModel.Teacher" Width="1.5" PointX="0.75" PointY="5" />
+        <EntityTypeShape EntityType="CirclesManagementModel.Pupil" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="CirclesManagementModel.Role" Width="1.5" PointX="3.75" PointY="2.625" />
+        <EntityTypeShape EntityType="CirclesManagementModel.sysdiagram" Width="1.5" PointX="8.75" PointY="8.75" />
+        <EntityTypeShape EntityType="CirclesManagementModel.Teacher" Width="1.5" PointX="3.75" PointY="9.25" />
         <EntityTypeShape EntityType="CirclesManagementModel.Timetable" Width="1.5" PointX="6" PointY="4.5" />
-        <EntityTypeShape EntityType="CirclesManagementModel.User" Width="1.5" PointX="3" PointY="4.875" />
-        <EntityTypeShape EntityType="CirclesManagementModel.WeekDay" Width="1.5" PointX="3.75" PointY="2.5" />
+        <EntityTypeShape EntityType="CirclesManagementModel.User" Width="1.5" PointX="6" PointY="9.125" />
+        <EntityTypeShape EntityType="CirclesManagementModel.WeekDay" Width="1.5" PointX="3.75" PointY="12.375" />
         <AssociationConnector Association="CirclesManagementModel.FK_Circle_Pupil_CIrcle" />
         <AssociationConnector Association="CirclesManagementModel.FK_Timetable_CIrcle" />
         <AssociationConnector Association="CirclesManagementModel.FK_Circle_Pupil_Pupil" />

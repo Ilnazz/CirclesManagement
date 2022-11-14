@@ -44,10 +44,9 @@ namespace CirclesManagement.Pages
                 return;
             }
             Helpers.Inform("Авторизация прошла успешно.");
-            
+
             MainWindow.CurrentUser = user;
-            Navigation.IsUserAuthorized = true;
-            Navigation.Next(new UserPage());
+            MainWindow.NavigationFrame.Navigate(new UserPage());
         }
 
         private void BAuthorize_Click(object sender, RoutedEventArgs e)

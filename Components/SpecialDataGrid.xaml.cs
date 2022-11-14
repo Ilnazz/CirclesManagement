@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,37 +20,95 @@ namespace CirclesManagement.Components
     /// <summary>
     /// Логика взаимодействия для SpecialDataGrid.xaml
     /// </summary>
-    public partial class SpecialDataGrid : DataGrid
+    public partial class SpecialDataGrid : UserControl
     {
-        public ObservableCollection<DataGridColumn> CustomColumns
+        public ObservableCollection<DataGridColumn> Columns
         {
-            get { return (ObservableCollection<DataGridColumn>)GetValue(CustomColumnsProperty); }
-            set { SetValue(CustomColumnsProperty, value); }
+            get { return InnerDataGrid.Columns; }
+            // bringing user added columns to left
+            set {
+                InnerDataGrid.Columns
+                    .ToList()
+                    .InsertRange(0, value);
+            }
         }
-        public static readonly DependencyProperty CustomColumnsProperty =
-            DependencyProperty.Register("CustomColumns", typeof(ObservableCollection<DataGridColumn>), typeof(SpecialDataGrid), new PropertyMetadata(new ObservableCollection<DataGridColumn>()));
+
+        private ICollectionView _collectionView;
+        public ObservableCollection<object> ItemsSource
+        {
+            get { return InnerDataGrid.ItemsSource as ObservableCollection<object>; }
+            set {
+                _collectionView = (ICollectionView)value;
+                InnerDataGrid.ItemsSource = _collectionView;
+            }
+        }
+
+        public Predicate<object> Filter
+        {
+            get { return _collectionView.Filter; }
+            set { _collectionView.Filter = value; }
+        }
+
+        public void Refresh() => _collectionView.Refresh();
+
+        public event EventHandler<DataGridBeginningEditEventArgs> BeginningEdit
+        {
+            add { InnerDataGrid.BeginningEdit += value; }
+            remove { InnerDataGrid.BeginningEdit -= value; }
+        }
+
+        public event EventHandler<DataGridCellEditEndingEventArgs> CellEditEnding
+        {
+            add { InnerDataGrid.CellEditEnding += value; }
+            remove { InnerDataGrid.CellEditEnding -= value; }
+        }
+
+        public void AddItemAndScrollToView
+
+        public bool CancelEdit()
+            => InnerDataGrid.CancelEdit();
+
+        public Func<object, bool> DeletingItem;
+        private void OnDeletingItem(object item)
+        {
+            DeletingItem?.Invoke(item);
+        }
 
         public SpecialDataGrid()
         {
             InitializeComponent();
+        }
 
-            AutoGenerateColumns = false;
-            CanUserAddRows = false;
-            CanUserDeleteRows = false;
-            CanUserReorderColumns = false;
-            EnableColumnVirtualization = true;
-            EnableRowVirtualization = true;
+        private bool _isEditingHappening;
 
-            // bringing user added columns to left
-            CustomColumns.CollectionChanged += (s, e) =>
+        private void InnerDataGrid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender.GetType() == typeof(Button))
             {
-                if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+                var btn = sender as Button;
+                var tag = btn.Tag as string;
+
+                if (tag == "Edit")
                 {
-                    List<DataGridColumn> newColumns = new List<DataGridColumn>();
-                    foreach (DataGridColumn newColumn in e.NewItems)
-                        Columns.Insert(0, newColumn);
+                    _isEditingHappening = true;
+                    InnerDataGrid.IsReadOnly = false;
+                } else
+                {
+                    OnDeletingItem(InnerDataGrid.SelectedItem);
                 }
-            };
+            }
+        }
+
+        private void InnerDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            _isEditingHappening = false;
+            InnerDataGrid.IsReadOnly = false;
+        }
+
+        private void InnerDataGrid_LostFocus(object sender, RoutedEventArgs e)
+        {
+            _isEditingHappening = false;
+            InnerDataGrid.IsReadOnly = false;
         }
     }
 }

@@ -117,11 +117,16 @@ namespace CirclesManagement.Pages
 
             if (_newUserRole == Constants.Role.Teacher)
                 newUser.Teacher = CreateNewTeacher(TBLastName.Text, TBFirstName.Text, TBPatronymic.Text);
-            
+
             MainWindow.db.SaveChanges();
 
-            Helpers.Inform("Учитель успешно зарегистрирован в системе");
-            Navigation.Back();
+            MainWindow.CurrentUser = newUser;
+            Helpers.Inform("Пользователь успешно зарегистрирован в системе");
+
+            if (MainWindow.NavigationFrame.CanGoBack)
+                MainWindow.NavigationFrame.GoBack();
+            else
+                MainWindow.NavigationFrame.Navigate(new AuthorizationPage());
         }
     }
 }

@@ -21,6 +21,8 @@ namespace CirclesManagement.Components
         }
     
         public int ID { get; set; }
+        public int Number { get; set; }
+        public string Letter { get; set; }
         public bool IsActive { get; set; }
         public string Title { get; set; }
     
