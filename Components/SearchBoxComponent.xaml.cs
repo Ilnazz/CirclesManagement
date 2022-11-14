@@ -61,5 +61,7 @@ namespace CirclesManagement.Components
         private void TBSearch_LostFocus(object sender, RoutedEventArgs e)
             => SearchText = string.IsNullOrWhiteSpace(SearchText) ? SearchPlaceHolder : SearchText;
 
+        public bool IsMatchSearchText(string text)
+            => text.ToLower().Contains(SearchText.Trim().ToLower());
     }
 }

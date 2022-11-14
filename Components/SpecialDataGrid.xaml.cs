@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CirclesManagement.Classes;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -38,7 +39,7 @@ namespace CirclesManagement.Components
         {
             get { return InnerDataGrid.ItemsSource as ObservableCollection<object>; }
             set {
-                _collectionView = (ICollectionView)value;
+                _collectionView = new CollectionViewSource { Source = value }.View;
                 InnerDataGrid.ItemsSource = _collectionView;
             }
         }
@@ -51,24 +52,14 @@ namespace CirclesManagement.Components
 
         public void Refresh() => _collectionView.Refresh();
 
-        public event EventHandler<DataGridBeginningEditEventArgs> BeginningEdit
+        public void AddItemAndScrollIntoView(object item)
         {
-            add { InnerDataGrid.BeginningEdit += value; }
-            remove { InnerDataGrid.BeginningEdit -= value; }
+            ItemsSource.Add(item);
+            InnerDataGrid.SelectedIndex = InnerDataGrid.Items.Count - 1;
+            InnerDataGrid.ScrollIntoView(item);
         }
 
-        public event EventHandler<DataGridCellEditEndingEventArgs> CellEditEnding
-        {
-            add { InnerDataGrid.CellEditEnding += value; }
-            remove { InnerDataGrid.CellEditEnding -= value; }
-        }
-
-        public void AddItemAndScrollToView
-
-        public bool CancelEdit()
-            => InnerDataGrid.CancelEdit();
-
-        public Func<object, bool> DeletingItem;
+        public Action<object> DeletingItem;
         private void OnDeletingItem(object item)
         {
             DeletingItem?.Invoke(item);

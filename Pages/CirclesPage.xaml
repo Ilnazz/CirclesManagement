@@ -8,9 +8,7 @@
       mc:Ignorable="d" d:DesignHeight="600" d:DesignWidth="1000"
       Title="Кружки" Style="{StaticResource CommonStyle}"
       DataContext="{Binding RelativeSource={RelativeSource Self}}">
-    <components:SpecialDataGrid x:Name="CircleList"
-                CellEditEnding="CircleList_CellEditEnding"
-                BeginningEdit="CircleList_BeginningEdit">
+    <components:SpecialDataGrid x:Name="CircleList">
         <components:SpecialDataGrid.Columns>
             <DataGridTextColumn Header="Название" Width="*"
                                 Binding="{Binding Path=Title}"

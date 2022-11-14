@@ -12,5 +12,7 @@ namespace CirclesManagement.Pages
         public bool ShowDeletedEntities;
 
         public abstract void AddEntity();
+
+        public abstract void SaveChanges();
     }
 }

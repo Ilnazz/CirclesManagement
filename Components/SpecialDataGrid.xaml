@@ -11,7 +11,7 @@
               CanUserDeleteRows="False"
               CanUserReorderColumns="False"
               EnableColumnVirtualization="True"
-              SelectionMode="Single" IsReadOnly="True"
+              SelectionMode="Single"
               EnableRowVirtualization="True"
               MouseDown="InnerDataGrid_MouseDown"
               SelectionChanged="InnerDataGrid_SelectionChanged"

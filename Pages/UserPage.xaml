@@ -21,7 +21,7 @@
         </Grid.ColumnDefinitions>
 
         <DockPanel Grid.Row="0" Grid.Column="1">
-            <components:SearchBoxComponent x:Name="SearchBoxInstance" Margin="5" SearchPlaceHolder="Поиск..." Width="225" DockPanel.Dock="Left"/>
+            <components:SearchBoxComponent x:Name="SearchBox" Margin="5" SearchPlaceHolder="Поиск..." Width="225" DockPanel.Dock="Left"/>
             <Button x:Name="BtnSaveChanges" Margin="5" Content="Сохранить изменения" Click="BtnSaveChanges_Click" DockPanel.Dock="Right" HorizontalAlignment="Right"/>
         </DockPanel>
         

@@ -23,26 +23,26 @@ namespace CirclesManagement.Pages
     /// 
     public partial class UserPage : Page
     {
-        public static SearchBoxComponent SearchBox;
-
-        private static readonly EntitiesPage[] _pages = new EntitiesPage[]
-        {
-            new CirclesPage(),
-            //new ClassroomsPage(),
-            //new GradesPage(),
-            //new TeachersPage(),
-            //new PupilsPage(),
-            //new TimetablesPage(),
-            //new LessonsPage()
-        };
-
-        private static readonly string[] _pageTitles = _pages.Select(p => p.Title).ToArray();
-
+        private readonly EntitiesPage[] _pages;
+        private readonly string[] _pageTitles;
         private EntitiesPage _currentPage;
 
         public UserPage()
         {
-            SearchBox = SearchBoxInstance;
+            InitializeComponent();
+
+            _pages = new EntitiesPage[]
+            {
+                new CirclesPage(SearchBox),
+                //new ClassroomsPage(),
+                //new GradesPage(),
+                //new TeachersPage(),
+                //new PupilsPage(),
+                //new TimetablesPage(),
+                //new LessonsPage()
+            };
+
+            _pageTitles = _pages.Select(p => p.Title).ToArray();
 
             NavigationTree.ItemsSource = _pageTitles;
             NavigationTree.SelectedItemChanged += (s, e) =>
