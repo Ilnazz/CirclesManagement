@@ -25,6 +25,7 @@ namespace CirclesManagement
         public AuthorizationWindow()
         {
             InitializeComponent();
+            App.DB.Configuration.AutoDetectChangesEnabled = false;
         }
 
         private void AuthorizeUser()
@@ -43,8 +44,9 @@ namespace CirclesManagement
                 return;
             }
 
-            Helpers.Inform("Авторизация прошла успешно.");
+            //Helpers.Inform("Авторизация прошла успешно.");
             var mainWindow = new MainWindow(user);
+            mainWindow.Show();
             mainWindow.Activate();
             Close();
         }

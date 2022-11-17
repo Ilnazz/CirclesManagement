@@ -50,6 +50,7 @@ namespace CirclesManagement
                 //new LessonsPage()
             };
 
+
             _pageTitles = _pages.Select(p => p.Title).ToArray();
 
             NavigationTree.ItemsSource = _pageTitles;
@@ -95,6 +96,7 @@ namespace CirclesManagement
             {
                 Helpers.Inform("Вы успешно вышли из системы.");
                 var authorizationWindow = new AuthorizationWindow();
+                authorizationWindow.Show();
                 authorizationWindow.Activate();
                 Close();
             });

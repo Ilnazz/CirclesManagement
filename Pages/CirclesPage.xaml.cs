@@ -61,7 +61,8 @@ namespace CirclesManagement.Pages
 
             EntityValidator += (obj) =>
             {
-                var circle = obj as Circle;
+                if (obj is Circle circle == false)
+                    return false;
                 return string.IsNullOrWhiteSpace(circle.Title) == false
                     && Helpers.ContainsOnlyRussianLetters(circle.Title) == true
                     && circle.MaxNumberOfPupils != 0;

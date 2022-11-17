@@ -93,7 +93,6 @@ namespace CirclesManagement.Components
                 Helpers.Inform("Нет изменений для сохранения.");
                 return;
             }
-
             var validationResult = App.DB.ChangeTracker.Entries().ToList().All(entry =>
             {
                 if (EntityValidator(entry.Entity) == false)
