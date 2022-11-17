@@ -83,15 +83,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="RegistrationWindow.xaml.cs">
+      <DependentUpon>RegistrationWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="AuthorizationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\EntityDataGridComponent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Components\SearchBoxComponent.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Components\SpecialDataGrid.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Components\StatusBarComponent.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -103,7 +106,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Pages\EntitiesPage.cs" />
+    <Compile Include="AuthorizationWindow.xaml.cs">
+      <DependentUpon>AuthorizationWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\EntityDataGridComponent.xaml.cs">
+      <DependentUpon>EntityDataGridComponent.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Components\EntityExtensions\Circle.Extension.cs" />
     <Compile Include="Components\EntityExtensions\Classroom.Extension.cs" />
     <Compile Include="Components\EntityExtensions\Grade.Extension.cs" />
@@ -154,12 +162,6 @@
     <Compile Include="Components\SearchBoxComponent.xaml.cs">
       <DependentUpon>SearchBoxComponent.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Components\SpecialDataGrid.xaml.cs">
-      <DependentUpon>SpecialDataGrid.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Components\StatusBarComponent.xaml.cs">
-      <DependentUpon>StatusBarComponent.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Components\sysdiagram.cs">
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
     </Compile>
@@ -183,41 +185,24 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Classes\Constants.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Pages\AuthorizationPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Pages\CirclesPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\RegistrationPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\UserPage.xaml">
+    <Page Include="RegistrationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Pages\AuthorizationPage.xaml.cs">
-      <DependentUpon>AuthorizationPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\CirclesPage.xaml.cs">
       <DependentUpon>CirclesPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\RegistrationPage.xaml.cs">
-      <DependentUpon>RegistrationPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\UserPage.xaml.cs">
-      <DependentUpon>UserPage.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Pages\EntityPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

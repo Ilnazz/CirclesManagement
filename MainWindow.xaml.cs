@@ -25,32 +25,95 @@ namespace CirclesManagement
     /// </summary>
     public partial class MainWindow : Window
     {
-        public static CirclesManagementEntities db { get; private set; }
-        public static User CurrentUser;
-        public static Frame NavigationFrame;
+        private User _currentUser;
 
-        public MainWindow()
+        private readonly EntityPage[] _pages;
+        private readonly string[] _pageTitles;
+        private EntityPage _currentPage;
+
+        public MainWindow(User user)
         {
             InitializeComponent();
 
-            db = new CirclesManagementEntities();
+            _currentUser = user;
 
-            NavigationFrame = FrameInstance;
+            MainEntityDataGrid.SearchBox = SearchBox;
 
-            if (db.Users.Count() == 0)
-                NavigationFrame.Navigate(new RegistrationPage(Constants.Role.AssociateDirector));
-            else
-                NavigationFrame.Navigate(new AuthorizationPage());
+            _pages = new EntityPage[]
+            {
+                new CirclesPage(),
+                //new ClassroomsPage(),
+                //new GradesPage(),
+                //new TeachersPage(),
+                //new PupilsPage(),
+                //new TimetablesPage(),
+                //new LessonsPage()
+            };
+
+            _pageTitles = _pages.Select(p => p.Title).ToArray();
+
+            NavigationTree.ItemsSource = _pageTitles;
+
+            NavigationTree.SelectedItemChanged += (s, e) =>
+            {
+                MainEntityDataGrid.Visibility = Visibility.Visible;
+                BtnSaveChanges.Visibility = Visibility.Visible;
+                BtnAddEntity.Visibility = Visibility.Visible;
+                BtnToggleShowDeletedEntities.Visibility = Visibility.Visible;
+
+                _currentPage = _pages
+                    .Where(p => p.Title == (NavigationTree.SelectedItem as string))
+                    .First();
+
+                // remove previous entityPage's columns
+                if (MainEntityDataGrid.Columns.Count > 2)
+                {
+                    for (int i = MainEntityDataGrid.Columns.Count - 3; i > 0; i--)
+                        MainEntityDataGrid.Columns.RemoveAt(i);
+                }
+
+                _currentPage.Columns.ToList().ForEach(column =>
+                {
+                    MainEntityDataGrid.Columns.Insert(0, column);
+                });
+
+                MainEntityDataGrid.ItemsSource = _currentPage.ItemsSource;
+
+                MainEntityDataGrid.SearchTextMatcher = _currentPage.SearchTextMatcher;
+                MainEntityDataGrid.IsEntityDeleted = _currentPage.IsEntityDeleted;
+                MainEntityDataGrid.Filter = _currentPage.Filter;
+                MainEntityDataGrid.EntityCreator = _currentPage.EntityCreator;
+                MainEntityDataGrid.EntityValidator = _currentPage.EntityValidator;
+                MainEntityDataGrid.ValidationErrorCallback = _currentPage.ValidationErrorCallback;
+                MainEntityDataGrid.DeletingEntity = _currentPage.DeletingEntity;
+            };
         }
 
         private void BtnUserLogOut_Click(object sender, RoutedEventArgs e)
         {
             Helpers.AskAndDoActionIfYes("Вы уверены, что хотите выйти из системы?", () =>
             {
-                CurrentUser = null;
-                NavigationFrame.Navigate(new AuthorizationPage());
                 Helpers.Inform("Вы успешно вышли из системы.");
+                var authorizationWindow = new AuthorizationWindow();
+                authorizationWindow.Activate();
+                Close();
             });
         }
+
+        private void BtnToggleWorkingAndDeletedEntities_Click(object sender, RoutedEventArgs e)
+        {
+            BtnToggleShowDeletedEntities.Content
+                = BtnToggleShowDeletedEntities.Content.ToString() == "Показать удалённые"
+                    ? "Показать активные" : "Показать удалённые";
+
+            MainEntityDataGrid.ShowDeletedEntities = !MainEntityDataGrid.ShowDeletedEntities;
+            MainEntityDataGrid.Refresh();
+        }
+
+        private void BtnSaveChanges_Click(object sender, RoutedEventArgs e)
+            => MainEntityDataGrid.SaveChanges();
+
+        private void BtnAddEntity_Click(object sender, RoutedEventArgs e)
+            => MainEntityDataGrid.AddNewEntity();
     }
 }

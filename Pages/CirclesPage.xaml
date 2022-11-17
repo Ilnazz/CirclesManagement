@@ -1,23 +1,19 @@
-﻿<local:EntitiesPage x:Class="CirclesManagement.Pages.CirclesPage"
+﻿<local:EntityPage x:Class="CirclesManagement.Pages.CirclesPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CirclesManagement.Pages"
-      xmlns:components="clr-namespace:CirclesManagement.Components"
       mc:Ignorable="d" d:DesignHeight="600" d:DesignWidth="1000"
-      Title="Кружки" Style="{StaticResource CommonStyle}"
-      DataContext="{Binding RelativeSource={RelativeSource Self}}">
-    <components:SpecialDataGrid x:Name="CircleList">
-        <components:SpecialDataGrid.Columns>
-            <DataGridTextColumn Header="Название" Width="*"
-                                Binding="{Binding Path=Title}"
-                                ElementStyle="{StaticResource DGTextColumnStyle}"
-                                EditingElementStyle="{StaticResource DGTextColumnEditingStyle}"/>
-            <DataGridTextColumn Header="Макс. число учеников" Width="*"
-                                Binding="{Binding Path=MaxNumberOfPupils}"
-                                ElementStyle="{StaticResource DGTextColumnStyle}"
-                                EditingElementStyle="{StaticResource DGTextColumnEditingStyle}"/>
-        </components:SpecialDataGrid.Columns>
-    </components:SpecialDataGrid>
-</local:EntitiesPage>
+      Title="Кружки" Style="{StaticResource CommonStyle}">
+    <local:EntityPage.Columns>
+        <DataGridTextColumn Header="Название" Width="*"
+                        Binding="{Binding Path=Title}"
+                        ElementStyle="{StaticResource DGTextColumnStyle}"
+                        EditingElementStyle="{StaticResource DGTextColumnEditingStyle}"/>
+        <DataGridTextColumn Header="Макс. число учеников" Width="*"
+                        Binding="{Binding Path=MaxNumberOfPupils}"
+                        ElementStyle="{StaticResource DGTextColumnStyle}"
+                        EditingElementStyle="{StaticResource DGTextColumnEditingStyle}"/>
+    </local:EntityPage.Columns>
+</local:EntityPage>

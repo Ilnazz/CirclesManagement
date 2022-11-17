@@ -1,4 +1,7 @@
-﻿using System;
+﻿using CirclesManagement.Classes;
+using CirclesManagement.Components;
+using CirclesManagement.Pages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,20 +13,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using CirclesManagement.Classes;
-using CirclesManagement.Components;
-
-namespace CirclesManagement.Pages
+namespace CirclesManagement
 {
     /// <summary>
-    /// Логика взаимодействия для AuthPage.xaml
+    /// Логика взаимодействия для AuthorizationWindow.xaml
     /// </summary>
-    public partial class AuthorizationPage : Page
+    public partial class AuthorizationWindow : Window
     {
-        public AuthorizationPage()
+        public AuthorizationWindow()
         {
             InitializeComponent();
         }
@@ -36,23 +35,24 @@ namespace CirclesManagement.Pages
                 Helpers.Error("Необходимо заполнить все поля для авторизации.");
                 return;
             }
-            User user = MainWindow.db.Users.ToList()
+            User user = App.DB.Users.ToList()
                 .FirstOrDefault(u => u.Login == TBUserLogin.Text.Trim() && u.Password == PBUserPassword.Password.Trim());
             if (user is null)
             {
                 Helpers.Error("Пользователь с такими данными не найден.");
                 return;
             }
-            Helpers.Inform("Авторизация прошла успешно.");
 
-            MainWindow.CurrentUser = user;
-            MainWindow.NavigationFrame.Navigate(new UserPage());
+            Helpers.Inform("Авторизация прошла успешно.");
+            var mainWindow = new MainWindow(user);
+            mainWindow.Activate();
+            Close();
         }
 
-        private void BAuthorize_Click(object sender, RoutedEventArgs e)
+        private void BtnAuthorize_Click(object sender, RoutedEventArgs e)
             => AuthorizeUser();
 
-        private void Field_PreviewKeyDown(object sender, KeyEventArgs e)
+        private void InputBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
                 AuthorizeUser();

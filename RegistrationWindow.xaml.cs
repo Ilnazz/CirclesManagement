@@ -1,8 +1,9 @@
-﻿using System;
+﻿using CirclesManagement.Classes;
+using CirclesManagement.Components;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,37 +12,30 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using CirclesManagement.Classes;
-using CirclesManagement.Components;
-
-namespace CirclesManagement.Pages
+namespace CirclesManagement
 {
     /// <summary>
-    /// Логика взаимодействия для RegisterTeacherPage.xaml
+    /// Логика взаимодействия для RegistrationWindow.xaml
     /// </summary>
-    public partial class RegistrationPage : Page
+    public partial class RegistrationWindow : Window
     {
-        private Constants.Role _newUserRole;
-
-        public RegistrationPage(Constants.Role newUserRole)
+        public RegistrationWindow()
         {
             InitializeComponent();
-            _newUserRole = newUserRole;
         }
 
         private User CreateNewUser(string lastName, string firstName, string patronymic,
-            string login, string password, Constants.Role role)
+            string login, string password)
         {
             User newUser = new User();
-            newUser.RoleID = (int)role;
+            newUser.RoleID = App.DB.Roles.Where(role => role.Title == "Учитель").First().ID;
             newUser.Name = $"{lastName} {firstName[0]}. {patronymic[0]}.";
             newUser.Login = login;
             newUser.Password = password;
-            newUser.TeacherID = null;
-            MainWindow.db.Users.Add(newUser);
+            newUser.Teacher = CreateNewTeacher(TBLastName.Text, TBFirstName.Text, TBPatronymic.Text);
+            App.DB.Users.Add(newUser);
             return newUser;
         }
 
@@ -51,13 +45,13 @@ namespace CirclesManagement.Pages
             newTeacher.LastName = lastName;
             newTeacher.FirstName = firstName;
             newTeacher.Patronymic = patronymic;
-            MainWindow.db.Teachers.Add(newTeacher);
+            App.DB.Teachers.Add(newTeacher);
             return newTeacher;
         }
 
         private bool IsTeacherExist(string lastName, string firstName, string patronymic)
         {
-            return MainWindow.db.Teachers.ToList()
+            return App.DB.Teachers.ToList()
                     .Exists(t =>
                         t.LastName == TBLastName.Text
                         && t.FirstName == TBFirstName.Text
@@ -105,28 +99,19 @@ namespace CirclesManagement.Pages
             TBFirstName.Text = Helpers.Capitalize(TBFirstName.Text.ToLower());
             TBPatronymic.Text = Helpers.Capitalize(TBPatronymic.Text.ToLower());
 
-            if (_newUserRole == Constants.Role.Teacher
-                && IsTeacherExist(TBLastName.Text, TBFirstName.Text, TBPatronymic.Text))
+            if (IsTeacherExist(TBLastName.Text, TBFirstName.Text, TBPatronymic.Text))
             {
                 Helpers.Error("Учитель с такими данными уже зарегистрирован в системе.");
                 return;
             }
 
-            var newUser = CreateNewUser(TBLastName.Text, TBFirstName.Text, TBPatronymic.Text,
-                TBUserLogin.Text, PBUserPassword.Password, _newUserRole);
+            CreateNewUser(TBLastName.Text, TBFirstName.Text, TBPatronymic.Text,
+                TBUserLogin.Text, PBUserPassword.Password);
 
-            if (_newUserRole == Constants.Role.Teacher)
-                newUser.Teacher = CreateNewTeacher(TBLastName.Text, TBFirstName.Text, TBPatronymic.Text);
+            App.DB.SaveChanges();
 
-            MainWindow.db.SaveChanges();
-
-            MainWindow.CurrentUser = newUser;
-            Helpers.Inform("Пользователь успешно зарегистрирован в системе");
-
-            if (MainWindow.NavigationFrame.CanGoBack)
-                MainWindow.NavigationFrame.GoBack();
-            else
-                MainWindow.NavigationFrame.Navigate(new AuthorizationPage());
+            Helpers.Inform("Пользователь успешно зарегистрирован в системе.");
+            Close();
         }
     }
 }

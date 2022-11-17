@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="CirclesManagement.Components.SpecialDataGrid"
+﻿<UserControl x:Class="CirclesManagement.Components.EntityDataGridComponent"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -11,23 +11,14 @@
               CanUserDeleteRows="False"
               CanUserReorderColumns="False"
               EnableColumnVirtualization="True"
-              SelectionMode="Single"
               EnableRowVirtualization="True"
-              MouseDown="InnerDataGrid_MouseDown"
-              SelectionChanged="InnerDataGrid_SelectionChanged"
-              LostFocus="InnerDataGrid_LostFocus">
+              SelectionMode="Single"
+              PreviewMouseDown="InnerDataGrid_MouseDown">
         <DataGrid.Columns>
-            <DataGridTemplateColumn Header="Редактирование" CanUserResize="False">
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <Button Content="Редактировать" Tag="Edit" Margin="5"/>
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
             <DataGridTemplateColumn Header="Удаление" CanUserResize="False">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                        <Button Content="Удалить" Tag="Delete" Margin="5"/>
+                        <Button Content="Удалить" Margin="5"/>
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>

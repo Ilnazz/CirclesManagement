@@ -24,51 +24,66 @@ namespace CirclesManagement.Pages
     /// <summary>
     /// Логика взаимодействия для CirclesPage.xaml
     /// </summary>
-    public partial class CirclesPage : EntitiesPage
+    public partial class CirclesPage : EntityPage
     {
         private ObservableCollection<Circle> _circles;
 
-        public CirclesPage(SearchBoxComponent searchBox)
+        public CirclesPage()
         {
             InitializeComponent();
 
-            MainWindow.db.Circles.Load();
-            _circles = MainWindow.db.Circles.Local;
-            CircleList.ItemsSource = new ObservableCollection<object>(_circles);
+            App.DB.Circles.Load();
+            _circles = App.DB.Circles.Local;
+            ItemsSource = new ObservableCollection<object>(_circles);
 
-            searchBox.TextChanged += CircleList.Refresh;
-
-            CircleList.Filter += (obj) =>
+            EntityCreator += () =>
             {
-                var circle = obj as Circle;
-
-                var accept = false;
-                if (ShowDeletedEntities == true && circle.IsWorking == false
-                    || ShowDeletedEntities == false && circle.IsWorking == true)
-                    accept = true;
-                
-                if (accept == true)
-                {
-                    if (searchBox.IsEmpty()
-                        || searchBox.IsMatchSearchText(circle.Title)
-                        || searchBox.IsMatchSearchText(circle.MaxNumberOfPupils.ToString()))
-                        accept = true;
-                    else
-                        accept = false;
-                }
-
-                return accept;
+                var newCircle = new Circle();
+                newCircle.Title = "";
+                newCircle.IsWorking = true;
+                newCircle.MaxNumberOfPupils = 20;
+                return newCircle;
             };
 
-            CircleList.DeletingItem += (obj) =>
+            IsEntityDeleted += (obj) =>
             {
                 var circle = obj as Circle;
+                return circle.IsWorking == false;
+            };
+
+            SearchTextMatcher += (obj, searchText) =>
+            {
+                var circle = obj as Circle;
+
+                return circle.Title.Contains(searchText)
+                    || circle.MaxNumberOfPupils.ToString().Contains(searchText);
+            };
+
+            EntityValidator += (obj) =>
+            {
+                var circle = obj as Circle;
+                return string.IsNullOrWhiteSpace(circle.Title) == false
+                    && Helpers.ContainsOnlyRussianLetters(circle.Title) == true
+                    && circle.MaxNumberOfPupils != 0;
+            };
+
+            ValidationErrorCallback += (obj) =>
+            {
+                var circle = obj as Circle;
+                Helpers.Error($"Ошибка валидации кружка \"{circle.Title}\".");
+            };
+
+            DeletingEntity += (obj) =>
+            {
+                var circle = obj as Circle;
+
+                // if circle is empty delete it from list
 
                 var result = Helpers.Ask("Вы уверены, что хотите удалить данный кружок?");
                 if (result == false)
                     return;
 
-                var isPresentInTimetable = circle.Timetables.Count != 0;
+                var isPresentInTimetable = circle.Timetables.Count > 0;
                 if (isPresentInTimetable)
                 {
                     Helpers.Error("Данный кружок нельзя удалить, так как он указан в расписании занятий.");
@@ -81,51 +96,8 @@ namespace CirclesManagement.Pages
                     return;
                 }
                 circle.IsWorking = false;
-                CircleList.Refresh();
                 Helpers.Inform($"Кружок успешно удалён.");
             };
-
-
-        }
-
-        public override void AddEntity()
-        {
-            Circle newCircle = new Circle();
-            newCircle.Title = "";
-            newCircle.IsWorking = true;
-            newCircle.MaxNumberOfPupils = 0;
-
-            CircleList.AddItemAndScrollIntoView(newCircle);
-        }
-
-        private bool IsValidCircle(Circle circle)
-        {
-            return true;
-        }
-
-        public override void SaveChanges()
-        {
-            if (MainWindow.db.ChangeTracker.HasChanges() == false)
-            {
-                Helpers.Inform("Нет изменений для сохранения.");
-                return;
-            }
-
-            foreach (var entry in MainWindow.db.ChangeTracker.Entries())
-            {
-                var circle = entry.Entity as Circle;
-                if (IsValidCircle(circle) == false)
-                {
-                    Helpers.Error($"{circle.Title} не прошёл проверку :/");
-                    return;
-                }
-            }
-
-            Helpers.AskAndDoActionIfYes("Вы уверены, что хотите сохранить изменения?", () =>
-            {
-                MainWindow.db.SaveChanges();
-                Helpers.Inform("Изменения успешно сохранены.");
-            });
         }
     }
 }
