@@ -26,10 +26,30 @@ namespace CirclesManagement
     public partial class MainWindow : Window
     {
         private User _currentUser;
-
-        private readonly EntityPage[] _pages;
-        private readonly string[] _pageTitles;
         private EntityPage _currentPage;
+
+        private static readonly EntityPage[] _pages = new EntityPage[]
+        {
+            new CirclesPage(),
+            //new ClassroomsPage(),
+            //new GradesPage(),
+            //new TeachersPage(),
+            //new PupilsPage(),
+            //new TimetablesPage(),
+            //new LessonsPage()
+        };
+
+        private readonly string[] _pageTitles = new string[]
+        {
+            "• Кружки",
+            "• Кабинеты",
+            "• Классы",
+            "• Учителя",
+            "• Ученики",
+            "• Расписание",
+            "• Уроки"
+        };
+
 
         public MainWindow(User user)
         {
@@ -39,54 +59,14 @@ namespace CirclesManagement
 
             MainEntityDataGrid.SearchBox = SearchBox;
 
-            _pages = new EntityPage[]
+            Navigation.ItemsSource = _pageTitles;
+            Navigation.SelectionChanged += (s, e) =>
             {
-                new CirclesPage(),
-                //new ClassroomsPage(),
-                //new GradesPage(),
-                //new TeachersPage(),
-                //new PupilsPage(),
-                //new TimetablesPage(),
-                //new LessonsPage()
+                var pageIndex = Navigation.SelectedIndex;
+                _currentPage = _pages[pageIndex];
+                MainEntityDataGrid.LoadEntityPage(_currentPage);
             };
-
-            _pageTitles = _pages.Select(p => p.Title).ToArray();
-
-            NavigationTree.ItemsSource = _pageTitles;
-
-            NavigationTree.SelectedItemChanged += (s, e) =>
-            {
-                MainEntityDataGrid.Visibility = Visibility.Visible;
-                BtnSaveChanges.Visibility = Visibility.Visible;
-                BtnAddEntity.Visibility = Visibility.Visible;
-                BtnToggleShowDeletedEntities.Visibility = Visibility.Visible;
-
-                _currentPage = _pages
-                    .Where(p => p.Title == (NavigationTree.SelectedItem as string))
-                    .First();
-
-                // remove previous entityPage's columns
-                if (MainEntityDataGrid.Columns.Count > 2)
-                {
-                    for (int i = MainEntityDataGrid.Columns.Count - 3; i > 0; i--)
-                        MainEntityDataGrid.Columns.RemoveAt(i);
-                }
-
-                _currentPage.Columns.ToList().ForEach(column =>
-                {
-                    MainEntityDataGrid.Columns.Insert(0, column);
-                });
-
-                MainEntityDataGrid.ItemsSource = _currentPage.ItemsSource;
-
-                MainEntityDataGrid.SearchTextMatcher = _currentPage.SearchTextMatcher;
-                MainEntityDataGrid.IsEntityDeleted = _currentPage.IsEntityDeleted;
-                MainEntityDataGrid.Filter = _currentPage.Filter;
-                MainEntityDataGrid.EntityCreator = _currentPage.EntityCreator;
-                MainEntityDataGrid.EntityValidator = _currentPage.EntityValidator;
-                MainEntityDataGrid.ValidationErrorCallback = _currentPage.ValidationErrorCallback;
-                MainEntityDataGrid.DeletingEntity = _currentPage.DeletingEntity;
-            };
+            Navigation.SelectedIndex = 0;
         }
 
         private void BtnUserLogOut_Click(object sender, RoutedEventArgs e)

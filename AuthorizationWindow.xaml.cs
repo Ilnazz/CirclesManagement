@@ -25,6 +25,8 @@ namespace CirclesManagement
         public AuthorizationWindow()
         {
             InitializeComponent();
+
+            TBUserLogin.Focus();
         }
 
         private void AuthorizeUser()
@@ -35,7 +37,7 @@ namespace CirclesManagement
                 Helpers.Error("Необходимо заполнить все поля для авторизации.");
                 return;
             }
-            User user = App.DB.Users.ToList()
+            User user = App.DB.Users
                 .FirstOrDefault(u => u.Login == TBUserLogin.Text.Trim() && u.Password == PBUserPassword.Password.Trim());
             if (user is null)
             {
@@ -45,6 +47,7 @@ namespace CirclesManagement
 
             Helpers.Inform("Авторизация прошла успешно.");
             var mainWindow = new MainWindow(user);
+            mainWindow.Show();
             mainWindow.Activate();
             Close();
         }

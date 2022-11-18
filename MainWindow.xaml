@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CirclesManagement"
         xmlns:components="clr-namespace:CirclesManagement.Components"
+        WindowStartupLocation="CenterScreen"
         mc:Ignorable="d" DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        Width="1000" Height="600"
         Title="Управление кружками" Style="{StaticResource CommonStyle}">
     <Grid>
         <Grid.RowDefinitions>
@@ -16,37 +18,47 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         
-        <DockPanel Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource BackgroundAdditional}">
+        <DockPanel Grid.Row="0" Grid.ColumnSpan="3" Margin="5">
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
-                <Image Source="/Resources/logo.png" Width="25" Margin="5" HorizontalAlignment="Left"/>
+                <!--<Image Source="/Resources/logo.png" Width="25" Margin="5" HorizontalAlignment="Left"/>-->
+                <TextBlock Text="&#9773;" VerticalAlignment="Center" FontSize="32" Margin="0,0,5,0"/>
                 <TextBlock Text="Школа Олимп" VerticalAlignment="Center" TextWrapping="Wrap"/>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Right">
-                <Button x:Name="BtnUserLogOut" Content="Выйти" Click="BtnUserLogOut_Click" Margin="5"/>
-            </StackPanel>
+            <Button x:Name="BtnUserLogOut" Content="Выйти" Click="BtnUserLogOut_Click" VerticalAlignment="Center" HorizontalAlignment="Right" DockPanel.Dock="Right"/>
         </DockPanel>
+        
+        <Grid Grid.Row="1" Grid.Column="2" Margin="0,0,5,5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <components:SearchBoxComponent x:Name="SearchBox" SearchPlaceHolder="Поиск..." Grid.Column="0" Margin="0,0,5,0"/>
+            <Button x:Name="BtnSaveChanges" Content="Сохранить изменения" Grid.Column="1" Click="BtnSaveChanges_Click"/>
+        </Grid>
+            
 
-        <DockPanel Grid.Row="1" Grid.Column="1">
-            <components:SearchBoxComponent x:Name="SearchBox" Margin="5" SearchPlaceHolder="Поиск..." Width="225" DockPanel.Dock="Left"/>
-            <Button x:Name="BtnSaveChanges" Visibility="Collapsed" Margin="5" Content="Сохранить изменения" Click="BtnSaveChanges_Click" DockPanel.Dock="Right" HorizontalAlignment="Right"/>
-        </DockPanel>
-
-        <TreeView x:Name="NavigationTree" Padding="5" Grid.Row="2" Grid.RowSpan="2" Grid.Column="0">
-            <TreeView.ItemTemplate>
+        <ListBox x:Name="Navigation" Grid.Row="1" Grid.RowSpan="3" Grid.Column="0" BorderThickness="0" SelectionMode="Single">
+            <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding {}}"/>
+                    <TextBlock Text="{Binding {}}" Padding="5"/>
                 </DataTemplate>
-            </TreeView.ItemTemplate>
-        </TreeView>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        
+        <GridSplitter Grid.Row="1" Grid.RowSpan="3" Grid.Column="1"
+                      HorizontalAlignment="Center" VerticalAlignment="Stretch"
+                      ShowsPreview="True"
+                      Width="3" Background="Gainsboro" Margin="5,0,5,5"/>
 
-        <components:EntityDataGridComponent x:Name="MainEntityDataGrid" Grid.Row="2" Grid.Column="1" Margin="5" Visibility="Hidden"/>
+        <components:EntityDataGridComponent x:Name="MainEntityDataGrid" Grid.Row="2" Grid.Column="2" Margin="0,0,5,5"/>
 
-        <DockPanel Grid.Row="3" Grid.Column="1">
-            <Button x:Name="BtnAddEntity" Visibility="Collapsed" Margin="5" Content="Добавить" Click="BtnAddEntity_Click" DockPanel.Dock="Left"/>
-            <Button x:Name="BtnToggleShowDeletedEntities" Visibility="Collapsed" Margin="5" HorizontalAlignment="Right" Content="Показать удалённые" Click="BtnToggleWorkingAndDeletedEntities_Click"/>
+        <DockPanel Grid.Row="3" Grid.Column="2" Margin="0,0,5,5">
+            <Button x:Name="BtnAddEntity" Content="Добавить" Click="BtnAddEntity_Click" DockPanel.Dock="Left"/>
+            <Button x:Name="BtnToggleShowDeletedEntities" HorizontalAlignment="Right" Content="Показать удалённые" Click="BtnToggleWorkingAndDeletedEntities_Click"/>
         </DockPanel>
     </Grid>
 </Window>

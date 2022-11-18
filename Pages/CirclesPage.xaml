@@ -5,15 +5,11 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CirclesManagement.Pages"
       mc:Ignorable="d" d:DesignHeight="600" d:DesignWidth="1000"
-      Title="Кружки" Style="{StaticResource CommonStyle}">
+      Style="{StaticResource CommonStyle}">
     <local:EntityPage.Columns>
         <DataGridTextColumn Header="Название" Width="*"
-                        Binding="{Binding Path=Title}"
-                        ElementStyle="{StaticResource DGTextColumnStyle}"
-                        EditingElementStyle="{StaticResource DGTextColumnEditingStyle}"/>
+                        Binding="{Binding Path=Title}"/>
         <DataGridTextColumn Header="Макс. число учеников" Width="*"
-                        Binding="{Binding Path=MaxNumberOfPupils}"
-                        ElementStyle="{StaticResource DGTextColumnStyle}"
-                        EditingElementStyle="{StaticResource DGTextColumnEditingStyle}"/>
+                        Binding="{Binding Path=MaxNumberOfPupils}"/>
     </local:EntityPage.Columns>
 </local:EntityPage>

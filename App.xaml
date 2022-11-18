@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:CirclesManagement"
              StartupUri="AuthorizationWindow.xaml">
     <Application.Resources>
-        <Style x:Key="BackgroundMain">
+        <!--<Style x:Key="BackgroundMain">
             <Setter Property="Control.Background" Value="#f9f9f9"/>
         </Style>
         <Style x:Key="BackgroundAdditional">
@@ -22,36 +22,34 @@
         </Style>
         <Style x:Key="ForegroundAccent">
             <Setter Property="Control.Background" Value="#ffe45e"/>
-        </Style>
+        </Style>-->
 
         <Style x:Key="CommonStyle">
-            <Setter Property="Control.FontFamily" Value="Cambria" />
-            <Setter Property="Control.FontSize" Value="14" />
-            <Setter Property="Control.Background" Value="#f9f9f9" />
+            <Setter Property="Control.FontFamily" Value="Palatino Linotype" />
+            <Setter Property="Control.FontSize" Value="16" />
         </Style>
 
-        <Style TargetType="Button">
+        <!--<Style TargetType="Button">
             <Setter Property="FontSize" Value="14" />
-            <Setter Property="Background" Value="#ffe45e"/>
+            <Setter Property="Padding" Value="5"/>
         </Style>
+        
         <Style TargetType="TextBox">
-            <Setter Property="Padding" Value="5" />
+            <Setter Property="Padding" Value="1" />
         </Style>
-        <Style TargetType="TextBlock">
-            <Setter Property="Padding" Value="5" />
-        </Style>
+        
         <Style TargetType="PasswordBox">
-            <Setter Property="Padding" Value="5" />
+            <Setter Property="Padding" Value="1" />
         </Style>
 
         <Style x:Key="DGTextColumnStyle" TargetType="TextBlock">
-            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Padding" Value="1"/>
         </Style>
         <Style x:Key="DGTextColumnEditingStyle" TargetType="TextBox">
-            <Setter Property="Padding" Value="5" />
+            <Setter Property="Padding" Value="1" />
         </Style>
         <Style x:Key="DGCheckBoxColumnStyle" TargetType="CheckBox">
-            <Setter Property="Padding" Value="5" />
-        </Style>
+            <Setter Property="Padding" Value="1" />
+        </Style>-->
     </Application.Resources>
 </Application>
