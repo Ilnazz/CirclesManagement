@@ -9,20 +9,20 @@ namespace CirclesManagement.Pages
 {
     public class EntityHelper
     {
-        public Predicate<object> IsDeleted; // returns true if entity marked as deleted
+        public Predicate<object> IsDeleted; // помечена ли сущность как удалённая
 
-        public Func<object> Builder; // creates and returns new blank entity
+        public Func<object> Builder; // создаёт новую пустую сущность (со значенями полей по умолчанию)
 
-        public Predicate<object> IsBlank; // returns true if entity wasn't changed after creation
+        public Predicate<object> IsBlank; // является ли сущность пустой (только что созданной)
 
-        public Func<object, (bool, string)> Deleter; // marks entity as deleted (if entity isn't tied with another entites)
-                                                     // and returns (true, "") if entity
-                                     // (don't removes it from source collection)
-
-        public Func<object, (bool, string)> Validator; // returns (true, "") when success,
-                                                       // and (false, "description msg") when error
+        public Func<object, object, bool> Comparer; // являются ли поля сущностей одинаковыми
         
-        public Func<object, string, bool> SearchTextMatcher;
+        public Func<object, (bool, string)> Deleter; // помечает сущность как удалённую и возвращает (истину, ""),
+                                                     // или возвращает (ложь, "причина по которой нельзя удалить сущность")
+
+        public Func<object, (bool, string)> Validator; // проверяет поля сущности на корректность заполнения; работает как Deleter
+
+        public Func<object, string, bool> SearchTextMatcher; // удовлетворяет ли сущность стркое поиска
 
         // Название сущности
         public Word Title;

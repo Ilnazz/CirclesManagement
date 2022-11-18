@@ -57,8 +57,10 @@
         <components:EntityDataGridComponent x:Name="MainEntityDataGrid" Grid.Row="2" Grid.Column="2" Margin="0,0,5,5"/>
 
         <DockPanel Grid.Row="3" Grid.Column="2" Margin="0,0,5,5">
-            <Button x:Name="BtnAddEntity" Content="Добавить" Click="BtnAddEntity_Click" DockPanel.Dock="Left"/>
+            <Button x:Name="BtnAddEntity" Content="Добавить" Click="BtnAddEntity_Click" DockPanel.Dock="Left" Margin="0,0,5,0"/>
+            <Button x:Name="BtnDeleteEntity" Content="Удалить" Click="BtnDeleteEntity_Click" DockPanel.Dock="Left"/>
             <Button x:Name="BtnToggleShowDeletedEntities" HorizontalAlignment="Right" Content="Показать удалённые" Click="BtnToggleWorkingAndDeletedEntities_Click"/>
         </DockPanel>
     </Grid>
 </Window>
+    

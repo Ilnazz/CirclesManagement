@@ -25,6 +25,12 @@ namespace CirclesManagement.Components
     /// </summary>
     public partial class EntityDataGridComponent : UserControl
     {
+        public SearchBoxComponent SearchBox;
+        
+        public EntityHelper EH;
+
+        public bool ShowDeletedEntities;
+        
         private ICollectionView _collectionView;
         private ObservableCollection<object> _itemsSource;
         public ObservableCollection<object> ItemsSource
@@ -34,70 +40,48 @@ namespace CirclesManagement.Components
                 _itemsSource = value;
                 _collectionView = new CollectionViewSource { Source = value }.View;
                 InnerDataGrid.ItemsSource = _collectionView;
-                _searchBox.TextChanged += _collectionView.Refresh;
+                SearchBox.TextChanged += _collectionView.Refresh;
             }
         }
-
-        private SearchBoxComponent _searchBox;
-        public SearchBoxComponent SearchBox
-        {
-            get { return _searchBox; }
-            set { _searchBox = value;  }
-        }
-
-        public void LoadEntityPage(EntityPage entityPage)
-        {
-            // remove previous entityPage's columns
-            if (InnerDataGrid.Columns.Count > 2)
-                for (int i = InnerDataGrid.Columns.Count - 3; i > 0; i--)
-                    InnerDataGrid.Columns.RemoveAt(i);
-
-            entityPage.Columns.ToList().ForEach(column =>
-            {
-                InnerDataGrid.Columns.Insert(0, column);
-            });
-
-            MainEntityDataGrid.ItemsSource = _currentPage.ItemsSource;
-            MainEntityDataGrid.EH = _currentPage.EH;
-        }
-
-        public EntityHelper EH
-        {
-            set {
-                EH = value;
-            }
-        }
-
-        public Predicate<object> Filter
-        {
-            get { return _collectionView.Filter; }
-            set {
-                _collectionView.Filter = (obj) => {
-                    if (ShowDeletedEntities == true && EH.IsDeleted(obj) == false
-                        || ShowDeletedEntities == false && EH.IsDeleted(obj) == true)
-                        return false;
-                    if (_searchBox.IsEmpty())
-                        return true;
-                    return EH.SearchTextMatcher(obj, _searchBox.SearchText);
-                };
-            }
-        }
-
         public void Refresh() => _collectionView.Refresh();
-
-        public bool ShowDeletedEntities;
 
         public EntityDataGridComponent()
         {
             InitializeComponent();
         }
         
+        public void LoadEntityPage(EntityPage entityPage)
+        {
+            // remove (unload) previous entityPage's columns, saving delete button columns
+            if (InnerDataGrid.Columns.Count > 1)
+                for (int i = 0; i < InnerDataGrid.Columns.Count-1; i++)
+                    InnerDataGrid.Columns.RemoveAt(i);
+
+            // load new entityPage's columns aside delte button column
+            entityPage.Columns.ToList().ForEach(column =>
+            {
+                InnerDataGrid.Columns.Insert(0, column);
+            });
+
+            ItemsSource = entityPage.ItemsSource;
+            EH = entityPage.EH;
+
+            _collectionView.Filter = (obj) => {
+                if (ShowDeletedEntities == true && EH.IsDeleted(obj) == false
+                    || ShowDeletedEntities == false && EH.IsDeleted(obj) == true)
+                    return false;
+                if (SearchBox.IsEmpty())
+                    return true;
+                return EH.SearchTextMatcher(obj, SearchBox.SearchText);
+            };
+        }
+        
         public void AddNewEntity()
         {
-            var areThereEmptyEntity = _itemsSource.Any(entity => IsEntityEmpty(entity));
+            var areThereEmptyEntity = _itemsSource.Any(entity => EH.IsBlank(entity));
             if (areThereEmptyEntity == true)
             {
-                Helpers.Error($"Перед добавлнием нового {EH.Title.Singular.GenitiveCase}, заполните данные предыдущего.");
+                Helpers.Error($"Перед добавлнием нового {EH.Title.Singular.Genitive}, заполните данные предыдущего.");
                 return;
             }
             var newEntity = EH.Builder();
@@ -106,8 +90,6 @@ namespace CirclesManagement.Components
             InnerDataGrid.ScrollIntoView(newEntity);
         }
 
-        public Func<object, bool> EntityValidator;
-        public Action<object> ValidationErrorCallback;
         public void SaveChanges()
         {
             if (App.DB.ChangeTracker.HasChanges() == false)
@@ -118,9 +100,10 @@ namespace CirclesManagement.Components
 
             var validationResult = _itemsSource.ToList().All(entity =>
             {
-                if (EntityValidator(entity) == false)
+                (var result, var message) = EH.Validator(entity);
+                if (result == false)
                 {
-                    ValidationErrorCallback(entity);
+                    Helpers.Error($"Ошибка при проверке {EH.Title.Singular.Genitive}: {message}.");
                     return false;
                 }
                 return true;
@@ -128,6 +111,20 @@ namespace CirclesManagement.Components
 
             if (validationResult == false)
                 return;
+            
+            foreach (var entity1 in _itemsSource)
+            {
+                foreach (var entity2 in _itemsSource)
+                {
+                    if (entity1.Equals(entity2))
+                        continue;
+                    if (EH.Comparer(entity1, entity2) == true)
+                    {
+                        Helpers.Error($"Ошибка: {EH.Title.Singular.Nominative} с такими данными уже существует.");
+                        return;
+                    }
+                }
+            }
 
             Helpers.AskAndDoActionIfYes("Вы уверены, что хотите сохранить изменения?", () =>
             {
@@ -136,45 +133,30 @@ namespace CirclesManagement.Components
             });
         }
 
-        public Predicate<object> IsEntityEmpty;
-        public Func<object, bool> EntityDeleter;
 
-        private void InnerDataGrid_MouseDown(object sender, MouseButtonEventArgs e)
+        public void DeleteSelectedEntity()
         {
-            if (e.OriginalSource is DependencyObject srcObj == false)
+            if (InnerDataGrid.SelectedItem == null)
                 return;
+            var entity = InnerDataGrid.SelectedItem;
 
-            Button btn = null;
-            DataGridRow row = null;
-            while (btn == null || row == null)
-            {
-                if (srcObj is Button)
-                    btn = srcObj as Button;
-                else if (srcObj is DataGridRow)
-                    row = srcObj as DataGridRow;
-                srcObj = VisualTreeHelper.GetParent(srcObj);
-                if (srcObj == null)
-                    return;
-            }
-            if (btn == null) // click was not on the button
-                return;
-
-            var entity = row.Item;
-
-            if (IsEntityEmpty(entity))
+            if (EH.IsBlank(entity))
             {
                 _itemsSource.Remove(entity);
                 Refresh();
+                return;
             }
-            else
+            
+            var result = Helpers.Ask($"Вы действительно, хотите удалить {EH.Title.Singular.Accusative}?");
+            if (result == false)
+                return;
+            (var deletionResult, var message) = EH.Deleter(entity);
+            if (deletionResult == false)
             {
-                var result = Helpers.Ask($"Вы уверены, что хотите удалить {}?");
-                if (result == false)
-                    return false;
-                var wasDeleted = EntityDeleter.Invoke(entity);
-                if (wasDeleted)
-                    Refresh();
+                Helpers.Error($"Нельзя удалить {EH.Title.Singular.Accusative} по причине: {message}.");
+                return;
             }
+            Refresh();
         }
     }
 }

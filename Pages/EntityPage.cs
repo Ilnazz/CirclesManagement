@@ -18,7 +18,6 @@ namespace CirclesManagement.Pages
         }
 
         public ObservableCollection<object> ItemsSource;
-
         public EntityHelper EH;
     }
 }

@@ -12,16 +12,5 @@
               CanUserReorderColumns="False"
               EnableColumnVirtualization="True"
               EnableRowVirtualization="True"
-              SelectionMode="Single"
-              PreviewMouseDown="InnerDataGrid_MouseDown">
-        <DataGrid.Columns>
-            <DataGridTemplateColumn Header="Удаление" CanUserResize="False">
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <Button Content="Удалить" Margin="5"/>
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
-        </DataGrid.Columns>
-    </DataGrid>
+              SelectionMode="Single"/>
 </UserControl>

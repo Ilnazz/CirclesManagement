@@ -86,6 +86,9 @@ namespace CirclesManagement
                 = BtnToggleShowDeletedEntities.Content.ToString() == "Показать удалённые"
                     ? "Показать активные" : "Показать удалённые";
 
+            BtnAddEntity.Visibility =
+                BtnDeleteEntity.Visibility = BtnDeleteEntity.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+
             MainEntityDataGrid.ShowDeletedEntities = !MainEntityDataGrid.ShowDeletedEntities;
             MainEntityDataGrid.Refresh();
         }
@@ -95,5 +98,8 @@ namespace CirclesManagement
 
         private void BtnAddEntity_Click(object sender, RoutedEventArgs e)
             => MainEntityDataGrid.AddNewEntity();
+
+        private void BtnDeleteEntity_Click(object sender, RoutedEventArgs e)
+            => MainEntityDataGrid.DeleteSelectedEntity();
     }
 }

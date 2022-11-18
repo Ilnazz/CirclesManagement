@@ -58,7 +58,7 @@ namespace CirclesManagement.Pages
                         Prepositional = "кружках"
                     }
                 },
-
+                
                 Builder = () =>
                 {
                     var newCircle = new Circle();
@@ -80,6 +80,13 @@ namespace CirclesManagement.Pages
                     return circle.IsWorking == false;
                 },
 
+                Comparer = (obj1, obj2) =>
+                {
+                    var circle1 = obj1 as Circle;
+                    var circle2 = obj2 as Circle;
+                    return circle1.Title == circle2.Title;
+                },
+
                 SearchTextMatcher = (obj, searchText) =>
                 {
                     var circle = obj as Circle;
@@ -91,11 +98,11 @@ namespace CirclesManagement.Pages
                 {
                     var circle = obj as Circle;
                     if (string.IsNullOrWhiteSpace(circle.Title))
-                        return (false, "Название не может быть пустым");
+                        return (false, "название не может быть пустым");
                     else if (Helpers.ContainsOnlyRussianLetters(circle.Title) == false)
-                        return (false, "Название должно содержать только русские буквы");
+                        return (false, "название должно содержать только русские буквы");
                     else if (circle.MaxNumberOfPupils <= 0)
-                        return (false, "Максимальное число учеников должно быть больше нуля");
+                        return (false, "максимальное число учеников должно быть больше нуля");
                     return (true, "");
                 },
 
@@ -105,7 +112,7 @@ namespace CirclesManagement.Pages
 
                     var isPresentInTimetable = circle.Timetables.Count > 0;
                     if (isPresentInTimetable)
-                        return (false, "указан в расписании занятий.");
+                        return (false, "указан в расписании занятий");
                     
                     var isAttendedByPupils = circle.Circle_Pupil
                         .Any(circle_pupil => circle_pupil.IsAttending == true);
