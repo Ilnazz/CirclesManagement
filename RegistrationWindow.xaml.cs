@@ -69,13 +69,6 @@ namespace CirclesManagement
                 Helpers.Error("Для регистрации необходимо заполнить все поля.");
                 return false;
             }
-            else if (!Helpers.ContainsOnlyRussianLetters(TBLastName.Text)
-                || !Helpers.ContainsOnlyRussianLetters(TBFirstName.Text)
-                || !Helpers.ContainsOnlyRussianLetters(TBPatronymic.Text))
-            {
-                Helpers.Error("ФИО должно состоять только из русских букв.");
-                return false;
-            }
             else if (PBUserPassword.Password != PBUserPasswordConfirmation.Password)
             {
                 Helpers.Error("Пароли должны совпадать.");
@@ -110,7 +103,7 @@ namespace CirclesManagement
 
             App.DB.SaveChanges();
 
-            Helpers.Inform("Пользователь успешно зарегистрирован в системе.");
+            Helpers.Inform("Учитель успешно зарегистрирован в системе.");
             Close();
         }
     }

@@ -24,6 +24,8 @@ namespace CirclesManagement.Pages
 
         public Func<object, string, bool> SearchTextMatcher; // удовлетворяет ли сущность стркое поиска
 
+        public Action<object> SavePreparator; // подготавливает сущность к сохранению в базе данных
+
         // Название сущности
         public Word Title;
 

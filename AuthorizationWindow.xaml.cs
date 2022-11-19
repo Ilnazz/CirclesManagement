@@ -45,7 +45,17 @@ namespace CirclesManagement
                 return;
             }
 
-            Helpers.Inform("Авторизация прошла успешно.");
+            if (user.Role == App.DB.Roles.First(role => role.Title == "Teacher"))
+            {
+                if (user.Teacher.IsWorking == false)
+                {
+                    Helpers.Error("Учитель с такими данными был уволен.");
+                    return;
+
+                }
+            }
+
+            //Helpers.Inform("Авторизация прошла успешно.");
             var mainWindow = new MainWindow(user);
             mainWindow.Show();
             mainWindow.Activate();

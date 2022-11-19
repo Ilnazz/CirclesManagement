@@ -18,6 +18,9 @@ namespace CirclesManagement.Pages
         }
 
         public ObservableCollection<object> ItemsSource;
+
+        public object EntityCollectionsForComboBoxes;
+
         public EntityHelper EH;
     }
 }

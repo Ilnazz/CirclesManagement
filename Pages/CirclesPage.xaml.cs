@@ -58,13 +58,14 @@ namespace CirclesManagement.Pages
                         Prepositional = "кружках"
                     }
                 },
-                
+
                 Builder = () =>
                 {
                     var newCircle = new Circle();
                     newCircle.Title = "";
                     newCircle.IsWorking = true;
                     newCircle.MaxNumberOfPupils = 0;
+                    App.DB.Circles.Local.Add(newCircle);
                     return newCircle;
                 },
 
@@ -99,8 +100,6 @@ namespace CirclesManagement.Pages
                     var circle = obj as Circle;
                     if (string.IsNullOrWhiteSpace(circle.Title))
                         return (false, "название не может быть пустым");
-                    else if (Helpers.ContainsOnlyRussianLetters(circle.Title) == false)
-                        return (false, "название должно содержать только русские буквы");
                     else if (circle.MaxNumberOfPupils <= 0)
                         return (false, "максимальное число учеников должно быть больше нуля");
                     return (true, "");
@@ -109,14 +108,13 @@ namespace CirclesManagement.Pages
                 Deleter = (obj) =>
                 {
                     var circle = obj as Circle;
-
                     var isPresentInTimetable = circle.Timetables.Count > 0;
                     if (isPresentInTimetable)
                         return (false, "указан в расписании занятий");
                     
                     var isAttendedByPupils = circle.Circle_Pupil
                         .Any(circle_pupil => circle_pupil.IsAttending == true);
-                    if (isPresentInTimetable)
+                    if (isAttendedByPupils)
                         return (false, "посещюат ученики");
 
                     circle.IsWorking = false;

@@ -1,0 +1,102 @@
+﻿<local:EntityPage x:Class="CirclesManagement.Pages.TimetablesPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CirclesManagement.Pages"
+      xmlns:components="clr-namespace:CirclesManagement.Components"
+      mc:Ignorable="d" d:DesignHeight="600" d:DesignWidth="1000"
+      Style="{StaticResource CommonStyle}">
+    <local:EntityPage.Columns>
+        
+        
+        
+        <DataGridComboBoxColumn Header="День недели" Width="*"
+                                        SelectedItemBinding="{Binding WeekDay}"
+                                        DisplayMemberPath="Title"
+                                        SelectedValuePath="ID">
+            <DataGridComboBoxColumn.ElementStyle>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Setter Property="ItemsSource" Value="{Binding Path=DataContext.WeekDays, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
+                </Style>
+            </DataGridComboBoxColumn.ElementStyle>
+            <DataGridComboBoxColumn.EditingElementStyle>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Setter Property="ItemsSource" Value="{Binding Path=DataContext.WeekDays, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
+                </Style>
+            </DataGridComboBoxColumn.EditingElementStyle>
+        </DataGridComboBoxColumn>
+
+
+
+        <DataGridTemplateColumn Header="Время" Width="*">
+            <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                    <components:TimeControl Value="{Binding Path=Time}"/>
+                </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+            <DataGridTemplateColumn.CellEditingTemplate>
+                <DataTemplate>
+                    <components:TimeControl Value="{Binding Path=Time}"/>
+                </DataTemplate>
+            </DataGridTemplateColumn.CellEditingTemplate>
+        </DataGridTemplateColumn>
+        
+        
+
+        <DataGridComboBoxColumn Header="Кружок" Width="*"
+                                        SelectedItemBinding="{Binding Circle}"
+                                        DisplayMemberPath="Title"
+                                        SelectedValuePath="ID">
+            <DataGridComboBoxColumn.ElementStyle>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Setter Property="ItemsSource" Value="{Binding Path=DataContext.Circles, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
+                </Style>
+            </DataGridComboBoxColumn.ElementStyle>
+            <DataGridComboBoxColumn.EditingElementStyle>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Setter Property="ItemsSource" Value="{Binding Path=DataContext.Circles, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
+                </Style>
+            </DataGridComboBoxColumn.EditingElementStyle>
+        </DataGridComboBoxColumn>
+        
+        
+
+        <DataGridComboBoxColumn Header="Кабинет" Width="*"
+                                        SelectedItemBinding="{Binding Classroom}"
+                                        DisplayMemberPath="Number"
+                                        SelectedValuePath="ID">
+            <DataGridComboBoxColumn.ElementStyle>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Setter Property="ItemsSource" Value="{Binding Path=DataContext.Classrooms, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
+                </Style>
+            </DataGridComboBoxColumn.ElementStyle>
+            <DataGridComboBoxColumn.EditingElementStyle>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Setter Property="ItemsSource" Value="{Binding Path=DataContext.Classrooms, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
+                </Style>
+            </DataGridComboBoxColumn.EditingElementStyle>
+        </DataGridComboBoxColumn>
+        
+        
+
+        <DataGridComboBoxColumn Header="Учитель" Width="*"
+                                        SelectedItemBinding="{Binding Teacher}"
+                                        DisplayMemberPath="FullName"
+                                        SelectedValuePath="ID">
+            <DataGridComboBoxColumn.ElementStyle>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Setter Property="ItemsSource" Value="{Binding Path=DataContext.Teachers, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
+                </Style>
+            </DataGridComboBoxColumn.ElementStyle>
+            <DataGridComboBoxColumn.EditingElementStyle>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Setter Property="ItemsSource" Value="{Binding Path=DataContext.Teachers, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
+                </Style>
+            </DataGridComboBoxColumn.EditingElementStyle>
+        </DataGridComboBoxColumn>
+        
+        
+        
+    </local:EntityPage.Columns>
+</local:EntityPage>

@@ -21,7 +21,7 @@ using System.Windows.Shapes;
 namespace CirclesManagement.Components
 {
     /// <summary>
-    /// Логика взаимодействия для EntityListComponent.xaml
+    /// Логика взаимодействия для EntityDataGridComponent.xaml
     /// </summary>
     public partial class EntityDataGridComponent : UserControl
     {
@@ -52,17 +52,15 @@ namespace CirclesManagement.Components
         
         public void LoadEntityPage(EntityPage entityPage)
         {
-            // remove (unload) previous entityPage's columns, saving delete button columns
-            if (InnerDataGrid.Columns.Count > 1)
-                for (int i = 0; i < InnerDataGrid.Columns.Count-1; i++)
-                    InnerDataGrid.Columns.RemoveAt(i);
-
+            // remove previous entityPage's columns
+            InnerDataGrid.Columns.Clear();
             // load new entityPage's columns aside delte button column
             entityPage.Columns.ToList().ForEach(column =>
             {
-                InnerDataGrid.Columns.Insert(0, column);
+                InnerDataGrid.Columns.Add(column);
             });
 
+            DataContext = entityPage.EntityCollectionsForComboBoxes;
             ItemsSource = entityPage.ItemsSource;
             EH = entityPage.EH;
 
@@ -74,6 +72,11 @@ namespace CirclesManagement.Components
                     return true;
                 return EH.SearchTextMatcher(obj, SearchBox.SearchText);
             };
+        }
+
+        public void ClearColumns()
+        {
+            InnerDataGrid.Columns.Clear();
         }
         
         public void AddNewEntity()
@@ -106,25 +109,26 @@ namespace CirclesManagement.Components
                     Helpers.Error($"Ошибка при проверке {EH.Title.Singular.Genitive}: {message}.");
                     return false;
                 }
-                return true;
+
+                var isDuplicate = _itemsSource.ToList().Any(otherEntity =>
+                {
+                    if (entity.Equals(otherEntity)) // сравнение с самой собой
+                        return false;
+                    if (EH.Comparer(entity, otherEntity) == true)
+                    {
+                        Helpers.Error($"Ошибка: {EH.Title.Singular.Nominative} с такими данными уже существует.");
+                        return true;
+                    }
+                    return false;
+                });
+
+                return isDuplicate == false;
             });
 
             if (validationResult == false)
                 return;
-            
-            foreach (var entity1 in _itemsSource)
-            {
-                foreach (var entity2 in _itemsSource)
-                {
-                    if (entity1.Equals(entity2))
-                        continue;
-                    if (EH.Comparer(entity1, entity2) == true)
-                    {
-                        Helpers.Error($"Ошибка: {EH.Title.Singular.Nominative} с такими данными уже существует.");
-                        return;
-                    }
-                }
-            }
+
+            _itemsSource.ToList().ForEach(entity => EH.SavePreparator?.Invoke(entity));
 
             Helpers.AskAndDoActionIfYes("Вы уверены, что хотите сохранить изменения?", () =>
             {

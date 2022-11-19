@@ -83,6 +83,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Pages\TimetablesPage.xaml.cs">
+      <DependentUpon>TimetablesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\TeachersPage.xaml.cs">
+      <DependentUpon>TeachersPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\PupilsPage.xaml.cs">
+      <DependentUpon>PupilsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\GradesPage.xaml.cs">
+      <DependentUpon>GradesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ClassroomsPage.xaml.cs">
+      <DependentUpon>ClassroomsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\EntityHelper.cs" />
     <Compile Include="RegistrationWindow.xaml.cs">
       <DependentUpon>RegistrationWindow.xaml</DependentUpon>
@@ -190,6 +205,26 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Pages\TimetablesPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\TeachersPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\PupilsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\GradesPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\ClassroomsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\CirclesPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

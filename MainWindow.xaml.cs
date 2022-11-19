@@ -31,11 +31,11 @@ namespace CirclesManagement
         private static readonly EntityPage[] _pages = new EntityPage[]
         {
             new CirclesPage(),
-            //new ClassroomsPage(),
-            //new GradesPage(),
-            //new TeachersPage(),
-            //new PupilsPage(),
-            //new TimetablesPage(),
+            new ClassroomsPage(),
+            new GradesPage(),
+            new PupilsPage(),
+            new TeachersPage(),
+            new TimetablesPage(),
             //new LessonsPage()
         };
 
@@ -44,8 +44,8 @@ namespace CirclesManagement
             "• Кружки",
             "• Кабинеты",
             "• Классы",
-            "• Учителя",
             "• Ученики",
+            "• Учителя",
             "• Расписание",
             "• Уроки"
         };
@@ -57,8 +57,22 @@ namespace CirclesManagement
 
             _currentUser = user;
 
+            App.DB.WeekDays.Load();
+            App.DB.Circles.Load();
+            App.DB.Grades.Load();
+            App.DB.Classrooms.Load();
+            App.DB.Pupils.Load();
+            App.DB.Teachers.Load();
+            App.DB.Lessons.Load();
+            App.DB.Lesson_Pupil.Load();
+
             MainEntityDataGrid.SearchBox = SearchBox;
 
+            InitializeNavigation();
+        }
+
+        private void InitializeNavigation()
+        {
             Navigation.ItemsSource = _pageTitles;
             Navigation.SelectionChanged += (s, e) =>
             {
@@ -75,7 +89,9 @@ namespace CirclesManagement
             {
                 Helpers.Inform("Вы успешно вышли из системы.");
                 var authorizationWindow = new AuthorizationWindow();
+                authorizationWindow.Show();
                 authorizationWindow.Activate();
+                MainEntityDataGrid.ClearColumns();
                 Close();
             });
         }
