@@ -32,39 +32,16 @@ namespace CirclesManagement.Pages
         {
             InitializeComponent();
 
-            App.DB.Circles.Load();
-            ItemsSource = new ObservableCollection<object>(App.DB.Circles.Local);
-
             EH = new EntityHelper
             {
-                Title = new EntityHelper.Word()
-                {
-                    Singular = new EntityHelper.WordCases()
-                    {
-                        Nominative = "кружок",
-                        Genitive = "кружка",
-                        Dative = "кружку",
-                        Accusative = "кружок",
-                        Ablative = "кружком",
-                        Prepositional = "кружке"
-                    },
-                    Plural = new EntityHelper.WordCases()
-                    {
-                        Nominative = "кружки",
-                        Genitive = "кружков",
-                        Dative = "кружкам",
-                        Accusative = "кружки",
-                        Ablative = "кружками",
-                        Prepositional = "кружках"
-                    }
-                },
-
                 Builder = () =>
                 {
-                    var newCircle = new Circle();
-                    newCircle.Title = "";
-                    newCircle.IsWorking = true;
-                    newCircle.MaxNumberOfPupils = 0;
+                    var newCircle = new Circle
+                    {
+                        Title = "",
+                        IsWorking = true,
+                        MaxNumberOfPupils = 0
+                    };
                     App.DB.Circles.Local.Add(newCircle);
                     return newCircle;
                 },
@@ -75,17 +52,23 @@ namespace CirclesManagement.Pages
                     return circle.Title == "" && circle.MaxNumberOfPupils == 0;
                 },
 
-                IsDeleted = (obj) =>
+                Validator = (obj) =>
                 {
                     var circle = obj as Circle;
-                    return circle.IsWorking == false;
+                    if (string.IsNullOrWhiteSpace(circle.Title))
+                        return (false, "название кружка не может быть пустым");
+                    else if (circle.MaxNumberOfPupils <= 0)
+                        return (false, $"максимальное число учеников кружка \"{circle.Title}\" должно быть больше нуля");
+                    return (true, "");
                 },
 
                 Comparer = (obj1, obj2) =>
                 {
                     var circle1 = obj1 as Circle;
                     var circle2 = obj2 as Circle;
-                    return circle1.Title == circle2.Title;
+                    if (circle1.Title.ToLower().Trim() == circle2.Title.ToLower().Trim())
+                        return (false, $"кружок с названием \"{circle1.Title}\" уже существует");
+                    return (true, "");
                 },
 
                 SearchTextMatcher = (obj, searchText) =>
@@ -95,32 +78,36 @@ namespace CirclesManagement.Pages
                         || circle.MaxNumberOfPupils.ToString().Contains(searchText);
                 },
 
-                Validator = (obj) =>
-                {
-                    var circle = obj as Circle;
-                    if (string.IsNullOrWhiteSpace(circle.Title))
-                        return (false, "название не может быть пустым");
-                    else if (circle.MaxNumberOfPupils <= 0)
-                        return (false, "максимальное число учеников должно быть больше нуля");
-                    return (true, "");
-                },
-
                 Deleter = (obj) =>
                 {
                     var circle = obj as Circle;
                     var isPresentInTimetable = circle.Timetables.Count > 0;
                     if (isPresentInTimetable)
-                        return (false, "указан в расписании занятий");
-                    
+                        return (false, $"кружок {circle.Title} указан в расписании занятий");
+
                     var isAttendedByPupils = circle.Circle_Pupil
                         .Any(circle_pupil => circle_pupil.IsAttending == true);
                     if (isAttendedByPupils)
-                        return (false, "посещюат ученики");
+                        return (false, $"кружок {circle.Title} посещюат ученики");
 
                     circle.IsWorking = false;
                     return (true, "");
+                },
+
+                IsDeleted = (obj) =>
+                {
+                    var circle = obj as Circle;
+                    return circle.IsWorking == false;
+                },
+
+                SavePreparator = (obj) =>
+                {
+                    var circle = obj as Circle;
+                    circle.Title = Helpers.Capitalize(circle.Title);
                 }
             };
+
+            EntitiesSource = new ObservableCollection<object>(App.DB.Circles.Local);
         }
     }
 }

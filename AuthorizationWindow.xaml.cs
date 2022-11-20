@@ -55,8 +55,9 @@ namespace CirclesManagement
                 }
             }
 
+            App.CurrentUser = user;
             //Helpers.Inform("Авторизация прошла успешно.");
-            var mainWindow = new MainWindow(user);
+            var mainWindow = new MainWindow();
             mainWindow.Show();
             mainWindow.Activate();
             Close();

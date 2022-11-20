@@ -4,9 +4,9 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CirclesManagement.Pages"
-      mc:Ignorable="d" d:DesignHeight="600" d:DesignWidth="1000"
-      Style="{StaticResource CommonStyle}">
-    <local:EntityPage.Columns>
+      mc:Ignorable="d" Style="{StaticResource CommonStyle}"
+      Title="Учителя">
+    <local:EntityPage.DataGridColumns>
         <DataGridTextColumn Header="Фамилия" Width="*"
                                     Binding="{Binding Path=LastName}"/>
         <DataGridTextColumn Header="Имя" Width="*"
@@ -17,5 +17,5 @@
                                     Binding="{Binding Path=Login}"/>
         <DataGridTextColumn Header="Пароль" Width="*"
                                     Binding="{Binding Path=Password}"/>
-    </local:EntityPage.Columns>
+    </local:EntityPage.DataGridColumns>
 </local:EntityPage>

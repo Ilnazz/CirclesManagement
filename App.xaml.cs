@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -16,6 +17,20 @@ namespace CirclesManagement
     public partial class App : Application
     {
         public static readonly CirclesManagementEntities DB = new CirclesManagementEntities();
+
+        static App()
+        {
+            DB.WeekDays.Load();
+            DB.Circles.Load();
+            DB.Grades.Load();
+            DB.Classrooms.Load();
+            DB.Pupils.Load();
+            DB.Teachers.Load();
+            DB.Lessons.Load();
+            DB.Lesson_Pupil.Load();
+        }
+
+        public static User CurrentUser;
 
         protected override void OnStartup(StartupEventArgs e)
         {

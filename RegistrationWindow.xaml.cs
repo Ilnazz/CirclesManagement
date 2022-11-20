@@ -103,7 +103,7 @@ namespace CirclesManagement
 
             App.DB.SaveChanges();
 
-            Helpers.Inform("Учитель успешно зарегистрирован в системе.");
+            Helpers.Inform("Учитель зарегистрирован в системе.");
             Close();
         }
     }

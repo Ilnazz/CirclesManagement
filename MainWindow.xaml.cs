@@ -25,97 +25,92 @@ namespace CirclesManagement
     /// </summary>
     public partial class MainWindow : Window
     {
-        private User _currentUser;
-        private EntityPage _currentPage;
-
-        private static readonly EntityPage[] _pages = new EntityPage[]
+        private readonly EntityPage[] _entityPages = new EntityPage[]
         {
             new CirclesPage(),
             new ClassroomsPage(),
             new GradesPage(),
             new PupilsPage(),
             new TeachersPage(),
-            new TimetablesPage(),
+            new TimetablesPage()
             //new LessonsPage()
         };
 
-        private readonly string[] _pageTitles = new string[]
-        {
-            "• Кружки",
-            "• Кабинеты",
-            "• Классы",
-            "• Ученики",
-            "• Учителя",
-            "• Расписание",
-            "• Уроки"
-        };
-
-
-        public MainWindow(User user)
+        private EntityPage _currentEntityPage;
+        
+        public MainWindow()
         {
             InitializeComponent();
 
-            _currentUser = user;
-
-            App.DB.WeekDays.Load();
-            App.DB.Circles.Load();
-            App.DB.Grades.Load();
-            App.DB.Classrooms.Load();
-            App.DB.Pupils.Load();
-            App.DB.Teachers.Load();
-            App.DB.Lessons.Load();
-            App.DB.Lesson_Pupil.Load();
-
-            MainEntityDataGrid.SearchBox = SearchBox;
-
-            InitializeNavigation();
-        }
-
-        private void InitializeNavigation()
-        {
-            Navigation.ItemsSource = _pageTitles;
-            Navigation.SelectionChanged += (s, e) =>
+            Closing += (s, e) =>
             {
-                var pageIndex = Navigation.SelectedIndex;
-                _currentPage = _pages[pageIndex];
-                MainEntityDataGrid.LoadEntityPage(_currentPage);
+                Helpers.AskAndDoActionIfYes("Вы уверены, что хотите выйти из приложения? Несохранённые изменения будут потеряны.", () =>
+                {
+                    if (App.DB.ChangeTracker.HasChanges() == true)
+                        _currentEntityPage?.DiscardChanges();
+                });
             };
-            Navigation.SelectedIndex = 0;
+
+            Navigation.ItemsSource = _entityPages.Select(page => page.Title);
+            Navigation.BeforeSelectionChanged += (oldIndex, newIndex) =>
+            {
+                if (App.DB.ChangeTracker.HasChanges() == true)
+                {
+                    Helpers.Inform($"Перед переходом на другую страницу сохраните/отмените изменения на текущей.");
+                    return false;
+                }
+
+                if (newIndex != -1)
+                {
+                    _currentEntityPage = _entityPages[newIndex];
+                    _currentEntityPage.SearchBox = SearchBox;
+                    if (MainFrame.CanGoBack)
+                        MainFrame.GoBack();
+                    MainFrame.Navigate(_currentEntityPage);
+                }
+
+                return true;
+            };
         }
 
         private void BtnUserLogOut_Click(object sender, RoutedEventArgs e)
         {
-            Helpers.AskAndDoActionIfYes("Вы уверены, что хотите выйти из системы?", () =>
+            Helpers.WarnAndDoActionIfYes("Вы уверены, что хотите выйти из системы? Несохранённые изменения будут потеряны.", () =>
             {
-                Helpers.Inform("Вы успешно вышли из системы.");
+                if (App.DB.ChangeTracker.HasChanges() == true)
+                    _currentEntityPage?.DiscardChanges();
+
                 var authorizationWindow = new AuthorizationWindow();
                 authorizationWindow.Show();
                 authorizationWindow.Activate();
-                MainEntityDataGrid.ClearColumns();
                 Close();
             });
         }
 
         private void BtnToggleWorkingAndDeletedEntities_Click(object sender, RoutedEventArgs e)
         {
+            if (_currentEntityPage == null)
+                return;
             BtnToggleShowDeletedEntities.Content
                 = BtnToggleShowDeletedEntities.Content.ToString() == "Показать удалённые"
                     ? "Показать активные" : "Показать удалённые";
 
-            BtnAddEntity.Visibility =
-                BtnDeleteEntity.Visibility = BtnDeleteEntity.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+            BtnAdd.Visibility =
+                BtnDelete.Visibility = BtnDelete.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
 
-            MainEntityDataGrid.ShowDeletedEntities = !MainEntityDataGrid.ShowDeletedEntities;
-            MainEntityDataGrid.Refresh();
+            _currentEntityPage.ShowDeletedEntities = !_currentEntityPage.ShowDeletedEntities;
         }
 
         private void BtnSaveChanges_Click(object sender, RoutedEventArgs e)
-            => MainEntityDataGrid.SaveChanges();
+            => _currentEntityPage?.SaveChanges();
 
-        private void BtnAddEntity_Click(object sender, RoutedEventArgs e)
-            => MainEntityDataGrid.AddNewEntity();
+        private void BtnAdd_Click(object sender, RoutedEventArgs e)
+            => _currentEntityPage?.AddNewEntity();
 
-        private void BtnDeleteEntity_Click(object sender, RoutedEventArgs e)
-            => MainEntityDataGrid.DeleteSelectedEntity();
+        private void BtnDelete_Click(object sender, RoutedEventArgs e)
+            => _currentEntityPage?.DeleteSelectedEntity();
+
+        private void BtnDiscardChanges_Click(object sender, RoutedEventArgs e)
+            => _currentEntityPage?.DiscardChanges();
     }
 }

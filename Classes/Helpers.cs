@@ -20,7 +20,7 @@ namespace CirclesManagement.Classes
             => _regexRussianLetters.IsMatch(Regex.Replace(s, @"\s", ""));
 
         private static readonly Regex _regexGradeTitle = new Regex(@"^\d{1,2}[а-яА-Я]?$");
-        public static bool IsCorrectGradeTitle(string s)
+        public static bool IsValidGradeTitle(string s)
             => _regexGradeTitle.IsMatch(Regex.Replace(s, @"\s", ""));
 
         private static readonly string _questionMessageBoxCaption = "Подтверждение";

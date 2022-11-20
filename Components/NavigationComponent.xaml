@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="CirclesManagement.Components.NavigationComponent"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CirclesManagement.Components"
+             mc:Ignorable="d" x:Name="Root" Style="{StaticResource CommonStyle}">
+    <ListBox x:Name="InnerListBox"
+             BorderThickness="0" SelectionMode="Single">
+        <ListBox.ItemTemplate>
+            <DataTemplate>
+                <TextBlock Text="{Binding Item, StringFormat={}&#8226; {0}}" Tag="{Binding Index}" Padding="5" PreviewMouseDown="Item_MouseDown"/>
+            </DataTemplate>
+        </ListBox.ItemTemplate>
+    </ListBox>
+</UserControl>

@@ -15,7 +15,7 @@ namespace CirclesManagement.Pages
 
         public Predicate<object> IsBlank; // является ли сущность пустой (только что созданной)
 
-        public Func<object, object, bool> Comparer; // являются ли поля сущностей одинаковыми
+        public Func<object, object, (bool, string)> Comparer; // являются ли поля сущностей одинаковыми
         
         public Func<object, (bool, string)> Deleter; // помечает сущность как удалённую и возвращает (истину, ""),
                                                      // или возвращает (ложь, "причина по которой нельзя удалить сущность")
@@ -25,7 +25,7 @@ namespace CirclesManagement.Pages
         public Func<object, string, bool> SearchTextMatcher; // удовлетворяет ли сущность стркое поиска
 
         public Action<object> SavePreparator; // подготавливает сущность к сохранению в базе данных
-
+        /*
         // Название сущности
         public Word Title;
 
@@ -45,6 +45,6 @@ namespace CirclesManagement.Pages
             public string Accusative; // винительный
             public string Ablative; // творительный
             public string Prepositional; // предложный
-        }
+        }*/
     }
 }

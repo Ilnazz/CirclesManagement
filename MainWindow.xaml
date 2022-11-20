@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:CirclesManagement"
         xmlns:components="clr-namespace:CirclesManagement.Components"
         WindowStartupLocation="CenterScreen"
-        mc:Ignorable="d" DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        mc:Ignorable="d" Name="Root"
         Width="1000" Height="600"
         Title="Управление кружками" Style="{StaticResource CommonStyle}">
     <Grid>
@@ -28,38 +28,35 @@
                 <TextBlock Text="&#9773;" VerticalAlignment="Center" FontSize="32" Margin="0,0,5,0"/>
                 <TextBlock Text="Школа Олимп" VerticalAlignment="Center" TextWrapping="Wrap"/>
             </StackPanel>
-            <Button x:Name="BtnUserLogOut" Content="Выйти" Click="BtnUserLogOut_Click" VerticalAlignment="Center" HorizontalAlignment="Right" DockPanel.Dock="Right"/>
+            <Button x:Name="BtnUserLogOut" Content="Выйти" Click="BtnUserLogOut_Click"
+                    VerticalAlignment="Center" HorizontalAlignment="Right" DockPanel.Dock="Right"/>
         </DockPanel>
         
         <Grid Grid.Row="1" Grid.Column="2" Margin="0,0,5,5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <components:SearchBoxComponent x:Name="SearchBox" SearchPlaceHolder="Поиск..." Grid.Column="0" Margin="0,0,5,0"/>
-            <Button x:Name="BtnSaveChanges" Content="Сохранить изменения" Grid.Column="1" Click="BtnSaveChanges_Click"/>
+            <Button x:Name="BtnSaveChanges" Content="Сохранить изменения" Grid.Column="1" Margin="0,0,5,0" Click="BtnSaveChanges_Click"/>
+            <Button x:Name="BtnDiscardChanges" Content="Отклонить изменения" Grid.Column="2" Click="BtnDiscardChanges_Click"/>
         </Grid>
-            
 
-        <ListBox x:Name="Navigation" Grid.Row="1" Grid.RowSpan="3" Grid.Column="0" BorderThickness="0" SelectionMode="Single">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding {}}" Padding="5"/>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        
+        <components:NavigationComponent x:Name="Navigation" Grid.Row="1" Grid.RowSpan="3" Grid.Column="0"/>
+
         <GridSplitter Grid.Row="1" Grid.RowSpan="3" Grid.Column="1"
                       HorizontalAlignment="Center" VerticalAlignment="Stretch"
                       ShowsPreview="True"
                       Width="3" Background="Gainsboro" Margin="5,0,5,5"/>
 
-        <components:EntityDataGridComponent x:Name="MainEntityDataGrid" Grid.Row="2" Grid.Column="2" Margin="0,0,5,5"/>
+        <Frame Name="MainFrame" NavigationUIVisibility="Hidden" Grid.Row="2" Grid.Column="2" Margin="0,0,5,5"/>
 
         <DockPanel Grid.Row="3" Grid.Column="2" Margin="0,0,5,5">
-            <Button x:Name="BtnAddEntity" Content="Добавить" Click="BtnAddEntity_Click" DockPanel.Dock="Left" Margin="0,0,5,0"/>
-            <Button x:Name="BtnDeleteEntity" Content="Удалить" Click="BtnDeleteEntity_Click" DockPanel.Dock="Left"/>
-            <Button x:Name="BtnToggleShowDeletedEntities" HorizontalAlignment="Right" Content="Показать удалённые" Click="BtnToggleWorkingAndDeletedEntities_Click"/>
+            <Button x:Name="BtnAdd" Content="Добавить" Click="BtnAdd_Click" DockPanel.Dock="Left" Margin="0,0,5,0"/>
+            <Button x:Name="BtnDelete" Content="Удалить" Click="BtnDelete_Click" DockPanel.Dock="Left"/>
+            <Button x:Name="BtnToggleShowDeletedEntities" HorizontalAlignment="Right" Content="Показать удалённые"
+                    Click="BtnToggleWorkingAndDeletedEntities_Click"/>
         </DockPanel>
     </Grid>
 </Window>
