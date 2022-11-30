@@ -1,0 +1,26 @@
+﻿<Window x:Class="CirclesManagement.Pages.GroupEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CirclesManagement.Pages"
+        mc:Ignorable="d" Style="{StaticResource CommonStyle}"
+        Title="Редактирование группы" Width="750" Height="450"
+        Name="Root" WindowStartupLocation="CenterOwner">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="TBInformation" Margin="0,0,0,5" Grid.Row="0" DataContext="{Binding CurrentGroup, ElementName=Root}"/>
+
+        <Frame x:Name="FrameForPage" NavigationUIVisibility="Hidden" Grid.Row="1" Margin="0,0,0,5"/>
+
+        <DockPanel Grid.Row="2">
+            <Button x:Name="BtnAdd" Content="Добавить ученика" Margin="0,0,5,0" DockPanel.Dock="Left"/>
+            <Button x:Name="BtnDelete" Content="Удалить ученика" Margin="0,0,5,0" DockPanel.Dock="Left"/>
+            <Button x:Name="BtnSaveChanges" Content="Сохранить" DockPanel.Dock="Right" HorizontalAlignment="Right"/>
+        </DockPanel>
+    </Grid>
+</Window>

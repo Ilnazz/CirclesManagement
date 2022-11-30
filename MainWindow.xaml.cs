@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
@@ -25,66 +26,95 @@ namespace CirclesManagement
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly EntityPage[] _entityPages = new EntityPage[]
-        {
-            new CirclesPage(),
-            new ClassroomsPage(),
-            new GradesPage(),
-            new PupilsPage(),
-            new TeachersPage(),
-            new TimetablesPage()
-            //new LessonsPage()
-        };
-
+        private EntityPage[] _entityPages;
         private EntityPage _currentEntityPage;
-        
+
         public MainWindow()
         {
             InitializeComponent();
 
-            Closing += (s, e) =>
-            {
-                Helpers.AskAndDoActionIfYes("Вы уверены, что хотите выйти из приложения? Несохранённые изменения будут потеряны.", () =>
-                {
-                    if (App.DB.ChangeTracker.HasChanges() == true)
-                        _currentEntityPage?.DiscardChanges();
-                });
-            };
+            TBUser.Text = $"Пользователь: {App.CurrentUser.Name}";
+
+            LoadPagesAccordingToUserRole();
 
             Navigation.ItemsSource = _entityPages.Select(page => page.Title);
-            Navigation.BeforeSelectionChanged += (oldIndex, newIndex) =>
+            Navigation.SelectionChanged += () =>
             {
                 if (App.DB.ChangeTracker.HasChanges() == true)
                 {
-                    Helpers.Inform($"Перед переходом на другую страницу сохраните/отмените изменения на текущей.");
-                    return false;
+                    Helpers.Error("Перед переходом на другую страницу, сохраните изменения.");
                 }
 
-                if (newIndex != -1)
+                if (Navigation.SelectedIndex != -1)
                 {
-                    _currentEntityPage = _entityPages[newIndex];
+                    _currentEntityPage = _entityPages[Navigation.SelectedIndex];
                     _currentEntityPage.SearchBox = SearchBox;
+
+                    if (_currentEntityPage.HasAddFunction == true)
+                        BtnAdd.Visibility = Visibility.Visible;
+                    else
+                        BtnAdd.Visibility = Visibility.Collapsed;
+
+                    if (_currentEntityPage.HasDeleteFunction == true)
+                    {
+                        BtnDelete.Visibility = Visibility.Visible;
+                        BtnToggleShowDeletedEntities.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        BtnDelete.Visibility = Visibility.Collapsed;
+                        BtnToggleShowDeletedEntities.Visibility = Visibility.Collapsed;
+                    }
+
+                    if (_currentEntityPage.HasEditFunction == true)
+                        BtnEdit.Visibility = Visibility.Visible;
+                    else
+                        BtnEdit.Visibility = Visibility.Collapsed;
+
+                    if (_currentEntityPage.HasCreateLessonFunction == true)
+                        BtnCreateLesson.Visibility = Visibility.Visible;
+                    else
+                        BtnCreateLesson.Visibility = Visibility.Collapsed;
+
                     if (MainFrame.CanGoBack)
                         MainFrame.GoBack();
                     MainFrame.Navigate(_currentEntityPage);
                 }
-
-                return true;
             };
+        }
+
+        private void LoadPagesAccordingToUserRole()
+        {
+            if (App.CurrentUser.Role == App.DB.Roles.Local.First(role => role.Title == "AssociateDirector"))
+                _entityPages = new EntityPage[]
+                {
+                    new CirclesPage(),
+                    new ClassroomsPage(),
+                    new GradesPage(),
+                    new PupilsPage(),
+                    new TeachersPage(),
+                    new GroupsPage(),
+                    new TimetablesPage(),
+                    new LessonsPage()
+                };
+            else
+                _entityPages = new EntityPage[]
+                {
+                    new GroupsPageOfTeacher(App.CurrentUser.Teacher),
+                    new TimetablesPageOfTeacher(App.CurrentUser.Teacher),
+                    new LessonsPageOfTeacher(App.CurrentUser.Teacher)
+                };
         }
 
         private void BtnUserLogOut_Click(object sender, RoutedEventArgs e)
         {
-            Helpers.WarnAndDoActionIfYes("Вы уверены, что хотите выйти из системы? Несохранённые изменения будут потеряны.", () =>
-            {
-                if (App.DB.ChangeTracker.HasChanges() == true)
-                    _currentEntityPage?.DiscardChanges();
+            if (App.DB.ChangeTracker.HasChanges() == true)
+                _currentEntityPage?.DiscardChanges();
 
-                var authorizationWindow = new AuthorizationWindow();
-                authorizationWindow.Show();
-                authorizationWindow.Activate();
-                Close();
-            });
+            var authorizationWindow = new AuthorizationWindow();
+            authorizationWindow.Show();
+            authorizationWindow.Activate();
+            Close();    
         }
 
         private void BtnToggleWorkingAndDeletedEntities_Click(object sender, RoutedEventArgs e)
@@ -108,9 +138,15 @@ namespace CirclesManagement
             => _currentEntityPage?.AddNewEntity();
 
         private void BtnDelete_Click(object sender, RoutedEventArgs e)
-            => _currentEntityPage?.DeleteSelectedEntity();
+            => _currentEntityPage?.DeleteEntity();
 
         private void BtnDiscardChanges_Click(object sender, RoutedEventArgs e)
             => _currentEntityPage?.DiscardChanges();
+
+        private void BtnEdit_Click(object sender, RoutedEventArgs e)
+            => _currentEntityPage?.EditHandler();
+
+        private void BtnCreateLesson_Click(object sender, RoutedEventArgs e)
+            => _currentEntityPage?.CreateLessonFunction();
     }
 }

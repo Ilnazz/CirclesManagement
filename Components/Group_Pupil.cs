@@ -12,13 +12,13 @@ namespace CirclesManagement.Components
     using System;
     using System.Collections.Generic;
     
-    public partial class Circle_Pupil
+    public partial class Group_Pupil
     {
-        public int CircleID { get; set; }
+        public int GroupID { get; set; }
         public int PupilID { get; set; }
         public bool IsAttending { get; set; }
     
-        public virtual Circle Circle { get; set; }
+        public virtual Group Group { get; set; }
         public virtual Pupil Pupil { get; set; }
     }
 }

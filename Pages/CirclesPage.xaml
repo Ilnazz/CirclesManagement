@@ -7,9 +7,9 @@
       mc:Ignorable="d"
       Style="{StaticResource CommonStyle}" Title="Кружки">
     <local:EntityPage.DataGridColumns>
-        <DataGridTextColumn Header="Название" Width="*"
+        <DataGridTextColumn Header="Название" Width="3*" ElementStyle="{StaticResource DGTextColumnStyle}"
                         Binding="{Binding Path=Title}"/>
-        <DataGridTextColumn Header="Макс. число учеников" Width="*"
+        <DataGridTextColumn Header="Макс. число учеников" Width="*" ElementStyle="{StaticResource DGTextColumnStyle}"
                         Binding="{Binding Path=MaxNumberOfPupils}"/>
     </local:EntityPage.DataGridColumns>
 </local:EntityPage>

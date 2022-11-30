@@ -4,14 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CirclesManagement"
-        mc:Ignorable="d" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d" SizeToContent="WidthAndHeight" FontSize="18" WindowStartupLocation="CenterScreen"
         Title="Авторизация" Style="{StaticResource CommonStyle}">
-    <StackPanel HorizontalAlignment="Center">
+    <StackPanel HorizontalAlignment="Center" Margin="5">
+        <TextBlock Text="&#9773;" TextAlignment="Center" FontSize="64"/>
+
         <Label Target="{Binding ElementName=TBUserLogin}" Content="Логин пользователя:"/>
-        <TextBox x:Name="TBUserLogin" MaxLength="50" Margin="5" Text="ivanov_i_i" PreviewKeyDown="InputBox_PreviewKeyDown" BorderThickness="0,0,0,1"/>
+        <TextBox x:Name="TBUserLogin" MaxLength="50" Margin="5" Text="associate_director" PreviewKeyDown="InputBox_PreviewKeyDown" BorderThickness="0,0,0,1"/>
 
         <Label Target="{Binding ElementName=PBUserPassword}" Content="Пароль пользователя:"/>
-        <PasswordBox x:Name="PBUserPassword" MaxLength="50" Margin="5" Password="ivanov_i_i" PreviewKeyDown="InputBox_PreviewKeyDown" BorderThickness="0,0,0,1"/>
+        <PasswordBox x:Name="PBUserPassword" MaxLength="50" Margin="5" Password="associate_director" PreviewKeyDown="InputBox_PreviewKeyDown" BorderThickness="0,0,0,1"/>
 
         <Button x:Name="BtnAuthorize" Content="Войти" Margin="5,10" Click="BtnAuthorize_Click"/>
     </StackPanel>

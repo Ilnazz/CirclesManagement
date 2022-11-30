@@ -7,15 +7,33 @@
       mc:Ignorable="d" Style="{StaticResource CommonStyle}"
       Title="Учителя">
     <local:EntityPage.DataGridColumns>
-        <DataGridTextColumn Header="Фамилия" Width="*"
+
+
+
+        <DataGridTextColumn Header="Фамилия" Width="*" ElementStyle="{StaticResource DGTextColumnStyle}"
                                     Binding="{Binding Path=LastName}"/>
-        <DataGridTextColumn Header="Имя" Width="*"
+
+
+
+        <DataGridTextColumn Header="Имя" Width="*" ElementStyle="{StaticResource DGTextColumnStyle}"
                                     Binding="{Binding Path=FirstName}"/>
-        <DataGridTextColumn Header="Отчество" Width="*"
+
+
+
+        <DataGridTextColumn Header="Отчество" Width="*" ElementStyle="{StaticResource DGTextColumnStyle}"
                                     Binding="{Binding Path=Patronymic}"/>
-        <DataGridTextColumn Header="Логин" Width="*"
+
+
+
+        <DataGridTextColumn Header="Логин" Width="*" ElementStyle="{StaticResource DGTextColumnStyle}"
                                     Binding="{Binding Path=Login}"/>
-        <DataGridTextColumn Header="Пароль" Width="*"
+
+
+
+        <DataGridTextColumn Header="Пароль" Width="*" ElementStyle="{StaticResource DGTextColumnStyle}"
                                     Binding="{Binding Path=Password}"/>
+        
+        
+        
     </local:EntityPage.DataGridColumns>
 </local:EntityPage>

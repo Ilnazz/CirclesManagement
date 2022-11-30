@@ -1,0 +1,50 @@
+﻿<local:EntityPage x:Class="CirclesManagement.Pages.GroupsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CirclesManagement.Pages"
+      mc:Ignorable="d" Style="{StaticResource CommonStyle}"
+      Title="Группы">
+    <local:EntityPage.DataGridColumns>
+        <DataGridComboBoxColumn Header="Учитель" Width="*"
+                                SelectedItemBinding="{Binding Teacher}"
+                                DisplayMemberPath="FullName"
+                                SelectedValuePath="ID">
+            <DataGridComboBoxColumn.ElementStyle>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Setter Property="ItemsSource" Value="{Binding Path=DataContext.Teachers, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" />
+                    <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="TextBlock.Margin" Value="5"/>
+                </Style>
+            </DataGridComboBoxColumn.ElementStyle>
+            <DataGridComboBoxColumn.EditingElementStyle>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Setter Property="ItemsSource" Value="{Binding Path=DataContext.Teachers, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" />
+                </Style>
+            </DataGridComboBoxColumn.EditingElementStyle>
+        </DataGridComboBoxColumn>
+
+
+
+        <DataGridComboBoxColumn Header="Кружок" Width="*"
+                                SelectedItemBinding="{Binding Circle}"
+                                DisplayMemberPath="Title"
+                                SelectedValuePath="ID">
+            <DataGridComboBoxColumn.ElementStyle>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Setter Property="ItemsSource" Value="{Binding Path=DataContext.Circles, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" />
+                    <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="Margin" Value="5"/>
+                </Style>
+            </DataGridComboBoxColumn.ElementStyle>
+            <DataGridComboBoxColumn.EditingElementStyle>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Setter Property="ItemsSource" Value="{Binding Path=DataContext.Circles, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" />
+                </Style>
+            </DataGridComboBoxColumn.EditingElementStyle>
+        </DataGridComboBoxColumn>
+    </local:EntityPage.DataGridColumns>
+</local:EntityPage>

@@ -21,18 +21,16 @@ namespace CirclesManagement.Components
         }
     
         public int ID { get; set; }
-        public int TeacherID { get; set; }
         public int ClassroomID { get; set; }
-        public int CircleID { get; set; }
         public int WeekDayID { get; set; }
         public System.TimeSpan Time { get; set; }
         public bool IsActive { get; set; }
+        public int GroupID { get; set; }
     
-        public virtual Circle Circle { get; set; }
         public virtual Classroom Classroom { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Lesson> Lessons { get; set; }
-        public virtual Teacher Teacher { get; set; }
         public virtual WeekDay WeekDay { get; set; }
+        public virtual Group Group { get; set; }
     }
 }

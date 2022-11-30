@@ -81,15 +81,15 @@ namespace CirclesManagement.Pages
                 Deleter = (obj) =>
                 {
                     var circle = obj as Circle;
-                    var isPresentInTimetable = circle.Timetables.Count > 0;
+
+                    var isAttendedByAnyPupil = circle.Groups.Any(group => group.Group_Pupil.Any(group_pupil => group_pupil.IsAttending == true));
+                    if (isAttendedByAnyPupil)
+                        return (false, $"кружок {circle.Title} посещюает как минимум один ученик");
+
+                    var isPresentInTimetable = circle.Groups.Any(group => group.Timetables.Count > 0);
                     if (isPresentInTimetable)
                         return (false, $"кружок {circle.Title} указан в расписании занятий");
-
-                    var isAttendedByPupils = circle.Circle_Pupil
-                        .Any(circle_pupil => circle_pupil.IsAttending == true);
-                    if (isAttendedByPupils)
-                        return (false, $"кружок {circle.Title} посещюат ученики");
-
+                    
                     circle.IsWorking = false;
                     return (true, "");
                 },

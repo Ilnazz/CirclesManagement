@@ -1,0 +1,29 @@
+﻿<local:EntityPage x:Class="CirclesManagement.Pages.LessonsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CirclesManagement.Pages"
+      mc:Ignorable="d" Style="{StaticResource CommonStyle}"
+      Title="Уроки">
+    <local:EntityPage.DataGridColumns>
+
+        <DataGridTextColumn Header="Группа" Width="*" IsReadOnly="True"
+                            Binding="{Binding Timetable.Group.Title}" ElementStyle="{StaticResource DGTextColumnStyle}"/>
+
+        <DataGridTextColumn Header="Время" Width="0.33*" IsReadOnly="True"
+                            Binding="{Binding Timetable.Time}" ElementStyle="{StaticResource DGTextColumnStyle}"/>
+        
+        <DataGridTemplateColumn Header="Дата" Width="0.33*">
+            <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                    <DatePicker SelectedDate="{Binding Date}" BorderThickness="0" Background="Transparent"/>
+                </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+        
+        <DataGridCheckBoxColumn Header="Проведён" Width="0.25*"
+                                Binding="{Binding IsConducted}"/>
+        
+    </local:EntityPage.DataGridColumns>
+</local:EntityPage>

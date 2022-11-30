@@ -17,8 +17,7 @@ namespace CirclesManagement.Components
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Circle()
         {
-            this.Circle_Pupil = new HashSet<Circle_Pupil>();
-            this.Timetables = new HashSet<Timetable>();
+            this.Groups = new HashSet<Group>();
         }
     
         public int ID { get; set; }
@@ -27,8 +26,6 @@ namespace CirclesManagement.Components
         public int MaxNumberOfPupils { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Circle_Pupil> Circle_Pupil { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Timetable> Timetables { get; set; }
+        public virtual ICollection<Group> Groups { get; set; }
     }
 }

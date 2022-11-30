@@ -11,22 +11,38 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media;
 
 namespace CirclesManagement.Pages
 {
     public abstract class EntityPage : Page
     {
-        private readonly DataGrid _innerDataGrid = new DataGrid()
+        public bool HasAddFunction = true;
+        public bool HasDeleteFunction = true;
+
+        public bool HasEditFunction = false;
+        public Action EditHandler;
+
+        public bool HasCreateLessonFunction = false;
+        public Action CreateLessonFunction;
+
+        private DataGrid _innerDataGrid = new DataGrid()
         {
             AutoGenerateColumns = false,
             CanUserAddRows = false,
             CanUserDeleteRows = false,
             EnableColumnVirtualization = true,
             EnableRowVirtualization = true,
-            SelectionMode = DataGridSelectionMode.Single
+            SelectionMode = DataGridSelectionMode.Single,
+            HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled,
         };
+        public DataGrid InnerDataGrid
+        {
+            get { return _innerDataGrid; }
+            set { _innerDataGrid = value; }
+        }
 
-        protected PropertyGroupDescription[] propertyGroupDescriptions = null;
+        protected (PropertyGroupDescription, GroupStyle) dataGridGroupping = (null, null);
 
         public ObservableCollection<DataGridColumn> DataGridColumns
         {
@@ -44,11 +60,13 @@ namespace CirclesManagement.Pages
             {
                 _entitiesSource = value;
                 _collectionView = new CollectionViewSource { Source = value }.View;
-                if (propertyGroupDescriptions != null)
+                if (_entitiesSource.Count > 0)
                 {
-                    propertyGroupDescriptions
-                        .ToList().ForEach(pgd => _collectionView.GroupDescriptions.Add(pgd));
-                    _innerDataGrid.GroupStyle.Add(FindResource("DataGridGroupStyle") as GroupStyle);
+                    if (dataGridGroupping.Item1 != null && dataGridGroupping.Item2 != null)
+                    {
+                        _collectionView.GroupDescriptions.Add(dataGridGroupping.Item1);
+                        _innerDataGrid.GroupStyle.Add(dataGridGroupping.Item2);
+                    }
                 }
                 _innerDataGrid.ItemsSource = _collectionView;
             }
@@ -66,7 +84,7 @@ namespace CirclesManagement.Pages
                 _collectionView.Filter = (obj) => {
                     if (_showDeletedEntites == true && EH.IsDeleted(obj) == false
                         || _showDeletedEntites == false && EH.IsDeleted(obj) == true)
-                        return false;
+                            return false;
                     if (SearchBox.IsEmpty())
                         return true;
                     return EH.SearchTextMatcher(obj, SearchBox.SearchText);
@@ -87,6 +105,11 @@ namespace CirclesManagement.Pages
 
         public EntityPage() {
             Content = _innerDataGrid;
+
+            _innerDataGrid.LoadingRow += (s, e) =>
+            {
+                e.Row.Header = (e.Row.GetIndex() + 1).ToString();
+            };
         }
 
         public void AddNewEntity()
@@ -104,7 +127,7 @@ namespace CirclesManagement.Pages
             _innerDataGrid.ScrollIntoView(newEntity);
         }
 
-        public void DeleteSelectedEntity()
+        public void DeleteEntity()
         {
             if (_innerDataGrid.SelectedItem == null)
                 return;
@@ -195,7 +218,7 @@ namespace CirclesManagement.Pages
                 var changedEntries = App.DB.ChangeTracker.Entries()
                     .Where(x => x.State != EntityState.Unchanged).ToList();
 
-                foreach (var entry in changedEntries)
+                changedEntries.ForEach(entry =>
                 {
                     switch (entry.State)
                     {
@@ -208,9 +231,39 @@ namespace CirclesManagement.Pages
                             _entitiesSource.Remove(entry.Entity);
                             break;
                     }
-                }
+                });
+
                 _collectionView.Refresh();
-                Helpers.Inform("Изменения отменены.");
+            });
+        }
+
+        public void DiscardAddedEntities()
+        {
+            var changedEntries = App.DB.ChangeTracker.Entries()
+                    .Where(x => x.State != EntityState.Unchanged).ToList();
+
+            changedEntries.ForEach(entry =>
+            {
+                if (entry.State == EntityState.Added)
+                {
+                    entry.State = EntityState.Detached;
+                    _entitiesSource.Remove(entry.Entity);
+                }
+            });
+        }
+
+        public void DiscardModifications()
+        {
+            var changedEntries = App.DB.ChangeTracker.Entries()
+                    .Where(x => x.State != EntityState.Unchanged).ToList();
+
+            changedEntries.ForEach(entry =>
+            {
+                if (entry.State == EntityState.Modified)
+                {
+                    entry.CurrentValues.SetValues(entry.OriginalValues);
+                    entry.State = EntityState.Unchanged;
+                }
             });
         }
     }

@@ -10,13 +10,16 @@
         
 
 
-        <DataGridComboBoxColumn Header="День недели" Width="*"
+        <DataGridComboBoxColumn Header="День недели" Width="0.33*"
                                         SelectedItemBinding="{Binding WeekDay}"
                                         DisplayMemberPath="Title"
                                         SelectedValuePath="ID">
             <DataGridComboBoxColumn.ElementStyle>
                 <Style TargetType="{x:Type ComboBox}">
                     <Setter Property="ItemsSource" Value="{Binding Path=DataContext.WeekDays, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" />
+                    <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="Margin" Value="5"/>
                 </Style>
             </DataGridComboBoxColumn.ElementStyle>
             <DataGridComboBoxColumn.EditingElementStyle>
@@ -28,64 +31,52 @@
 
 
 
-        <DataGridTextColumn Header="Время" Width="*"
-                            Binding="{Binding Time, Converter={StaticResource TimeConverter}, StringFormat={}{0:hh\\:mm}}"/>
+        <DataGridTextColumn Header="Время" Width="0.33*"
+                            Binding="{Binding Time, Converter={StaticResource TimeConverter}, StringFormat=hh\\:mm}"/>
+
+        
+        
+        <DataGridComboBoxColumn Header="Кабинет" Width="0.33*"
+                                        SelectedItemBinding="{Binding Classroom}"
+                                        DisplayMemberPath="NumberAndTitle"
+                                        SelectedValuePath="ID">
+            <DataGridComboBoxColumn.ElementStyle>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Setter Property="ItemsSource" Value="{Binding Path=DataContext.Classrooms, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" />
+                    <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="Margin" Value="5"/>
+                </Style>
+            </DataGridComboBoxColumn.ElementStyle>
+            <DataGridComboBoxColumn.EditingElementStyle>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Setter Property="ItemsSource" Value="{Binding Path=DataContext.Classrooms, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" />
+                </Style>
+            </DataGridComboBoxColumn.EditingElementStyle>
+        </DataGridComboBoxColumn>
 
 
-
-        <DataGridComboBoxColumn Header="Кружок" Width="*"
-                                        SelectedItemBinding="{Binding Circle}"
+        
+        <DataGridComboBoxColumn Header="Группа" Width="*"
+                                        SelectedItemBinding="{Binding Group}"
                                         DisplayMemberPath="Title"
                                         SelectedValuePath="ID">
             <DataGridComboBoxColumn.ElementStyle>
                 <Style TargetType="{x:Type ComboBox}">
-                    <Setter Property="ItemsSource" Value="{Binding Path=DataContext.Circles, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" />
+                    <Setter Property="ItemsSource" Value="{Binding Path=DataContext.Groups, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" />
+                    <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="Margin" Value="5"/>
                 </Style>
             </DataGridComboBoxColumn.ElementStyle>
             <DataGridComboBoxColumn.EditingElementStyle>
                 <Style TargetType="{x:Type ComboBox}">
-                    <Setter Property="ItemsSource" Value="{Binding Path=DataContext.Circles, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" />
+                    <Setter Property="ItemsSource" Value="{Binding Path=DataContext.Groups, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" />
                 </Style>
             </DataGridComboBoxColumn.EditingElementStyle>
         </DataGridComboBoxColumn>
 
-
-
-        <DataGridComboBoxColumn Header="Кабинет" Width="*"
-                                        SelectedItemBinding="{Binding Classroom}"
-                                        DisplayMemberPath="Number"
-                                        SelectedValuePath="ID">
-            <DataGridComboBoxColumn.ElementStyle>
-                <Style TargetType="{x:Type ComboBox}">
-                    <Setter Property="ItemsSource" Value="{Binding Path=DataContext.Classrooms, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" />
-                </Style>
-            </DataGridComboBoxColumn.ElementStyle>
-            <DataGridComboBoxColumn.EditingElementStyle>
-                <Style TargetType="{x:Type ComboBox}">
-                    <Setter Property="ItemsSource" Value="{Binding Path=DataContext.Classrooms, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" />
-                </Style>
-            </DataGridComboBoxColumn.EditingElementStyle>
-        </DataGridComboBoxColumn>
-
-
-
-        <DataGridComboBoxColumn Header="Учитель" Width="*"
-                                        SelectedItemBinding="{Binding Teacher}"
-                                        DisplayMemberPath="FullName"
-                                        SelectedValuePath="ID">
-            <DataGridComboBoxColumn.ElementStyle>
-                <Style TargetType="{x:Type ComboBox}">
-                    <Setter Property="ItemsSource" Value="{Binding Path=DataContext.Teachers, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" />
-                </Style>
-            </DataGridComboBoxColumn.ElementStyle>
-            <DataGridComboBoxColumn.EditingElementStyle>
-                <Style TargetType="{x:Type ComboBox}">
-                    <Setter Property="ItemsSource" Value="{Binding Path=DataContext.Teachers, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" />
-                </Style>
-            </DataGridComboBoxColumn.EditingElementStyle>
-        </DataGridComboBoxColumn>
-
-
+        
 
     </local:EntityPage.DataGridColumns>
 </local:EntityPage>

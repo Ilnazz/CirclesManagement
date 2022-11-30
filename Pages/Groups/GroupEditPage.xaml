@@ -1,0 +1,31 @@
+﻿<local:EntityPage x:Class="CirclesManagement.Pages.GroupEditPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CirclesManagement.Pages"
+      mc:Ignorable="d" Style="{StaticResource CommonStyle}"
+      Title="Страница редактирования учеников в группе">
+    <local:EntityPage.DataGridColumns>
+        <DataGridComboBoxColumn Header="Ученик" Width="3*"
+                                SelectedItemBinding="{Binding Pupil}"
+                                DisplayMemberPath="FullName"
+                                SelectedValuePath="ID">
+            <DataGridComboBoxColumn.ElementStyle>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Setter Property="ItemsSource" Value="{Binding Path=DataContext.Pupils, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" />
+                    <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="Margin" Value="5"/>
+                </Style>
+            </DataGridComboBoxColumn.ElementStyle>
+            <DataGridComboBoxColumn.EditingElementStyle>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Setter Property="ItemsSource" Value="{Binding Path=DataContext.Pupils, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" />
+                </Style>
+            </DataGridComboBoxColumn.EditingElementStyle>
+        </DataGridComboBoxColumn>
+
+        <DataGridCheckBoxColumn Header="Посещает кружок" Binding="{Binding IsAttending}"/>
+    </local:EntityPage.DataGridColumns>
+</local:EntityPage>

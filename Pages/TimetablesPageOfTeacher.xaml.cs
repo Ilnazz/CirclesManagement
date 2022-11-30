@@ -21,10 +21,13 @@ namespace CirclesManagement.Pages
     /// <summary>
     /// Логика взаимодействия для TimetablesPage.xaml
     /// </summary>
-    public partial class TimetablesPage : EntityPage
+    public partial class TimetablesPageOfTeacher : EntityPage
     {
-        public TimetablesPage()
+        public TimetablesPageOfTeacher(Teacher teacher)
         {
+            HasAddFunction = false;
+            HasDeleteFunction = false;
+
             InitializeComponent();
 
             EH = new EntityHelper
@@ -75,7 +78,6 @@ namespace CirclesManagement.Pages
                     
                     if (timetable1.WeekDay == timetable2.WeekDay
                         && timetable1.Time == timetable2.Time
-                        && timetable1.Classroom == timetable2.Classroom
                         && timetable1.Group.Teacher == timetable2.Group.Teacher)
                             // Будет НЕОДНОЗНАЧНОСТЬ, ЕСЛИ Фамилия и инициалы совпадают
                             return (false, $"учитель группы \"{timetable1.Group.Teacher.FullName}\" не может быть назначен " +
@@ -114,13 +116,13 @@ namespace CirclesManagement.Pages
                 FindResource("TimetableDataGridGroupStyle") as GroupStyle
             );
 
-            EntitiesSource = new ObservableCollection<object>(App.DB.Timetables.Local);
+            EntitiesSource = new ObservableCollection<object>(App.DB.Timetables.Local.Where(t => t.Group.Teacher == teacher));
 
             DataContext = new
             {
                 WeekDays = App.DB.WeekDays.Local,
                 Classrooms = App.DB.Classrooms.Local.Where(classroom => classroom.IsActive == true),
-                Groups = App.DB.Groups.Local.Where(group => group.IsActive == true)
+                Groups = App.DB.Groups.Local.Where(group => group.IsActive == true && group.Teacher == teacher)
             };
 
             HasCreateLessonFunction = true;
@@ -145,6 +147,7 @@ namespace CirclesManagement.Pages
                 };
 
                 App.DB.Lessons.Local.Add(newLesson);
+                App.DB.SaveChanges();
 
                 Helpers.Inform("Урок создан.");
             };

@@ -7,14 +7,14 @@
     <Application.Resources>
         <converters:TimeConverter x:Key="TimeConverter"/>
 
-        <GroupStyle x:Key="DataGridGroupStyle">
+        <GroupStyle x:Key="PupilsDataGridGroupStyle">
             <GroupStyle.ContainerStyle>
                 <Style TargetType="{x:Type GroupItem}">
-                    <Setter Property="Margin" Value="0,0,0,5"/>
+                    <Setter Property="Margin" Value="5"/>
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type GroupItem}">
-                                <Expander IsExpanded="True" Background="Gray" BorderBrush="Gray" Foreground="White" BorderThickness="0">
+                                <Expander IsExpanded="True" Background="#457b9d" BorderBrush="#457b9d" Foreground="White" BorderThickness="5">
                                     <Expander.Header>
                                         <TextBlock TextAlignment="Right" HorizontalAlignment="Stretch">
                                             <TextBlock.Text>
@@ -24,6 +24,64 @@
                                                 </MultiBinding>
                                             </TextBlock.Text>
                                         </TextBlock>
+                                    </Expander.Header>
+                                    <Expander.Content>
+                                        <ItemsPresenter>
+                                            <ItemsPresenter.Style>
+                                                <Style>
+                                                    <Setter Property="Control.Foreground" Value="Black"/>
+                                                </Style>
+                                            </ItemsPresenter.Style>
+                                        </ItemsPresenter>
+                                    </Expander.Content>
+                                </Expander>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </GroupStyle.ContainerStyle>
+        </GroupStyle>
+
+        <GroupStyle x:Key="TimetableDataGridGroupStyle">
+            <GroupStyle.ContainerStyle>
+                <Style TargetType="{x:Type GroupItem}">
+                    <Setter Property="Margin" Value="5"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type GroupItem}">
+                                <Expander IsExpanded="True" Background="#457b9d" BorderBrush="#457b9d" Foreground="White" BorderThickness="5">
+                                    <Expander.Header>
+                                        <TextBlock Text="{Binding Name, StringFormat={}Расписание занятий на {0}}"
+                                                   TextAlignment="Right" HorizontalAlignment="Stretch"/>
+                                    </Expander.Header>
+                                    <Expander.Content>
+                                        <ItemsPresenter>
+                                            <ItemsPresenter.Style>
+                                                <Style>
+                                                    <Setter Property="Control.Foreground" Value="Black"/>
+                                                </Style>
+                                            </ItemsPresenter.Style>
+                                        </ItemsPresenter>
+                                    </Expander.Content>
+                                </Expander>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </GroupStyle.ContainerStyle>
+        </GroupStyle>
+
+        <GroupStyle x:Key="LessonDataGridGroupStyle">
+            <GroupStyle.ContainerStyle>
+                <Style TargetType="{x:Type GroupItem}">
+                    <Setter Property="Margin" Value="5"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type GroupItem}">
+                                <Expander IsExpanded="True" Background="#457b9d" BorderBrush="#457b9d" Foreground="White" BorderThickness="5">
+                                    <Expander.Header>
+                                        <TextBlock Text="{Binding Name}"
+                                                   TextAlignment="Right" HorizontalAlignment="Stretch"/>
                                     </Expander.Header>
                                     <Expander.Content>
                                         <ItemsPresenter>
@@ -63,31 +121,35 @@
         </Style>-->
 
         <Style x:Key="CommonStyle">
-            <Setter Property="Control.FontFamily" Value="Palatino Linotype" />
+            <Setter Property="Control.FontFamily" Value="Century Schoolbook" />
             <Setter Property="Control.FontSize" Value="16" />
         </Style>
 
-        <!--<Style TargetType="Button">
-            <Setter Property="FontSize" Value="14" />
-            <Setter Property="Padding" Value="5"/>
+        <Style TargetType="Button">
+            <Setter Property="BorderThickness" Value="0.75"/>
+            <Setter Property="Padding" Value="5,2.5,5,2.5"/>
+            <Setter Property="Background" Value="#a8dadc"/>
+            <Setter Property="Foreground" Value="Black"/>
         </Style>
         
-        <Style TargetType="TextBox">
+        <!--<Style TargetType="TextBox">
             <Setter Property="Padding" Value="1" />
         </Style>
         
         <Style TargetType="PasswordBox">
             <Setter Property="Padding" Value="1" />
-        </Style>
+        </Style>-->
 
         <Style x:Key="DGTextColumnStyle" TargetType="TextBlock">
-            <Setter Property="Padding" Value="1"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="5"/>
         </Style>
+        
         <Style x:Key="DGTextColumnEditingStyle" TargetType="TextBox">
-            <Setter Property="Padding" Value="1" />
         </Style>
+        
         <Style x:Key="DGCheckBoxColumnStyle" TargetType="CheckBox">
-            <Setter Property="Padding" Value="1" />
-        </Style>-->
+        </Style>
     </Application.Resources>
 </Application>

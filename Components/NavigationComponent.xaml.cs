@@ -25,37 +25,26 @@ namespace CirclesManagement.Components
         public IEnumerable<string> ItemsSource
         {
             get { return (IEnumerable<string>)GetValue(ItemsSourceProperty); }
-            set {
-                SetValue(ItemsSourceProperty, value);
-
-                int index = 0;
-                InnerListBox.ItemsSource = ItemsSource.Select(item => new { Item = item, Index = index++ });
-            }
+            set { SetValue(ItemsSourceProperty, value); }
         }
         public static readonly DependencyProperty ItemsSourceProperty =
             DependencyProperty.Register("ItemsSource", typeof(IEnumerable<string>), typeof(NavigationComponent), new PropertyMetadata(new List<string>()));
 
-        // Происходит перед выбором следующего элемента
-        public Func<int, int, bool> BeforeSelectionChanged = (_, __) => true;
-        
+        public event Action SelectionChanged
+        {
+            add { InnerListBox.SelectionChanged += (s, e) => value(); }
+            remove { InnerListBox.SelectionChanged -= (s, e) => value(); }
+        }
+
+        public int SelectedIndex
+        {
+            get { return InnerListBox.SelectedIndex; }
+            set { InnerListBox.SelectedIndex = value; }
+        }
+
         public NavigationComponent()
         {
             InitializeComponent();
-        }
-
-        private void Item_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            var newIndex = (int)(e.Source as TextBlock).Tag;
-
-            if (newIndex == InnerListBox.SelectedIndex)
-            {
-                // Клик на том же элементе, ничего не менятеся
-                return;
-            }
-
-            var accept = BeforeSelectionChanged(InnerListBox.SelectedIndex, newIndex);
-            if (accept == false)
-                e.Handled = true;
         }
     }
 }

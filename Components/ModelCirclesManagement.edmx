@@ -14,15 +14,6 @@
           <Property Name="IsWorking" Type="bit" Nullable="false" />
           <Property Name="MaxNumberOfPupils" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="Circle_Pupil">
-          <Key>
-            <PropertyRef Name="CircleID" />
-            <PropertyRef Name="PupilID" />
-          </Key>
-          <Property Name="CircleID" Type="int" Nullable="false" />
-          <Property Name="PupilID" Type="int" Nullable="false" />
-          <Property Name="IsAttending" Type="bit" Nullable="false" />
-        </EntityType>
         <EntityType Name="Classroom">
           <Key>
             <PropertyRef Name="ID" />
@@ -40,6 +31,24 @@
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="Title" Type="nvarchar" MaxLength="3" Nullable="false" />
         </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TeacherID" Type="int" Nullable="false" />
+          <Property Name="CircleID" Type="int" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Group_Pupil">
+          <Key>
+            <PropertyRef Name="GroupID" />
+            <PropertyRef Name="PupilID" />
+          </Key>
+          <Property Name="GroupID" Type="int" Nullable="false" />
+          <Property Name="PupilID" Type="int" Nullable="false" />
+          <Property Name="IsAttending" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Lesson">
           <Key>
             <PropertyRef Name="ID" />
@@ -47,6 +56,8 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TimetableID" Type="int" Nullable="false" />
           <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="IsConducted" Type="bit" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Lesson_Pupil">
           <Key>
@@ -100,12 +111,11 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="TeacherID" Type="int" Nullable="false" />
           <Property Name="ClassroomID" Type="int" Nullable="false" />
-          <Property Name="CircleID" Type="int" Nullable="false" />
           <Property Name="WeekDayID" Type="int" Nullable="false" />
           <Property Name="Time" Type="time" Precision="7" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="GroupID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -125,27 +135,51 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Title" Type="nvarchar" MaxLength="11" Nullable="false" />
         </EntityType>
-        <Association Name="FK_Circle_Pupil_CIrcle">
+        <Association Name="FK_Group_Circle">
           <End Role="Circle" Type="Self.Circle" Multiplicity="1" />
-          <End Role="Circle_Pupil" Type="Self.Circle_Pupil" Multiplicity="*" />
+          <End Role="Group" Type="Self.Group" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Circle">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="Circle_Pupil">
+            <Dependent Role="Group">
               <PropertyRef Name="CircleID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Circle_Pupil_Pupil">
+        <Association Name="FK_Group_Pupil_Group">
+          <End Role="Group" Type="Self.Group" Multiplicity="1" />
+          <End Role="Group_Pupil" Type="Self.Group_Pupil" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Group_Pupil">
+              <PropertyRef Name="GroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Group_Pupil_Pupil">
           <End Role="Pupil" Type="Self.Pupil" Multiplicity="1" />
-          <End Role="Circle_Pupil" Type="Self.Circle_Pupil" Multiplicity="*" />
+          <End Role="Group_Pupil" Type="Self.Group_Pupil" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Pupil">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="Circle_Pupil">
+            <Dependent Role="Group_Pupil">
               <PropertyRef Name="PupilID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Group_Teacher">
+          <End Role="Teacher" Type="Self.Teacher" Multiplicity="1" />
+          <End Role="Group" Type="Self.Group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teacher">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Group">
+              <PropertyRef Name="TeacherID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -197,18 +231,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Timetable_CIrcle">
-          <End Role="Circle" Type="Self.Circle" Multiplicity="1" />
-          <End Role="Timetable" Type="Self.Timetable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Circle">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Timetable">
-              <PropertyRef Name="CircleID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Timetable_Classroom">
           <End Role="Classroom" Type="Self.Classroom" Multiplicity="1" />
           <End Role="Timetable" Type="Self.Timetable" Multiplicity="*" />
@@ -221,15 +243,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Timetable_Teacher">
-          <End Role="Teacher" Type="Self.Teacher" Multiplicity="1" />
+        <Association Name="FK_Timetable_Group">
+          <End Role="Group" Type="Self.Group" Multiplicity="1" />
           <End Role="Timetable" Type="Self.Timetable" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Teacher">
+            <Principal Role="Group">
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="Timetable">
-              <PropertyRef Name="TeacherID" />
+              <PropertyRef Name="GroupID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -271,9 +293,10 @@
         </Association>
         <EntityContainer Name="Хранилище CirclesManagementModelContainer">
           <EntitySet Name="Circle" EntityType="Self.Circle" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Circle_Pupil" EntityType="Self.Circle_Pupil" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Classroom" EntityType="Self.Classroom" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Grade" EntityType="Self.Grade" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Group" EntityType="Self.Group" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Group_Pupil" EntityType="Self.Group_Pupil" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Lesson" EntityType="Self.Lesson" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Lesson_Pupil" EntityType="Self.Lesson_Pupil" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Pupil" EntityType="Self.Pupil" Schema="dbo" store:Type="Tables" />
@@ -283,13 +306,21 @@
           <EntitySet Name="Timetable" EntityType="Self.Timetable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WeekDay" EntityType="Self.WeekDay" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_Circle_Pupil_CIrcle" Association="Self.FK_Circle_Pupil_CIrcle">
+          <AssociationSet Name="FK_Group_Circle" Association="Self.FK_Group_Circle">
             <End Role="Circle" EntitySet="Circle" />
-            <End Role="Circle_Pupil" EntitySet="Circle_Pupil" />
+            <End Role="Group" EntitySet="Group" />
           </AssociationSet>
-          <AssociationSet Name="FK_Circle_Pupil_Pupil" Association="Self.FK_Circle_Pupil_Pupil">
+          <AssociationSet Name="FK_Group_Pupil_Group" Association="Self.FK_Group_Pupil_Group">
+            <End Role="Group" EntitySet="Group" />
+            <End Role="Group_Pupil" EntitySet="Group_Pupil" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Group_Pupil_Pupil" Association="Self.FK_Group_Pupil_Pupil">
             <End Role="Pupil" EntitySet="Pupil" />
-            <End Role="Circle_Pupil" EntitySet="Circle_Pupil" />
+            <End Role="Group_Pupil" EntitySet="Group_Pupil" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Group_Teacher" Association="Self.FK_Group_Teacher">
+            <End Role="Teacher" EntitySet="Teacher" />
+            <End Role="Group" EntitySet="Group" />
           </AssociationSet>
           <AssociationSet Name="FK_Lesson_Pupil_Lesson" Association="Self.FK_Lesson_Pupil_Lesson">
             <End Role="Lesson" EntitySet="Lesson" />
@@ -307,16 +338,12 @@
             <End Role="Grade" EntitySet="Grade" />
             <End Role="Pupil" EntitySet="Pupil" />
           </AssociationSet>
-          <AssociationSet Name="FK_Timetable_CIrcle" Association="Self.FK_Timetable_CIrcle">
-            <End Role="Circle" EntitySet="Circle" />
-            <End Role="Timetable" EntitySet="Timetable" />
-          </AssociationSet>
           <AssociationSet Name="FK_Timetable_Classroom" Association="Self.FK_Timetable_Classroom">
             <End Role="Classroom" EntitySet="Classroom" />
             <End Role="Timetable" EntitySet="Timetable" />
           </AssociationSet>
-          <AssociationSet Name="FK_Timetable_Teacher" Association="Self.FK_Timetable_Teacher">
-            <End Role="Teacher" EntitySet="Teacher" />
+          <AssociationSet Name="FK_Timetable_Group" Association="Self.FK_Timetable_Group">
+            <End Role="Group" EntitySet="Group" />
             <End Role="Timetable" EntitySet="Timetable" />
           </AssociationSet>
           <AssociationSet Name="FK_Timetable_WeekDay" Association="Self.FK_Timetable_WeekDay">
@@ -338,9 +365,10 @@
       <Schema Namespace="CirclesManagementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="CirclesManagementEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Circles" EntityType="CirclesManagementModel.Circle" />
-          <EntitySet Name="Circle_Pupil" EntityType="CirclesManagementModel.Circle_Pupil" />
           <EntitySet Name="Classrooms" EntityType="CirclesManagementModel.Classroom" />
           <EntitySet Name="Grades" EntityType="CirclesManagementModel.Grade" />
+          <EntitySet Name="Groups" EntityType="CirclesManagementModel.Group" />
+          <EntitySet Name="Group_Pupil" EntityType="CirclesManagementModel.Group_Pupil" />
           <EntitySet Name="Lessons" EntityType="CirclesManagementModel.Lesson" />
           <EntitySet Name="Lesson_Pupil" EntityType="CirclesManagementModel.Lesson_Pupil" />
           <EntitySet Name="Pupils" EntityType="CirclesManagementModel.Pupil" />
@@ -350,17 +378,9 @@
           <EntitySet Name="Timetables" EntityType="CirclesManagementModel.Timetable" />
           <EntitySet Name="Users" EntityType="CirclesManagementModel.User" />
           <EntitySet Name="WeekDays" EntityType="CirclesManagementModel.WeekDay" />
-          <AssociationSet Name="FK_Circle_Pupil_CIrcle" Association="CirclesManagementModel.FK_Circle_Pupil_CIrcle">
+          <AssociationSet Name="FK_Group_Circle" Association="CirclesManagementModel.FK_Group_Circle">
             <End Role="Circle" EntitySet="Circles" />
-            <End Role="Circle_Pupil" EntitySet="Circle_Pupil" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Timetable_CIrcle" Association="CirclesManagementModel.FK_Timetable_CIrcle">
-            <End Role="Circle" EntitySet="Circles" />
-            <End Role="Timetable" EntitySet="Timetables" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Circle_Pupil_Pupil" Association="CirclesManagementModel.FK_Circle_Pupil_Pupil">
-            <End Role="Pupil" EntitySet="Pupils" />
-            <End Role="Circle_Pupil" EntitySet="Circle_Pupil" />
+            <End Role="Group" EntitySet="Groups" />
           </AssociationSet>
           <AssociationSet Name="FK_Timetable_Classroom" Association="CirclesManagementModel.FK_Timetable_Classroom">
             <End Role="Classroom" EntitySet="Classrooms" />
@@ -369,6 +389,18 @@
           <AssociationSet Name="FK_Pupil_Grade" Association="CirclesManagementModel.FK_Pupil_Grade">
             <End Role="Grade" EntitySet="Grades" />
             <End Role="Pupil" EntitySet="Pupils" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Group_Pupil_Group" Association="CirclesManagementModel.FK_Group_Pupil_Group">
+            <End Role="Group" EntitySet="Groups" />
+            <End Role="Group_Pupil" EntitySet="Group_Pupil" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Group_Teacher" Association="CirclesManagementModel.FK_Group_Teacher">
+            <End Role="Teacher" EntitySet="Teachers" />
+            <End Role="Group" EntitySet="Groups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Group_Pupil_Pupil" Association="CirclesManagementModel.FK_Group_Pupil_Pupil">
+            <End Role="Pupil" EntitySet="Pupils" />
+            <End Role="Group_Pupil" EntitySet="Group_Pupil" />
           </AssociationSet>
           <AssociationSet Name="FK_Lesson_Pupil_Lesson" Association="CirclesManagementModel.FK_Lesson_Pupil_Lesson">
             <End Role="Lesson" EntitySet="Lessons" />
@@ -386,16 +418,16 @@
             <End Role="Role" EntitySet="Roles" />
             <End Role="User" EntitySet="Users" />
           </AssociationSet>
-          <AssociationSet Name="FK_Timetable_Teacher" Association="CirclesManagementModel.FK_Timetable_Teacher">
-            <End Role="Teacher" EntitySet="Teachers" />
-            <End Role="Timetable" EntitySet="Timetables" />
-          </AssociationSet>
           <AssociationSet Name="FK_User_Teacher" Association="CirclesManagementModel.FK_User_Teacher">
             <End Role="Teacher" EntitySet="Teachers" />
             <End Role="User" EntitySet="Users" />
           </AssociationSet>
           <AssociationSet Name="FK_Timetable_WeekDay" Association="CirclesManagementModel.FK_Timetable_WeekDay">
             <End Role="WeekDay" EntitySet="WeekDays" />
+            <End Role="Timetable" EntitySet="Timetables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Timetable_Group" Association="CirclesManagementModel.FK_Timetable_Group">
+            <End Role="Group" EntitySet="Groups" />
             <End Role="Timetable" EntitySet="Timetables" />
           </AssociationSet>
         </EntityContainer>
@@ -407,19 +439,7 @@
           <Property Name="Title" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="IsWorking" Type="Boolean" Nullable="false" />
           <Property Name="MaxNumberOfPupils" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Circle_Pupil" Relationship="CirclesManagementModel.FK_Circle_Pupil_CIrcle" FromRole="Circle" ToRole="Circle_Pupil" />
-          <NavigationProperty Name="Timetables" Relationship="CirclesManagementModel.FK_Timetable_CIrcle" FromRole="Circle" ToRole="Timetable" />
-        </EntityType>
-        <EntityType Name="Circle_Pupil">
-          <Key>
-            <PropertyRef Name="CircleID" />
-            <PropertyRef Name="PupilID" />
-          </Key>
-          <Property Name="CircleID" Type="Int32" Nullable="false" />
-          <Property Name="PupilID" Type="Int32" Nullable="false" />
-          <Property Name="IsAttending" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Circle" Relationship="CirclesManagementModel.FK_Circle_Pupil_CIrcle" FromRole="Circle_Pupil" ToRole="Circle" />
-          <NavigationProperty Name="Pupil" Relationship="CirclesManagementModel.FK_Circle_Pupil_Pupil" FromRole="Circle_Pupil" ToRole="Pupil" />
+          <NavigationProperty Name="Groups" Relationship="CirclesManagementModel.FK_Group_Circle" FromRole="Circle" ToRole="Group" />
         </EntityType>
         <EntityType Name="Classroom">
           <Key>
@@ -440,6 +460,30 @@
           <Property Name="Title" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Pupils" Relationship="CirclesManagementModel.FK_Pupil_Grade" FromRole="Grade" ToRole="Pupil" />
         </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="TeacherID" Type="Int32" Nullable="false" />
+          <Property Name="CircleID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Circle" Relationship="CirclesManagementModel.FK_Group_Circle" FromRole="Group" ToRole="Circle" />
+          <NavigationProperty Name="Group_Pupil" Relationship="CirclesManagementModel.FK_Group_Pupil_Group" FromRole="Group" ToRole="Group_Pupil" />
+          <NavigationProperty Name="Teacher" Relationship="CirclesManagementModel.FK_Group_Teacher" FromRole="Group" ToRole="Teacher" />
+          <NavigationProperty Name="Timetables" Relationship="CirclesManagementModel.FK_Timetable_Group" FromRole="Group" ToRole="Timetable" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Group_Pupil">
+          <Key>
+            <PropertyRef Name="GroupID" />
+            <PropertyRef Name="PupilID" />
+          </Key>
+          <Property Name="GroupID" Type="Int32" Nullable="false" />
+          <Property Name="PupilID" Type="Int32" Nullable="false" />
+          <Property Name="IsAttending" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Group" Relationship="CirclesManagementModel.FK_Group_Pupil_Group" FromRole="Group_Pupil" ToRole="Group" />
+          <NavigationProperty Name="Pupil" Relationship="CirclesManagementModel.FK_Group_Pupil_Pupil" FromRole="Group_Pupil" ToRole="Pupil" />
+        </EntityType>
         <EntityType Name="Lesson">
           <Key>
             <PropertyRef Name="ID" />
@@ -449,6 +493,8 @@
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="Lesson_Pupil" Relationship="CirclesManagementModel.FK_Lesson_Pupil_Lesson" FromRole="Lesson" ToRole="Lesson_Pupil" />
           <NavigationProperty Name="Timetable" Relationship="CirclesManagementModel.FK_Lesson_Timetable" FromRole="Lesson" ToRole="Timetable" />
+          <Property Name="IsConducted" Type="Boolean" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Lesson_Pupil">
           <Key>
@@ -471,8 +517,8 @@
           <Property Name="Patronymic" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="GradeID" Type="Int32" Nullable="false" />
           <Property Name="IsStudying" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Circle_Pupil" Relationship="CirclesManagementModel.FK_Circle_Pupil_Pupil" FromRole="Pupil" ToRole="Circle_Pupil" />
           <NavigationProperty Name="Grade" Relationship="CirclesManagementModel.FK_Pupil_Grade" FromRole="Pupil" ToRole="Grade" />
+          <NavigationProperty Name="Group_Pupil" Relationship="CirclesManagementModel.FK_Group_Pupil_Pupil" FromRole="Pupil" ToRole="Group_Pupil" />
           <NavigationProperty Name="Lesson_Pupil" Relationship="CirclesManagementModel.FK_Lesson_Pupil_Pupil" FromRole="Pupil" ToRole="Lesson_Pupil" />
         </EntityType>
         <EntityType Name="Role">
@@ -502,7 +548,7 @@
           <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Patronymic" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsWorking" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Timetables" Relationship="CirclesManagementModel.FK_Timetable_Teacher" FromRole="Teacher" ToRole="Timetable" />
+          <NavigationProperty Name="Groups" Relationship="CirclesManagementModel.FK_Group_Teacher" FromRole="Teacher" ToRole="Group" />
           <NavigationProperty Name="Users" Relationship="CirclesManagementModel.FK_User_Teacher" FromRole="Teacher" ToRole="User" />
         </EntityType>
         <EntityType Name="Timetable">
@@ -510,17 +556,15 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TeacherID" Type="Int32" Nullable="false" />
           <Property Name="ClassroomID" Type="Int32" Nullable="false" />
-          <Property Name="CircleID" Type="Int32" Nullable="false" />
           <Property Name="WeekDayID" Type="Int32" Nullable="false" />
           <Property Name="Time" Type="Time" Nullable="false" Precision="7" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Circle" Relationship="CirclesManagementModel.FK_Timetable_CIrcle" FromRole="Timetable" ToRole="Circle" />
+          <Property Name="GroupID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Classroom" Relationship="CirclesManagementModel.FK_Timetable_Classroom" FromRole="Timetable" ToRole="Classroom" />
           <NavigationProperty Name="Lessons" Relationship="CirclesManagementModel.FK_Lesson_Timetable" FromRole="Timetable" ToRole="Lesson" />
-          <NavigationProperty Name="Teacher" Relationship="CirclesManagementModel.FK_Timetable_Teacher" FromRole="Timetable" ToRole="Teacher" />
           <NavigationProperty Name="WeekDay" Relationship="CirclesManagementModel.FK_Timetable_WeekDay" FromRole="Timetable" ToRole="WeekDay" />
+          <NavigationProperty Name="Group" Relationship="CirclesManagementModel.FK_Timetable_Group" FromRole="Timetable" ToRole="Group" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -543,39 +587,15 @@
           <Property Name="Title" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Timetables" Relationship="CirclesManagementModel.FK_Timetable_WeekDay" FromRole="WeekDay" ToRole="Timetable" />
         </EntityType>
-        <Association Name="FK_Circle_Pupil_CIrcle">
+        <Association Name="FK_Group_Circle">
           <End Type="CirclesManagementModel.Circle" Role="Circle" Multiplicity="1" />
-          <End Type="CirclesManagementModel.Circle_Pupil" Role="Circle_Pupil" Multiplicity="*" />
+          <End Type="CirclesManagementModel.Group" Role="Group" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Circle">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="Circle_Pupil">
+            <Dependent Role="Group">
               <PropertyRef Name="CircleID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Timetable_CIrcle">
-          <End Type="CirclesManagementModel.Circle" Role="Circle" Multiplicity="1" />
-          <End Type="CirclesManagementModel.Timetable" Role="Timetable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Circle">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Timetable">
-              <PropertyRef Name="CircleID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Circle_Pupil_Pupil">
-          <End Type="CirclesManagementModel.Pupil" Role="Pupil" Multiplicity="1" />
-          <End Type="CirclesManagementModel.Circle_Pupil" Role="Circle_Pupil" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Pupil">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Circle_Pupil">
-              <PropertyRef Name="PupilID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -600,6 +620,42 @@
             </Principal>
             <Dependent Role="Pupil">
               <PropertyRef Name="GradeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Group_Pupil_Group">
+          <End Type="CirclesManagementModel.Group" Role="Group" Multiplicity="1" />
+          <End Type="CirclesManagementModel.Group_Pupil" Role="Group_Pupil" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Group_Pupil">
+              <PropertyRef Name="GroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Group_Teacher">
+          <End Type="CirclesManagementModel.Teacher" Role="Teacher" Multiplicity="1" />
+          <End Type="CirclesManagementModel.Group" Role="Group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teacher">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Group">
+              <PropertyRef Name="TeacherID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Group_Pupil_Pupil">
+          <End Type="CirclesManagementModel.Pupil" Role="Pupil" Multiplicity="1" />
+          <End Type="CirclesManagementModel.Group_Pupil" Role="Group_Pupil" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pupil">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Group_Pupil">
+              <PropertyRef Name="PupilID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -651,18 +707,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Timetable_Teacher">
-          <End Type="CirclesManagementModel.Teacher" Role="Teacher" Multiplicity="1" />
-          <End Type="CirclesManagementModel.Timetable" Role="Timetable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Teacher">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Timetable">
-              <PropertyRef Name="TeacherID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_User_Teacher">
           <End Type="CirclesManagementModel.Teacher" Role="Teacher" Multiplicity="0..1" />
           <End Type="CirclesManagementModel.User" Role="User" Multiplicity="*" />
@@ -687,6 +731,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Timetable_Group">
+          <End Type="CirclesManagementModel.Group" Role="Group" Multiplicity="1" />
+          <End Type="CirclesManagementModel.Timetable" Role="Timetable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Timetable">
+              <PropertyRef Name="GroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -700,15 +756,6 @@
                 <ScalarProperty Name="IsWorking" ColumnName="IsWorking" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Circle_Pupil">
-            <EntityTypeMapping TypeName="CirclesManagementModel.Circle_Pupil">
-              <MappingFragment StoreEntitySet="Circle_Pupil">
-                <ScalarProperty Name="IsAttending" ColumnName="IsAttending" />
-                <ScalarProperty Name="PupilID" ColumnName="PupilID" />
-                <ScalarProperty Name="CircleID" ColumnName="CircleID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -731,9 +778,30 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Groups">
+            <EntityTypeMapping TypeName="CirclesManagementModel.Group">
+              <MappingFragment StoreEntitySet="Group">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CircleID" ColumnName="CircleID" />
+                <ScalarProperty Name="TeacherID" ColumnName="TeacherID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Group_Pupil">
+            <EntityTypeMapping TypeName="CirclesManagementModel.Group_Pupil">
+              <MappingFragment StoreEntitySet="Group_Pupil">
+                <ScalarProperty Name="IsAttending" ColumnName="IsAttending" />
+                <ScalarProperty Name="PupilID" ColumnName="PupilID" />
+                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Lessons">
             <EntityTypeMapping TypeName="CirclesManagementModel.Lesson">
               <MappingFragment StoreEntitySet="Lesson">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsConducted" ColumnName="IsConducted" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="TimetableID" ColumnName="TimetableID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
@@ -794,12 +862,11 @@
           <EntitySetMapping Name="Timetables">
             <EntityTypeMapping TypeName="CirclesManagementModel.Timetable">
               <MappingFragment StoreEntitySet="Timetable">
+                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="Time" ColumnName="Time" />
                 <ScalarProperty Name="WeekDayID" ColumnName="WeekDayID" />
-                <ScalarProperty Name="CircleID" ColumnName="CircleID" />
                 <ScalarProperty Name="ClassroomID" ColumnName="ClassroomID" />
-                <ScalarProperty Name="TeacherID" ColumnName="TeacherID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

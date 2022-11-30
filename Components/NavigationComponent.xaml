@@ -5,11 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CirclesManagement.Components"
              mc:Ignorable="d" x:Name="Root" Style="{StaticResource CommonStyle}">
-    <ListBox x:Name="InnerListBox"
-             BorderThickness="0" SelectionMode="Single">
+    <ListBox x:Name="InnerListBox" ItemsSource="{Binding ItemsSource, ElementName=Root}"
+             BorderThickness="0" SelectionMode="Single" HorizontalContentAlignment="Stretch">
         <ListBox.ItemTemplate>
             <DataTemplate>
-                <TextBlock Text="{Binding Item, StringFormat={}&#8226; {0}}" Tag="{Binding Index}" Padding="5" PreviewMouseDown="Item_MouseDown"/>
+                <StackPanel>
+                    <TextBlock Text="{Binding ., StringFormat={}&#8226; {0}}" Padding="5"/>
+                    <Separator UseLayoutRounding="True"/>
+                </StackPanel>
             </DataTemplate>
         </ListBox.ItemTemplate>
     </ListBox>

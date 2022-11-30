@@ -105,9 +105,9 @@ namespace CirclesManagement.Pages
                 {
                     var teacher = obj as Teacher;
 
-                    var isPresentInTimetable = teacher.Timetables.Count > 0;
+                    var isPresentInTimetable = teacher.Groups.Any(group => group.Timetables.Count > 0);
                     if (isPresentInTimetable)
-                        return (false, $"у учителя \"{teacher.FullName}\" есть занятие по расписанию");
+                        return (false, $"учитель \"{teacher.FullName}\" указан в расписании занятий");
 
                     teacher.IsWorking = false;
                     return (true, "");

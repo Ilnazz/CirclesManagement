@@ -37,7 +37,7 @@ namespace CirclesManagement
                 Helpers.Error("Необходимо заполнить все поля для авторизации.");
                 return;
             }
-            User user = App.DB.Users
+            User user = App.DB.Users.Local
                 .FirstOrDefault(u => u.Login == TBUserLogin.Text.Trim() && u.Password == PBUserPassword.Password.Trim());
             if (user is null)
             {
@@ -45,18 +45,17 @@ namespace CirclesManagement
                 return;
             }
 
-            if (user.Role == App.DB.Roles.First(role => role.Title == "Teacher"))
+            if (user.Role == App.DB.Roles.Local.First(role => role.Title == "Teacher"))
             {
                 if (user.Teacher.IsWorking == false)
                 {
                     Helpers.Error("Учитель с такими данными был уволен.");
                     return;
-
                 }
             }
 
             App.CurrentUser = user;
-            //Helpers.Inform("Авторизация прошла успешно.");
+
             var mainWindow = new MainWindow();
             mainWindow.Show();
             mainWindow.Activate();

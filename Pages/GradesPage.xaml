@@ -7,7 +7,7 @@
       mc:Ignorable="d" Style="{StaticResource CommonStyle}"
       Title="Классы">
     <local:EntityPage.DataGridColumns>
-        <DataGridTextColumn Header="Название" Width="*"
+        <DataGridTextColumn Header="Название" Width="*" ElementStyle="{StaticResource DGTextColumnStyle}"
                         Binding="{Binding Path=Title}"/>
     </local:EntityPage.DataGridColumns>
 </local:EntityPage>

@@ -17,7 +17,7 @@ namespace CirclesManagement.Components
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Pupil()
         {
-            this.Circle_Pupil = new HashSet<Circle_Pupil>();
+            this.Group_Pupil = new HashSet<Group_Pupil>();
             this.Lesson_Pupil = new HashSet<Lesson_Pupil>();
         }
     
@@ -28,9 +28,9 @@ namespace CirclesManagement.Components
         public int GradeID { get; set; }
         public bool IsStudying { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Circle_Pupil> Circle_Pupil { get; set; }
         public virtual Grade Grade { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Group_Pupil> Group_Pupil { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Lesson_Pupil> Lesson_Pupil { get; set; }
     }

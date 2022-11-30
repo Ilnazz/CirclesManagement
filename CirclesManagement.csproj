@@ -50,7 +50,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
+    <ApplicationIcon>logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -83,6 +83,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Components\EntityExtensions\Group.Extension.cs" />
+    <Compile Include="Components\Group.cs">
+      <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Components\Group_Pupil.cs">
+      <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
+    </Compile>
     <Compile Include="Components\NavigationComponent.xaml.cs">
       <DependentUpon>NavigationComponent.xaml</DependentUpon>
     </Compile>
@@ -94,17 +101,41 @@
     <Compile Include="Pages\GradesPage.xaml.cs">
       <DependentUpon>GradesPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Groups\GroupEditPage.xaml.cs">
+      <DependentUpon>GroupEditPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Groups\GroupEditWindow.xaml.cs">
+      <DependentUpon>GroupEditWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Groups\GroupsPageOfTeacher.xaml.cs">
+      <DependentUpon>GroupsPageOfTeacher.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Groups\GroupsPage.xaml.cs">
+      <DependentUpon>GroupsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Lessons\LessonEditPage.xaml.cs">
+      <DependentUpon>LessonEditPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Lessons\LessonEditWindow.xaml.cs">
+      <DependentUpon>LessonEditWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Lessons\LessonsPageOfTeacher.xaml.cs">
+      <DependentUpon>LessonsPageOfTeacher.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Lessons\LessonsPage.xaml.cs">
+      <DependentUpon>LessonsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\PupilsPage.xaml.cs">
       <DependentUpon>PupilsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\TeachersPage.xaml.cs">
       <DependentUpon>TeachersPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\TimetablesPageOfTeacher.xaml.cs">
+      <DependentUpon>TimetablesPageOfTeacher.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\TimetablesPage.xaml.cs">
       <DependentUpon>TimetablesPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="RegistrationWindow.xaml.cs">
-      <DependentUpon>RegistrationWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="AuthorizationWindow.xaml">
       <SubType>Designer</SubType>
@@ -131,9 +162,6 @@
     <Compile Include="Components\EntityExtensions\Pupil.Extension.cs" />
     <Compile Include="Components\EntityExtensions\Teacher.Extension.cs" />
     <Compile Include="Components\Circle.cs">
-      <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Components\Circle_Pupil.cs">
       <DependentUpon>ModelCirclesManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="Components\Classroom.cs">
@@ -210,6 +238,38 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\Groups\GroupEditPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Groups\GroupEditWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Groups\GroupsPageOfTeacher.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Groups\GroupsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Lessons\LessonEditPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Lessons\LessonEditWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Lessons\LessonsPageOfTeacher.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Lessons\LessonsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\PupilsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -218,11 +278,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\TimetablesPage.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Pages\TimetablesPageOfTeacher.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="RegistrationWindow.xaml">
+    <Page Include="Pages\TimetablesPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -253,6 +313,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ModelCirclesManagement.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <Compile Include="Components\EntityExtensions\Lesson.Extension.cs" />
     <None Include="Components\ModelCirclesManagement.edmx.diagram">
       <DependentUpon>ModelCirclesManagement.edmx</DependentUpon>
     </None>
@@ -279,8 +340,9 @@
       <DependentUpon>ModelCirclesManagement.edmx</DependentUpon>
       <LastGenOutput>ModelCirclesManagement.cs</LastGenOutput>
     </Content>
+    <Resource Include="logo.ico" />
+    <None Include="Resources\logo.ico" />
     <None Include="Resources\logo.png" />
-    <None Include="Resources\icon.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">

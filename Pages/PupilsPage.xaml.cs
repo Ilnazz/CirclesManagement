@@ -83,17 +83,16 @@ namespace CirclesManagement.Pages
                     return pupil.LastName.Contains(searchText)
                         || pupil.FirstName.Contains(searchText)
                         || pupil.Patronymic.Contains(searchText)
-                        || (pupil.Grade == null ? true : pupil.Grade.Title.Contains(searchText));
+                        || (pupil.Grade != null && pupil.Grade.Title.Contains(searchText));
                 },
 
                 Deleter = (obj) =>
                 {
                     var pupil = obj as Pupil;
 
-                    var isAttendingAnyCircle = pupil.Circle_Pupil
-                        .Any(circle_pupil => circle_pupil.IsAttending == true);
+                    var isAttendingAnyCircle = pupil.Group_Pupil.Any(group_pupil => group_pupil.IsAttending == true);
                     if (isAttendingAnyCircle)
-                        return (false, $"ученик $\"{pupil.FullName}\" посещает кружок(и)");
+                        return (false, $"ученик $\"{pupil.FullName}\" посещает как минимум один кружок(и)");
 
                     pupil.IsStudying = false;
                     return (true, "");
@@ -114,18 +113,17 @@ namespace CirclesManagement.Pages
                 }
             };
 
-            propertyGroupDescriptions = new PropertyGroupDescription[]
-            {
-                new PropertyGroupDescription("Grade.Title")
-            };
+            dataGridGroupping = (
+                new PropertyGroupDescription("Grade.Title"),
+                FindResource("PupilsDataGridGroupStyle") as GroupStyle
+            );
 
             EntitiesSource = new ObservableCollection<object>(App.DB.Pupils.Local);
 
             DataContext = new
             {
-                Grades = App.DB.Grades.Local
+                Grades = App.DB.Grades.Local.Where(grade => grade.IsActive == true)
             };
-
         }
     }
 }

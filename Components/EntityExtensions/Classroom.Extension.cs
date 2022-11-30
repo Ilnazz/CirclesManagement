@@ -8,6 +8,11 @@ namespace CirclesManagement.Components
 {
     public partial class Classroom : IComparable<Classroom>
     {
+        public string NumberAndTitle
+        {
+            get { return $"{Number} - \"{Title}\""; }
+        }
+
         public int CompareTo(Classroom other)
         {
             return Number.CompareTo(other.Number);

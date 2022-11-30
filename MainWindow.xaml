@@ -21,16 +21,19 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        
-        <DockPanel Grid.Row="0" Grid.ColumnSpan="3" Margin="5">
-            <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
-                <!--<Image Source="/Resources/logo.png" Width="25" Margin="5" HorizontalAlignment="Left"/>-->
-                <TextBlock Text="&#9773;" VerticalAlignment="Center" FontSize="32" Margin="0,0,5,0"/>
-                <TextBlock Text="Школа Олимп" VerticalAlignment="Center" TextWrapping="Wrap"/>
-            </StackPanel>
-            <Button x:Name="BtnUserLogOut" Content="Выйти" Click="BtnUserLogOut_Click"
+
+        <Border Grid.Row="0" Grid.ColumnSpan="3" Margin="0,5,0,5" BorderThickness="0,0,0,1" BorderBrush="Gray">
+            <DockPanel Margin="5,0">
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                    <TextBlock Text="&#9773;" VerticalAlignment="Center" FontSize="32" Margin="0,0,5,0"/>
+                    <TextBlock Text="Школа ''Серп и молот''" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                </StackPanel>
+                <Button x:Name="BtnUserLogOut" Content="Выйти" Click="BtnUserLogOut_Click"
                     VerticalAlignment="Center" HorizontalAlignment="Right" DockPanel.Dock="Right"/>
-        </DockPanel>
+                <TextBlock x:Name="TBUser" VerticalAlignment="Center" HorizontalAlignment="Right" DockPanel.Dock="Right" Margin="0,0,10,0"/>
+            </DockPanel>
+        </Border>
+        
         
         <Grid Grid.Row="1" Grid.Column="2" Margin="0,0,5,5">
             <Grid.ColumnDefinitions>
@@ -54,8 +57,10 @@
 
         <DockPanel Grid.Row="3" Grid.Column="2" Margin="0,0,5,5">
             <Button x:Name="BtnAdd" Content="Добавить" Click="BtnAdd_Click" DockPanel.Dock="Left" Margin="0,0,5,0"/>
-            <Button x:Name="BtnDelete" Content="Удалить" Click="BtnDelete_Click" DockPanel.Dock="Left"/>
-            <Button x:Name="BtnToggleShowDeletedEntities" HorizontalAlignment="Right" Content="Показать удалённые"
+            <Button x:Name="BtnDelete" Content="Удалить" Click="BtnDelete_Click" DockPanel.Dock="Left" Margin="0,0,5,0"/>
+            <Button x:Name="BtnEdit" Content="Редактировать" Visibility="Collapsed" DockPanel.Dock="Left" Click="BtnEdit_Click"/>
+            <Button x:Name="BtnCreateLesson" DockPanel.Dock="Left" Content="Созлать урок" Click="BtnCreateLesson_Click"/>
+            <Button x:Name="BtnToggleShowDeletedEntities" HorizontalAlignment="Right" DockPanel.Dock="Right" Content="Показать удалённые"
                     Click="BtnToggleWorkingAndDeletedEntities_Click"/>
         </DockPanel>
     </Grid>

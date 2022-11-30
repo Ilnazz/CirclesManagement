@@ -18,6 +18,8 @@ namespace CirclesManagement
     {
         public static readonly CirclesManagementEntities DB = new CirclesManagementEntities();
 
+        public static User CurrentUser;
+
         static App()
         {
             DB.WeekDays.Load();
@@ -26,11 +28,13 @@ namespace CirclesManagement
             DB.Classrooms.Load();
             DB.Pupils.Load();
             DB.Teachers.Load();
+            DB.Timetables.Load();
             DB.Lessons.Load();
             DB.Lesson_Pupil.Load();
+            DB.Groups.Load();
+            DB.Roles.Load();
+            DB.Users.Load();
         }
-
-        public static User CurrentUser;
 
         protected override void OnStartup(StartupEventArgs e)
         {
