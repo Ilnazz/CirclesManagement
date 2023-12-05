@@ -33,7 +33,7 @@ namespace CirclesManagement.Pages
         {
             InitializeComponent();
 
-            if (App.CurrentUser.Role == App.DB.Roles.First(role => role.Title == "AssociateDirector"))
+            if (App.CurrentUser.Role.ID is 1)
                 TBInformation.Text = $"Группа учителя {group.Teacher.LastNameAndInitials} по кружку {group.Circle.Title}";
             else
                 TBInformation.Text = $"Группа учеников по кружку {group.Circle.Title}";

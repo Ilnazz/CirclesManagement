@@ -1,20 +1,44 @@
-﻿<Window x:Class="CirclesManagement.AuthorizationWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CirclesManagement"
-        mc:Ignorable="d" SizeToContent="WidthAndHeight" FontSize="18" WindowStartupLocation="CenterScreen"
-        Title="Авторизация" Style="{StaticResource CommonStyle}">
-    <StackPanel HorizontalAlignment="Center" Margin="5">
-        <TextBlock Text="&#9773;" TextAlignment="Center" FontSize="64"/>
+﻿<Window
+    x:Class="CirclesManagement.AuthorizationWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:CirclesManagement"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Авторизация"
+    FontSize="18"
+    SizeToContent="WidthAndHeight"
+    Style="{StaticResource CommonStyle}"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+    <StackPanel Margin="10" HorizontalAlignment="Center">
+        <TextBlock
+            FontSize="64"
+            Text="&#9773;"
+            TextAlignment="Center" />
 
-        <Label Target="{Binding ElementName=TBUserLogin}" Content="Логин пользователя:"/>
-        <TextBox x:Name="TBUserLogin" MaxLength="50" Margin="5" Text="associate_director" PreviewKeyDown="InputBox_PreviewKeyDown" BorderThickness="0,0,0,1"/>
+        <Label Content="Логин пользователя:" Target="{Binding ElementName=TBUserLogin}" />
+        <TextBox
+            x:Name="TBUserLogin"
+            Margin="5"
+            BorderThickness="0,0,0,1"
+            MaxLength="50"
+            PreviewKeyDown="InputBox_PreviewKeyDown"
+            Text="dmitriy" />
 
-        <Label Target="{Binding ElementName=PBUserPassword}" Content="Пароль пользователя:"/>
-        <PasswordBox x:Name="PBUserPassword" MaxLength="50" Margin="5" Password="associate_director" PreviewKeyDown="InputBox_PreviewKeyDown" BorderThickness="0,0,0,1"/>
+        <Label Content="Пароль пользователя:" Target="{Binding ElementName=PBUserPassword}" />
+        <PasswordBox
+            x:Name="PBUserPassword"
+            Margin="5"
+            BorderThickness="0,0,0,1"
+            MaxLength="50"
+            Password="dmitriy"
+            PreviewKeyDown="InputBox_PreviewKeyDown" />
 
-        <Button x:Name="BtnAuthorize" Content="Войти" Margin="5,10" Click="BtnAuthorize_Click"/>
+        <Button
+            x:Name="BtnAuthorize"
+            Margin="5,10"
+            Click="BtnAuthorize_Click"
+            Content="Войти" />
     </StackPanel>
 </Window>

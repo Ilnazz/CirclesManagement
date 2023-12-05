@@ -85,7 +85,7 @@ namespace CirclesManagement
 
         private void LoadPagesAccordingToUserRole()
         {
-            if (App.CurrentUser.Role == App.DB.Roles.Local.First(role => role.Title == "AssociateDirector"))
+            if (App.CurrentUser.Role.ID is 1)
                 _entityPages = new EntityPage[]
                 {
                     new CirclesPage(),

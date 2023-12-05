@@ -143,8 +143,20 @@ namespace CirclesManagement.Pages
                 {
                     Timetable = selectedTimetable,
                     Date = DateTime.Now,
-                    IsConducted = false
+                    IsConducted = false,
+                    IsActive = true
                 };
+
+                var pupils = selectedTimetable.Group.Group_Pupil.Select(gp => gp.Pupil);
+                foreach (var pupil in pupils)
+                {
+                    App.DB.Lesson_Pupil.Local.Add(new Lesson_Pupil
+                    {
+                        Lesson = newLesson,
+                        Pupil = pupil,
+                        WasInClass = false
+                    });
+                }
 
                 App.DB.Lessons.Local.Add(newLesson);
                 App.DB.SaveChanges();
