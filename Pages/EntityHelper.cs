@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CirclesManagement.Pages
 {
@@ -25,26 +20,5 @@ namespace CirclesManagement.Pages
         public Func<object, string, bool> SearchTextMatcher; // удовлетворяет ли сущность стркое поиска
 
         public Action<object> SavePreparator; // подготавливает сущность к сохранению в базе данных
-        /*
-        // Название сущности
-        public Word Title;
-
-        // Падежи слова в ед. и мн. числах
-        public struct Word
-        {
-            public WordCases Singular;
-            public WordCases Plural;
-        }
-
-        // Падежи слова
-        public struct WordCases
-        {
-            public string Nominative; // именительный
-            public string Genitive; // родительный
-            public string Dative; // дательный
-            public string Accusative; // винительный
-            public string Ablative; // творительный
-            public string Prepositional; // предложный
-        }*/
     }
 }

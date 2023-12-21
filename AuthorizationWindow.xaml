@@ -6,8 +6,9 @@
     xmlns:local="clr-namespace:CirclesManagement"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Авторизация"
+    Width="275"
     FontSize="18"
-    SizeToContent="WidthAndHeight"
+    SizeToContent="Height"
     Style="{StaticResource CommonStyle}"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">

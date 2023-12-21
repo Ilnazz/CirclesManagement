@@ -95,7 +95,8 @@ namespace CirclesManagement
                     new TeachersPage(),
                     new GroupsPage(),
                     new TimetablesPage(),
-                    new LessonsPage()
+                    new LessonsPage(),
+                    new ReportsPage()
                 };
             else
                 _entityPages = new EntityPage[]

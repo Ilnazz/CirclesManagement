@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="9ac4cfd0eb1c42e9aaa0a1c4c080e89d" Name="Diagram1" ZoomLevel="79">
+      <Diagram DiagramId="9ac4cfd0eb1c42e9aaa0a1c4c080e89d" Name="Diagram1" ZoomLevel="88">
         <EntityTypeShape EntityType="CirclesManagementModel.Circle" Width="1.5" PointX="10.75" PointY="2.875" />
         <EntityTypeShape EntityType="CirclesManagementModel.Classroom" Width="1.5" PointX="0.75" PointY="1.375" />
         <EntityTypeShape EntityType="CirclesManagementModel.Grade" Width="1.5" PointX="3" PointY="5.5" />

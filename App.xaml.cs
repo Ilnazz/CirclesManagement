@@ -64,12 +64,11 @@ namespace CirclesManagement
             {
                 HandleException(e.ExceptionObject as Exception);
             };
-
         }
 
         private void HandleException(Exception e)
         {
-            Helpers.Error(e.Message);
+            //Helpers.Error(e.Message);
         }
     }
 }
